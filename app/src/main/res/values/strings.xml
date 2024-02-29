@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">WeClean</string>
+    <string name="title_activity_home">Home</string>
+    <string name="title_activity_map">Map</string>
+    <string name="title_activity_add">Add</string>
+    <string name="title_activity_profile">Profile</string>
+    <string name="title_activity_achievements">Achievements</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_map">Map</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_achievements">Achievements</string>
+    <string name="title_add">Add</string>
+</resources>
