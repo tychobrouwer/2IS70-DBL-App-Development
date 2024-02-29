@@ -2,6 +2,7 @@ package com.example.weclean
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -15,6 +16,9 @@ class Achievements : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_achievements)
+
+        val screenLabelTextView = findViewById<TextView>(R.id.screen_label);
+        screenLabelTextView.text = "Achievements"
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavigationView.selectedItemId = R.id.navigation_achievements
@@ -45,6 +49,5 @@ class Achievements : AppCompatActivity() {
             }
             false
         })
-
     }
 }
