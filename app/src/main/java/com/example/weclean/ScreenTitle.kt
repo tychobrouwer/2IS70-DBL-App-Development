@@ -2,9 +2,9 @@ package com.example.weclean
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.AppCompatTextView
 
-class TextInput : AppCompatEditText {
+class ScreenTitle : AppCompatTextView {
     constructor(context: Context) : super(context) {
         init(null, 0)
     }
@@ -24,14 +24,14 @@ class TextInput : AppCompatEditText {
     private fun init(attrs: AttributeSet?, defStyle: Int) {
         // Load attributes
         val a = context.obtainStyledAttributes(
-            attrs, R.styleable.TextInput, defStyle, 0
+            attrs, R.styleable.ScreenTitle, defStyle, 0
         )
 
-        val inputString = a.getString(
-            R.styleable.TextInput_hintString
+        val screenTitle = a.getString(
+            R.styleable.ScreenTitle_screenTitle
         )
 
-        hint = inputString
+        text = screenTitle
 
         a.recycle()
     }

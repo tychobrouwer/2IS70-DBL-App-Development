@@ -17,9 +17,6 @@ class Achievements : AppCompatActivity() {
 
         setContentView(R.layout.activity_achievements)
 
-        val screenLabelTextView = findViewById<TextView>(R.id.screen_label);
-        screenLabelTextView.text = "Achievements"
-
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavigationView.selectedItemId = R.id.navigation_achievements
 

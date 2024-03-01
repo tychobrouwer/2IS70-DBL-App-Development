@@ -17,9 +17,6 @@ class Home : AppCompatActivity() {
 
         setContentView(R.layout.activity_home)
 
-        val screenLabelTextView = findViewById<TextView>(R.id.screen_label);
-        screenLabelTextView.text = "Home"
-
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavigationView.selectedItemId = R.id.navigation_home
 

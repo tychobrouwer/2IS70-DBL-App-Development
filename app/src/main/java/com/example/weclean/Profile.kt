@@ -16,9 +16,6 @@ class Profile : AppCompatActivity() {
 
         setContentView(R.layout.activity_profile)
 
-        val screenLabelTextView = findViewById<TextView>(R.id.screen_label);
-        screenLabelTextView.text = "Profile"
-
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavigationView.selectedItemId = R.id.navigation_profile
 

@@ -2,14 +2,14 @@ package com.example.weclean
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.TextView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import com.example.weclean.databinding.ActivityAddBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class Add : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,8 +17,19 @@ class Add : AppCompatActivity() {
 
         setContentView(R.layout.activity_add)
 
-        val screenLabelTextView = findViewById<TextView>(R.id.screen_label);
-        screenLabelTextView.text = "Add"
+        // TODO Here the communities should be fetched and added to the list
+        val communities = ArrayList<String>()
+        communities.add("community 1")
+        communities.add("community 2")
+        communities.add("community 3")
+
+        val spinner = findViewById<Spinner>(R.id.select_community)
+        val adapter = ArrayAdapter<String>(
+            this, R.layout.spinner_item, communities)
+
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        adapter.setNotifyOnChange(true)
+        spinner.adapter = adapter
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavigationView.selectedItemId = R.id.navigation_add

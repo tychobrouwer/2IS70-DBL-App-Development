@@ -8,7 +8,12 @@
     tools:context=".Map"
     android:background="@color/white_200">
 
-    <include layout="@layout/screen_label"/>
+    <com.example.weclean.ScreenTitle
+        style="@style/Widget.Theme.WeClean.ScreenTitle"
+        android:id="@+id/screen_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:screenTitle="@string/title_map" />
 
     <include layout="@layout/navbar" />
 

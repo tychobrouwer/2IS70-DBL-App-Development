@@ -17,9 +17,6 @@ class Map : AppCompatActivity() {
 
         setContentView(R.layout.activity_map)
 
-        val screenLabelTextView = findViewById<TextView>(R.id.screen_label);
-        screenLabelTextView.text = "Map"
-
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavigationView.selectedItemId = R.id.navigation_map
 
