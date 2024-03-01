@@ -1,5 +1,0 @@
-<resources>
-    <declare-styleable name="ScreenTitle">
-        <attr name="screenTitle" format="string" />
-    </declare-styleable>
-</resources>

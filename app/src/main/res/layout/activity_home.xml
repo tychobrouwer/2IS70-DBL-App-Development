@@ -8,12 +8,12 @@
     tools:context=".Home"
     android:background="@color/white_200">
 
-    <com.example.weclean.ScreenTitle
+    <TextView
         style="@style/Widget.Theme.WeClean.ScreenTitle"
         android:id="@+id/screen_title"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:screenTitle="@string/title_home" />
+        android:text="@string/title_home" />
 
     <include layout="@layout/navbar" />
 
