@@ -1,6 +1,8 @@
 package com.example.weclean
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.View.OnClickListener
@@ -15,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.marginEnd
 import androidx.core.view.marginTop
+import androidx.core.view.setPadding
+import androidx.core.view.size
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -42,17 +46,34 @@ class Add : AppCompatActivity() {
         val tagButton = findViewById<Button>(R.id.select_tags_button)
         val tagInput = findViewById<EditText>(R.id.select_tags_input)
         val tagChipGroup = findViewById<ChipGroup>(R.id.tag_chip_group)
+        val tagColors = intArrayOf(
+            Color.rgb(220, 0, 220),
+            Color.rgb(0, 191, 220),
+            Color.rgb(220, 69, 0),
+            Color.rgb(30, 144, 220),
+            Color.rgb(34, 139, 34),
+            Color.rgb(176, 48, 96),
+            Color.rgb(0, 220, 0),
+            Color.rgb(220, 220, 0),
+            Color.rgb(47, 79, 79))
 
         fun addTagChip(chipText: String) {
             val chip = Chip(this)
 
+            val nTags = tagChipGroup.size
+
             chip.text = chipText
             chip.isCloseIconVisible = true
             chip.chipStrokeWidth = 0F
-            chip.setChipBackgroundColorResource(R.color.blue_500)
+            chip.chipBackgroundColor = ColorStateList.valueOf(tagColors[nTags])
             chip.setTextColor(getColorStateList(R.color.white))
             chip.closeIconTint = getColorStateList(R.color.white)
-            chip.textSize = 18F
+            chip.textSize = 16F
+            chip.chipIconSize = 16F
+            chip.textStartPadding = 2F
+            chip.textEndPadding = 3F
+            chip.closeIconEndPadding = 4F
+            chip.chipEndPadding = 4F
             chip.setEnsureMinTouchTargetSize(false)
             chip.setOnCloseIconClickListener {
                 tagChipGroup.removeView(chip)
