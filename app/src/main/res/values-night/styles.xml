@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="Widget.Theme.WeClean.MyView" parent="">
+    <style name="Widget.Theme.WeClean.TextInput" parent="">
         <item name="android:background">@color/gray_600</item>
     </style>
 </resources>

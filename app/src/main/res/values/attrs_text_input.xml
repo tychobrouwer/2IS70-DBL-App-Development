@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="TextInput">
+        <attr name="hintString" format="string" />
+    </declare-styleable>
+</resources>
