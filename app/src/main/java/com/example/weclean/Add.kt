@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.AdapterView
@@ -82,6 +83,21 @@ class Add : AppCompatActivity() {
                 tagChipGroup.removeView(chip)
             }
             tagChipGroup.addView(chip)
+        }
+
+        tagInput.setOnKeyListener {_, keyCode, event ->
+            when {
+                ((keyCode == KeyEvent.KEYCODE_ENTER) && (event.action == KeyEvent.ACTION_DOWN)) -> {
+                    val tagText = tagInput.text.toString();
+                    if (tagText.isNotEmpty()) {
+                        addTagChip(tagText)
+                        tagInput.setText("")
+                    }
+
+                    return@setOnKeyListener true
+                }
+                else -> false
+            }
         }
 
         tagButton.setOnClickListener {

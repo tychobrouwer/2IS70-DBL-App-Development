@@ -15,6 +15,57 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:text="@string/title_profile" />
 
+    <Button
+        style="@style/Widget.Theme.WeClean.Button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/edit_button"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Edit Profile" />
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.SectionLabel"
+        android:id="@+id/email_label"
+        app:layout_constraintTop_toBottomOf="@+id/screen_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="Email" />
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.TextInput"
+        android:id="@+id/email"
+        app:layout_constraintTop_toBottomOf="@+id/email_label"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="Current Email" />
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.SectionLabel"
+        android:id="@+id/birthdate_label"
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="Date of Birth" />
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.TextInput"
+        android:id="@+id/birthdate"
+        app:layout_constraintTop_toBottomOf="@+id/birthdate_label"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="Current Date of Birth" />
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.SectionLabel"
+        android:id="@+id/region_label"
+        app:layout_constraintTop_toBottomOf="@+id/birthdate"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="Country/Region" />
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.TextInput"
+        android:id="@+id/region"
+        app:layout_constraintTop_toBottomOf="@+id/region_label"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="Eindhoven, Netherlands" />
+
     <include layout="@layout/navbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
