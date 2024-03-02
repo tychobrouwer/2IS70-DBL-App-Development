@@ -16,7 +16,7 @@
             android:id="@+id/email_label"
             app:layout_constraintTop_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:text="Email" />
+            android:text="@string/label_email" />
 
         <TextView
             style="@style/Widget.Theme.WeClean.TextInput"
@@ -30,7 +30,7 @@
             android:id="@+id/birthdate_label"
             app:layout_constraintTop_toBottomOf="@+id/email"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:text="Date of Birth" />
+            android:text="@string/label_brith_date" />
 
         <TextView
             style="@style/Widget.Theme.WeClean.TextInput"
@@ -44,7 +44,7 @@
             android:id="@+id/region_label"
             app:layout_constraintTop_toBottomOf="@+id/birthdate"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:text="Country/Region" />
+            android:text="@string/label_country_region" />
 
         <TextView
             style="@style/Widget.Theme.WeClean.TextInput"

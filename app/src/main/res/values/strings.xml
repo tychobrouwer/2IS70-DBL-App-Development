@@ -7,10 +7,24 @@
     <string name="title_activity_achievements">Achievements</string>
 
     <string name="title_home">Home</string>
-    <string name="title_map">Map</string>
+    <string name="title_map">Littering Map</string>
     <string name="title_profile">Profile</string>
     <string name="title_achievements">Achievements</string>
     <string name="title_add">Add Entry</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="button_add">Add</string>
+    <string name="button_join">Join</string>
+    <string name="button_create">Create</string>
+    <string name="button_edit_profile">Edit Profile</string>
+
+    <string name="label_email">Email</string>
+    <string name="label_brith_date">Date of Birth</string>
+    <string name="label_country_region">Country/Region</string>
+    <string name="label_location">Location</string>
+    <string name="label_communities">Communities</string>
+    <string name="label_select_communities">Select Communities</string>
+    <string name="label_add_tags">Add Tags</string>
+
+    <string name="hint_tag">Tag</string>
+    <string name="hint_location">Location</string>
 </resources>
