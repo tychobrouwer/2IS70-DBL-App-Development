@@ -22,9 +22,21 @@
         <item name="android:layout_marginTop">16dp</item>
         <item name="android:background">@drawable/screen_title_background</item>
         <item name="android:paddingHorizontal">16dp</item>
-        <item name="android:paddingVertical">5dp</item>
+        <item name="android:paddingVertical">6dp</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Widget.Theme.WeClean.Button" parent="">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/button_background</item>
+        <item name="android:paddingVertical">2dp</item>
+        <item name="android:paddingHorizontal">16dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
     </style>
 
     <style name="Widget.Theme.WeClean.SectionLabel" parent="">
@@ -57,18 +69,5 @@
         <item name="android:paddingVertical">4dp</item>
         <item name="android:maxLines">1</item>
         <item name="android:elegantTextHeight">true</item>
-    </style>
-
-    <style name="Widget.Theme.WeClean.Button" parent="">
-        <item name="android:background">@drawable/button_background</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:color">@color/black</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">40dp</item>
-        <item name="android:layout_marginTop">2dp</item>
-        <item name="android:layout_marginBottom">2dp</item>
-        <item name="android:paddingVertical">3dp</item>
-        <item name="android:paddingHorizontal">16dp</item>
-        <item name="android:minWidth">0dp</item>
     </style>
 </resources>

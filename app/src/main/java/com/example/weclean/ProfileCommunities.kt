@@ -5,10 +5,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 
 class ProfileCommunities : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val joinCommunityButton = view.findViewById<Button>(R.id.join_community_button)
+        joinCommunityButton.setOnClickListener {
+            println("join community")
+        }
+
+        val createCommunityButton = view.findViewById<Button>(R.id.create_community_button)
+        createCommunityButton.setOnClickListener {
+            println("create community")
+        }
     }
 
     override fun onCreateView(

@@ -2,14 +2,26 @@ package com.example.weclean
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.LinearLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 
 class Profile : AppCompatActivity() {
+    val isEditView = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_profile)
+
+        val fragmentManager = supportFragmentManager
+        val transaction = fragmentManager.beginTransaction()
+
+        transaction.add(R.id.fragmentProfileInfo, ProfileInfo())
+        transaction.add(R.id.fragmentProfileCommunities, ProfileCommunities())
+        transaction.commit()
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavigationView.selectedItemId = R.id.navigation_profile
@@ -41,4 +53,30 @@ class Profile : AppCompatActivity() {
             false
         })
     }
+}
+
+fun AppCompatActivity.switchEditFragment(toEdit: Boolean) {
+    val fragmentManager = supportFragmentManager
+    val transaction = fragmentManager.beginTransaction()
+
+    val profileInfo = fragmentManager.findFragmentById(R.id.fragmentProfileInfo)
+    val profileEdit = fragmentManager.findFragmentById(R.id.fragmentProfileEdit)
+    val profileCommunities = fragmentManager.findFragmentById(R.id.fragmentProfileCommunities)
+
+    if (profileInfo != null && profileEdit != null && profileCommunities != null) {
+        transaction.commit()
+        return
+    }
+
+    if (toEdit) {
+        transaction.remove(profileInfo!!)
+        transaction.remove(profileCommunities!!)
+        transaction.add(R.id.fragmentProfileInfo, ProfileEdit())
+    } else {
+        transaction.remove(profileEdit!!)
+        transaction.add(R.id.fragmentProfileInfo, ProfileInfo())
+        transaction.add(R.id.fragmentProfileCommunities, ProfileCommunities())
+    }
+
+    transaction.commit()
 }
