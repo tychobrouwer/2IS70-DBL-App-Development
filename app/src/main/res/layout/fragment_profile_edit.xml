@@ -54,11 +54,13 @@
 
     <EditText
         style="@style/Widget.Theme.WeClean.TextInput"
+        android:inputType="date"
         android:id="@+id/birthdate" />
 
     <TextView
         style="@style/Widget.Theme.WeClean.SectionLabel"
         android:id="@+id/region_label"
+        android:inputType="textPostalAddress"
         android:text="@string/label_country_region" />
 
     <EditText

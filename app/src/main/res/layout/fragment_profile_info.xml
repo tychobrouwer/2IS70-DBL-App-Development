@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white_200"
     tools:context=".ProfileInfo" >
 
     <Button
@@ -24,8 +25,7 @@
 
     <TextView
         style="@style/Widget.Theme.WeClean.TextInput"
-        android:id="@+id/email"
-        android:text="Current Email" />
+        android:id="@+id/email" />
 
     <TextView
         style="@style/Widget.Theme.WeClean.SectionLabel"
@@ -34,8 +34,7 @@
 
     <TextView
         style="@style/Widget.Theme.WeClean.TextInput"
-        android:id="@+id/birthdate"
-        android:text="Current Date of Birth" />
+        android:id="@+id/birthdate" />
 
     <TextView
         style="@style/Widget.Theme.WeClean.SectionLabel"
@@ -44,6 +43,5 @@
 
     <TextView
         style="@style/Widget.Theme.WeClean.TextInput"
-        android:id="@+id/region"
-        android:text="Eindhoven, Netherlands" />
+        android:id="@+id/region" />
 </LinearLayout>

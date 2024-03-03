@@ -28,7 +28,7 @@ class Add : AppCompatActivity() {
         communities.add("community 3")
 
         val selectCommunitySpinner = findViewById<Spinner>(R.id.select_community)
-        val selectCommunityAdapter = ArrayAdapter<String>(
+        val selectCommunityAdapter = ArrayAdapter(
             this, R.layout.spinner_item, communities)
 
         selectCommunityAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
@@ -79,7 +79,7 @@ class Add : AppCompatActivity() {
         tagInput.setOnKeyListener {_, keyCode, event ->
             when {
                 ((keyCode == KeyEvent.KEYCODE_ENTER) && (event.action == KeyEvent.ACTION_DOWN)) -> {
-                    val tagText = tagInput.text.toString();
+                    val tagText = tagInput.text.toString()
                     if (tagText.isNotEmpty()) {
                         addTagChip(tagText)
                         tagInput.setText("")
@@ -92,7 +92,7 @@ class Add : AppCompatActivity() {
         }
 
         tagButton.setOnClickListener {
-            val tagText = tagInput.text.toString();
+            val tagText = tagInput.text.toString()
             if (tagText.isNotEmpty()) {
                 addTagChip(tagText)
                 tagInput.setText("")
@@ -106,23 +106,23 @@ class Add : AppCompatActivity() {
             when (item.itemId) {
                 R.id.navigation_home -> {
                     startActivity(Intent(applicationContext, Home::class.java))
-                    overridePendingTransition(0,0);
+                    overridePendingTransition(0,0)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_map -> {
                     startActivity(Intent(applicationContext, Map::class.java))
-                    overridePendingTransition(0,0);
+                    overridePendingTransition(0,0)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_add -> return@OnNavigationItemSelectedListener true
                 R.id.navigation_achievements -> {
                     startActivity(Intent(applicationContext, Achievements::class.java))
-                    overridePendingTransition(0,0);
+                    overridePendingTransition(0,0)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> {
                     startActivity(Intent(applicationContext, Profile::class.java))
-                    overridePendingTransition(0,0);
+                    overridePendingTransition(0,0)
                     return@OnNavigationItemSelectedListener true
                 }
             }

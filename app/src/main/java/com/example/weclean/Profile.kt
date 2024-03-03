@@ -2,11 +2,8 @@ package com.example.weclean
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.LinearLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 
 class Profile : AppCompatActivity() {
     val isEditView = false
@@ -30,22 +27,22 @@ class Profile : AppCompatActivity() {
             when (item.itemId) {
                 R.id.navigation_home -> {
                     startActivity(Intent(applicationContext, Home::class.java))
-                    overridePendingTransition(0,0);
+                    overridePendingTransition(0,0)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_map -> {
                     startActivity(Intent(applicationContext, Map::class.java))
-                    overridePendingTransition(0,0);
+                    overridePendingTransition(0,0)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_add -> {
                     startActivity(Intent(applicationContext, Add::class.java))
-                    overridePendingTransition(0,0);
+                    overridePendingTransition(0,0)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_achievements -> {
                     startActivity(Intent(applicationContext, Achievements::class.java))
-                    overridePendingTransition(0,0);
+                    overridePendingTransition(0,0)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> return@OnNavigationItemSelectedListener true

@@ -9,10 +9,6 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
 class ProfileInfo : Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
