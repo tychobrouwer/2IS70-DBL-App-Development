@@ -68,7 +68,7 @@ fun AppCompatActivity.switchEditFragment(toEdit: Boolean) {
     if (toEdit) {
         transaction.remove(profileInfo!!)
         transaction.remove(profileCommunities!!)
-        transaction.add(R.id.fragmentProfileInfo, ProfileEdit())
+        transaction.add(R.id.fragmentProfileEdit, ProfileEdit())
     } else {
         transaction.remove(profileEdit!!)
         transaction.add(R.id.fragmentProfileInfo, ProfileInfo())

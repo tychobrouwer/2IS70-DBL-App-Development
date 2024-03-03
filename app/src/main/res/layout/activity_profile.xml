@@ -8,13 +8,6 @@
     tools:context=".Profile"
     android:background="@color/white_200">
 
-    <TextView
-        style="@style/Widget.Theme.WeClean.ScreenTitle"
-        android:id="@+id/screen_title"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:text="@string/title_profile" />
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentProfileInfo"
         android:layout_width="match_parent"

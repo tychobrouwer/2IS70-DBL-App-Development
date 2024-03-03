@@ -9,82 +9,79 @@
     android:background="@color/white_200"
     tools:context=".Add">
 
-    <TextView
-        style="@style/Widget.Theme.WeClean.ScreenTitle"
-        android:id="@+id/screen_title"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:text="@string/title_add" />
-
-    <TextView
-        style="@style/Widget.Theme.WeClean.SectionLabel"
-        android:id="@+id/select_community_label"
-        app:layout_constraintTop_toBottomOf="@+id/screen_title"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:text="@string/label_select_communities" />
-
-    <Spinner
-        style="@style/Widget.Theme.WeClean.SpinnerDropdown"
-        android:id="@+id/select_community"
-        app:layout_constraintTop_toBottomOf="@+id/select_community_label"
-        app:layout_constraintLeft_toLeftOf="parent"
-        tools:listitem="@layout/spinner_item"
-        />
-
-    <TextView
-        style="@style/Widget.Theme.WeClean.SectionLabel"
-        android:id="@+id/select_tags_label"
-        app:layout_constraintTop_toBottomOf="@+id/select_community"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:text="@string/label_add_tags" />
-
     <LinearLayout
-        android:id="@+id/select_tags"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/select_tags_label"
-        app:layout_constraintLeft_toLeftOf="parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            style="@style/Widget.Theme.WeClean.ScreenTitle"
+            android:id="@+id/screen_title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="@string/title_add" />
+
+        <TextView
+            style="@style/Widget.Theme.WeClean.SectionLabel"
+            android:id="@+id/select_community_label"
+            android:layout_marginTop="20dp"
+            android:text="@string/label_select_communities" />
+
+        <Spinner
+            style="@style/Widget.Theme.WeClean.SpinnerDropdown"
+            android:id="@+id/select_community"
+            tools:listitem="@layout/spinner_item"
+            />
+
+        <TextView
+            style="@style/Widget.Theme.WeClean.SectionLabel"
+            android:id="@+id/select_tags_label"
+            android:text="@string/label_add_tags" />
+
+        <LinearLayout
+            android:id="@+id/select_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <EditText
+                style="@style/Widget.Theme.WeClean.TextInput"
+                android:id="@+id/select_tags_input"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="40dp"
+                android:autofillHints=""
+                android:hint="@string/hint_tag" />
+
+            <Button
+                style="@style/Widget.Theme.WeClean.Button"
+                android:id="@+id/select_tags_button"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="2dp"
+                android:text="@string/button_add" />
+
+        </LinearLayout>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/tag_chip_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            app:chipSpacingVertical="5dp"
+            app:layout_constraintHeight_min="38dp" />
+
+        <TextView
+            style="@style/Widget.Theme.WeClean.SectionLabel"
+            android:id="@+id/select_location_label"
+            android:text="@string/label_location" />
+
         <EditText
             style="@style/Widget.Theme.WeClean.TextInput"
-            android:id="@+id/select_tags_input"
-            android:layout_weight="1"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="40dp"
-            android:autofillHints=""
-            android:hint="@string/hint_tag" />
-        <Button
-            style="@style/Widget.Theme.WeClean.Button"
-            android:id="@+id/select_tags_button"
-            android:layout_marginEnd="40dp"
-            android:layout_marginTop="2dp"
-            android:text="@string/button_add" />
+            android:id="@+id/select_location"
+            android:autofillHints="postalAddress"
+            android:hint="@string/hint_location" />
+
     </LinearLayout>
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/tag_chip_group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="40dp"
-        app:chipSpacingVertical="5dp"
-        app:layout_constraintHeight_min="38dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/select_tags" />
-
-    <TextView
-        style="@style/Widget.Theme.WeClean.SectionLabel"
-        android:id="@+id/select_location_label"
-        app:layout_constraintTop_toBottomOf="@+id/tag_chip_group"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:text="@string/label_location" />
-
-    <EditText
-        style="@style/Widget.Theme.WeClean.TextInput"
-        android:id="@+id/select_location"
-        app:layout_constraintTop_toBottomOf="@+id/select_location_label"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:autofillHints="postalAddress"
-        android:hint="@string/hint_location" />
 
     <include layout="@layout/navbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
