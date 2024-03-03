@@ -27,12 +27,14 @@
     <string name="label_select_communities">Select Communities</string>
     <string name="label_add_tags">Add Tags</string>
     <string name="label_password">Password</string>
+    <string name="label_description">Description</string>
 
     <string name="hint_tag">Tag</string>
     <string name="hint_location">Location</string>
     <string name="hint_password">New Password</string>
     <string name="hint_password_repeat">Repeat Password</string>
-    
+    <string name="hint_description">Description of the littering location...</string>
+
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>

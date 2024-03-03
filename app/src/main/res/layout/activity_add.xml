@@ -62,13 +62,20 @@
 
         </LinearLayout>
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/tag_chip_group"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="40dp"
-            app:chipSpacingVertical="5dp"
-            app:layout_constraintHeight_min="38dp" />
+            android:orientation="horizontal"
+            android:minHeight="38dp" >
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/tag_chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                app:chipSpacingVertical="5dp" />
+
+        </LinearLayout>
 
         <TextView
             style="@style/Widget.Theme.WeClean.SectionLabel"
@@ -80,6 +87,20 @@
             android:id="@+id/select_location"
             android:autofillHints="postalAddress"
             android:hint="@string/hint_location" />
+
+        <TextView
+            style="@style/Widget.Theme.WeClean.SectionLabel"
+            android:id="@+id/description_label"
+            android:text="@string/label_description" />
+
+        <EditText
+            style="@style/Widget.Theme.WeClean.TextInput"
+            android:id="@+id/description"
+            android:autofillHints=""
+            android:inputType="textMultiLine"
+            android:gravity="top|start"
+            android:lines="5"
+            android:hint="@string/hint_description" />
 
     </LinearLayout>
 
