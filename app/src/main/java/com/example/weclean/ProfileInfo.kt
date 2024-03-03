@@ -15,7 +15,7 @@ class ProfileInfo : Fragment() {
         val editButton = view.findViewById<Button>(R.id.edit_button)
         editButton.setOnClickListener {
             val context = activity as AppCompatActivity
-            context.switchEditFragment(true)
+            context.switchEditFragment(toEdit = true)
         }
     }
 

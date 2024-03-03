@@ -13,7 +13,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_gravity="left"
-        android:layout_marginLeft="100dp"
         android:text="@string/button_edit_profile" />
 
     <TextView
@@ -67,4 +66,30 @@
         style="@style/Widget.Theme.WeClean.TextInput"
         android:id="@+id/region"
         android:autofillHints="postalAddress" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal" >
+
+        <Button
+            style="@style/Widget.Theme.WeClean.Button"
+            android:id="@+id/cancel_button"
+            android:layout_marginEnd="25dp"
+            android:layout_marginVertical="8dp"
+            android:layout_width="100dp"
+            android:text="@string/button_cancel"
+            android:background="@drawable/button_cancel_background" />
+
+        <Button
+            style="@style/Widget.Theme.WeClean.Button"
+            android:id="@+id/confirm_button"
+            android:layout_marginStart="25dp"
+            android:layout_marginVertical="8dp"
+            android:layout_width="100dp"
+            android:text="@string/button_confirm" />
+
+    </LinearLayout>
+
 </LinearLayout>
