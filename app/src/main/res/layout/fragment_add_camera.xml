@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".AddCamera">
 
-    <ImageButton
+    <androidx.appcompat.widget.AppCompatImageButton
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:src="@drawable/camera_solid"

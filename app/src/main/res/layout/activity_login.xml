@@ -36,7 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         style="@style/Widget.Theme.WeClean.Button"
         android:id="@+id/login"
         android:layout_marginTop="20dp"
