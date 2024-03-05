@@ -39,8 +39,7 @@
         <Spinner
             style="@style/Widget.Theme.WeClean.SpinnerDropdown"
             android:id="@+id/select_community"
-            tools:listitem="@layout/spinner_item"
-            />
+            tools:listitem="@layout/spinner_item" />
 
         <TextView
             style="@style/Widget.Theme.WeClean.SectionLabel"
