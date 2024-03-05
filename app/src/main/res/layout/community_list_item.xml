@@ -24,10 +24,10 @@
 
         <androidx.appcompat.widget.AppCompatButton
             style="@style/Widget.Theme.WeClean.ButtonRed"
-            android:id="@+id/community_delete_button"
+            android:id="@+id/community_leave_button"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="Delete"
+            android:text="@string/button_leave"
             android:layout_marginHorizontal="20dp" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -35,7 +35,7 @@
             android:id="@+id/community_manage_button"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="Manage"
+            android:text="@string/button_manage"
             android:layout_marginHorizontal="20dp" />
 
     </LinearLayout>

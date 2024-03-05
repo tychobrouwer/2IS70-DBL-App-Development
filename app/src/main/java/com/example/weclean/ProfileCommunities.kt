@@ -5,18 +5,44 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ListView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
 class ProfileCommunities : Fragment() {
+    private fun joinCommunityShow() {
+        val builder = AlertDialog.Builder(activity as AppCompatActivity)
+        builder.setCancelable(true)
+        val joinDialog = builder.create()
+
+        val inflater = layoutInflater
+        val dialogLayout = inflater.inflate(R.layout.profile_join_community, null)
+
+        joinDialog.setView(dialogLayout)
+        joinDialog.show()
+
+        val editText = joinDialog.findViewById<EditText>(R.id.community_code_edittext)
+        val joinButton = joinDialog.findViewById<Button>(R.id.community_join_button)
+
+        joinButton!!.setOnClickListener {
+            val communityCode = editText!!.text
+
+            if (communityCode.isNotEmpty()) {
+                println("Join community with code $communityCode")
+                joinDialog.dismiss()
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val joinCommunityButton = view.findViewById<Button>(R.id.join_community_button)
         joinCommunityButton.setOnClickListener {
             println("join community")
+            joinCommunityShow()
         }
 
         val createCommunityButton = view.findViewById<Button>(R.id.create_community_button)

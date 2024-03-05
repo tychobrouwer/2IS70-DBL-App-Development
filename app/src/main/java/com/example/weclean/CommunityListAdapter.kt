@@ -26,7 +26,7 @@ class CommunityListAdapter(context: Context, dataArrayList: ArrayList<CommunityL
         listTextView.text = listData.name
 
         val listManageButton = view.findViewById<Button>(R.id.community_manage_button)
-        val listDeleteButton = view.findViewById<Button>(R.id.community_delete_button)
+        val listLeaveButton = view.findViewById<Button>(R.id.community_leave_button)
         val listViewParent = view.findViewById<LinearLayout>(R.id.community_list_layout)
 
         if (!isNewView) return view
@@ -34,7 +34,7 @@ class CommunityListAdapter(context: Context, dataArrayList: ArrayList<CommunityL
         if (listData.userIsAdmin) {
             listViewParent.removeView(listManageButton)
         } else {
-            listViewParent.removeView(listDeleteButton)
+            listViewParent.removeView(listLeaveButton)
         }
 
         return view
