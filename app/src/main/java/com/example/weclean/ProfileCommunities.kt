@@ -12,7 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
 class ProfileCommunities : Fragment() {
-    private fun joinCommunityShow() {
+    private fun joinCommunityDialog() {
         val builder = AlertDialog.Builder(activity as AppCompatActivity)
         builder.setCancelable(true)
         val joinDialog = builder.create()
@@ -41,8 +41,8 @@ class ProfileCommunities : Fragment() {
 
         val joinCommunityButton = view.findViewById<Button>(R.id.join_community_button)
         joinCommunityButton.setOnClickListener {
-            println("join community")
-            joinCommunityShow()
+            println("show join community dialog")
+            joinCommunityDialog()
         }
 
         val createCommunityButton = view.findViewById<Button>(R.id.create_community_button)
