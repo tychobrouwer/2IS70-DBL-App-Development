@@ -9,17 +9,26 @@
     android:background="@color/white_200"
     tools:context=".Add">
 
+    <TextView
+        style="@style/Widget.Theme.WeClean.ScreenTitle"
+        android:id="@+id/screen_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/title_add" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentAddCamera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/screen_title"
+        android:name="com.example.weclean.AddCamera" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
-
-        <TextView
-            style="@style/Widget.Theme.WeClean.ScreenTitle"
-            android:id="@+id/screen_title"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:text="@string/title_add" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentAddCamera" >
 
         <TextView
             style="@style/Widget.Theme.WeClean.SectionLabel"
@@ -30,8 +39,7 @@
         <Spinner
             style="@style/Widget.Theme.WeClean.SpinnerDropdown"
             android:id="@+id/select_community"
-            tools:listitem="@layout/spinner_item"
-            />
+            tools:listitem="@layout/spinner_item" />
 
         <TextView
             style="@style/Widget.Theme.WeClean.SectionLabel"
@@ -53,7 +61,7 @@
                 android:autofillHints=""
                 android:hint="@string/hint_tag" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 style="@style/Widget.Theme.WeClean.Button"
                 android:id="@+id/select_tags_button"
                 android:layout_marginEnd="40dp"
