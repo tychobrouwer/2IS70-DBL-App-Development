@@ -2,14 +2,8 @@ package com.example.weclean
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.weclean.ui.Home.Event
-import com.example.weclean.ui.Home.EventAdapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
+import androidx.appcompat.app.AppCompatActivity
 
 class Home : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,20 +40,5 @@ class Home : AppCompatActivity() {
             }
             false
         })
-
-        var eventList = mutableListOf(
-            Event(),
-            Event(),
-            Event()
-        )
-
-
-        val adapter = EventAdapter(eventList)
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-
-
-
     }
 }
