@@ -73,15 +73,16 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal" >
 
-        <androidx.appcompat.widget.AppCompatButton
-            style="@style/Widget.Theme.WeClean.ButtonRed"
+        <Button
+            style="@style/Widget.Theme.WeClean.Button"
             android:id="@+id/cancel_button"
             android:layout_marginEnd="25dp"
             android:layout_marginVertical="8dp"
             android:layout_width="100dp"
-            android:text="@string/button_cancel" />
+            android:text="@string/button_cancel"
+            android:background="@drawable/button_cancel_background" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <Button
             style="@style/Widget.Theme.WeClean.Button"
             android:id="@+id/confirm_button"
             android:layout_marginStart="25dp"
