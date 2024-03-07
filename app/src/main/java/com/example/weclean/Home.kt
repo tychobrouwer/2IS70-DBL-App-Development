@@ -54,6 +54,6 @@ class Home : AppCompatActivity() {
         val adapter = EventAdapter(eventList)
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = LinearLayoutManager(this)
     }
 }

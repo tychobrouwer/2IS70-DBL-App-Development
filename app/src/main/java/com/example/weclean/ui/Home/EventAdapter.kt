@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weclean.R
 
 class EventAdapter (
-    var Events:List<Event>
+    var events:List<Event>
 ) : RecyclerView.Adapter<EventAdapter.EventViewHolder>(){
     inner class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -21,6 +21,6 @@ class EventAdapter (
     }
 
     override fun getItemCount(): Int {
-        return Events.size
+        return events.size
     }
 }
