@@ -1,9 +1,14 @@
-package com.example.weclean
+package com.example.weclean.ui.profile
 
 import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.weclean.Achievements
+import com.example.weclean.Add
+import com.example.weclean.Home
+import com.example.weclean.R
+import com.example.weclean.ui.map.Map
 
 class Profile : AppCompatActivity() {
     val isEditView = false

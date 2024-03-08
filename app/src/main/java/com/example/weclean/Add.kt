@@ -11,6 +11,8 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.size
+import com.example.weclean.ui.map.Map
+import com.example.weclean.ui.profile.Profile
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup

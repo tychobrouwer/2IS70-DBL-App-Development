@@ -1,4 +1,4 @@
-package com.example.weclean
+package com.example.weclean.ui.profile
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,20 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.example.weclean.R
 
-class ProfileEdit : Fragment() {
+class ProfileInfo : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val cancelButton = view.findViewById<Button>(R.id.cancel_button)
-        cancelButton.setOnClickListener {
+        val editButton = view.findViewById<Button>(R.id.edit_button)
+        editButton.setOnClickListener {
             val context = activity as AppCompatActivity
-            context.switchEditFragment(toEdit = false)
-        }
-
-        val confirmButton = view.findViewById<Button>(R.id.confirm_button)
-        confirmButton.setOnClickListener {
-            // SAVE NEW DATA
+            context.switchEditFragment(toEdit = true)
         }
     }
 
@@ -29,6 +25,6 @@ class ProfileEdit : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile_edit, container, false)
+        return inflater.inflate(R.layout.fragment_profile_info, container, false)
     }
 }

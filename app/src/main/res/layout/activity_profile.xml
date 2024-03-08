@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Profile"
+    tools:context=".ui.profile.Profile"
     android:background="@color/white_200">
 
     <androidx.fragment.app.FragmentContainerView

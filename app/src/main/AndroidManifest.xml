@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Profile"
+            android:name=".ui.profile.Profile"
             android:exported="false"
             android:label="@string/title_activity_profile" />
         <activity
@@ -43,7 +43,7 @@
             android:exported="false"
             android:label="@string/title_activity_add" />
         <activity
-            android:name=".Map"
+            android:name=".ui.map.Map"
             android:exported="false"
             android:label="@string/title_activity_map" />
         <activity
