@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.weclean.ui.add.Add
 import com.example.weclean.ui.map.Map
 import com.example.weclean.ui.profile.Profile
 

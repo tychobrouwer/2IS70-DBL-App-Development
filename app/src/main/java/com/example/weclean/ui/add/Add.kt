@@ -1,4 +1,4 @@
-package com.example.weclean
+package com.example.weclean.ui.add
 
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -11,6 +11,9 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.size
+import com.example.weclean.Achievements
+import com.example.weclean.Home
+import com.example.weclean.R
 import com.example.weclean.ui.map.Map
 import com.example.weclean.ui.profile.Profile
 import com.google.android.material.bottomnavigation.BottomNavigationView

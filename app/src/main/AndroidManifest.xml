@@ -39,7 +39,7 @@
             android:exported="false"
             android:label="@string/title_activity_achievements" />
         <activity
-            android:name=".Add"
+            android:name=".ui.add.Add"
             android:exported="false"
             android:label="@string/title_activity_add" />
         <activity
