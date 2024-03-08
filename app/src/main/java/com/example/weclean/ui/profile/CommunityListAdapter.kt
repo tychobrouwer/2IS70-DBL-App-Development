@@ -1,4 +1,4 @@
-package com.example.weclean
+package com.example.weclean.ui.profile
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,9 +8,11 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.example.weclean.R
 import java.util.ArrayList;
 
-class CommunityListAdapter(context: Context, dataArrayList: ArrayList<CommunityListData>) : ArrayAdapter<CommunityListData>(context, R.layout.community_list_item, dataArrayList) {
+class CommunityListAdapter(context: Context, dataArrayList: ArrayList<CommunityListData>) : ArrayAdapter<CommunityListData>(context,
+    R.layout.community_list_item, dataArrayList) {
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
         var view = view
         var isNewView = false

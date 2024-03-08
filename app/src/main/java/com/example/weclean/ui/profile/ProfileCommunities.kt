@@ -10,8 +10,6 @@ import android.widget.EditText
 import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.weclean.CommunityListAdapter
-import com.example.weclean.CommunityListData
 import com.example.weclean.R
 
 class ProfileCommunities : Fragment() {
