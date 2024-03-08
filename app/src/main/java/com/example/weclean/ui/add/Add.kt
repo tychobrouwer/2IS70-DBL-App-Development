@@ -23,23 +23,30 @@ class Add : AppCompatActivity() {
 
         setContentView(R.layout.activity_add)
 
-        // TODO Here the communities should be fetched and added to the list
+        // TODO: Here the communities should be fetched and added to the list
         val communities = ArrayList<String>()
         communities.add("community 1")
         communities.add("community 2")
         communities.add("community 3")
 
+        // Get dropdown for selecting communities
         val selectCommunitySpinner = findViewById<Spinner>(R.id.select_community)
+        // Create adapter with list of communities
         val selectCommunityAdapter = ArrayAdapter(
             this, R.layout.spinner_item, communities)
 
+        // Set adapter for communities selector
         selectCommunityAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         selectCommunityAdapter.setNotifyOnChange(true)
         selectCommunitySpinner.adapter = selectCommunityAdapter
 
+        // Add tag button
         val tagButton = findViewById<Button>(R.id.select_tags_button)
+        // Tag value text input field
         val tagInput = findViewById<EditText>(R.id.select_tags_input)
+        // Chip group view
         val tagChipGroup = findViewById<ChipGroup>(R.id.tag_chip_group)
+        // Random colors for chips
         val tagColors = intArrayOf(
             Color.rgb(220, 0, 220),
             Color.rgb(0, 191, 220),
@@ -51,11 +58,15 @@ class Add : AppCompatActivity() {
             Color.rgb(220, 220, 0),
             Color.rgb(47, 79, 79))
 
+        // Function to add tag with chip
         fun addTagChip(chipText: String) {
+            // Create new material chip
             val chip = Chip(this)
 
+            // Get number of tags already added
             val nTags = tagChipGroup.size
 
+            // Set styling of the chip
             chip.text = chipText
             chip.isCloseIconVisible = true
             chip.chipStrokeWidth = 0F
@@ -69,19 +80,27 @@ class Add : AppCompatActivity() {
             chip.closeIconEndPadding = 4F
             chip.chipEndPadding = 4F
             chip.setEnsureMinTouchTargetSize(false)
+
+            // Set click listeners to remove chip
             chip.setOnCloseIconClickListener {
                 tagChipGroup.removeView(chip)
             }
             chip.setOnClickListener {
                 tagChipGroup.removeView(chip)
             }
+
+            // Add chip to chip group view
             tagChipGroup.addView(chip)
         }
 
+        // On enter and confirm add tag to list
         tagInput.setOnKeyListener {_, keyCode, event ->
             when {
                 ((keyCode == KeyEvent.KEYCODE_ENTER) && (event.action == KeyEvent.ACTION_DOWN)) -> {
+                    // String value of tag text input
                     val tagText = tagInput.text.toString()
+
+                    // If input is not empty, add tag and clear input
                     if (tagText.isNotEmpty()) {
                         addTagChip(tagText)
                         tagInput.setText("")
@@ -93,17 +112,23 @@ class Add : AppCompatActivity() {
             }
         }
 
+        // Listener for add tag button
         tagButton.setOnClickListener {
+            // String value of tag text input
             val tagText = tagInput.text.toString()
+
+            // If input is not empty, add tag and clear input
             if (tagText.isNotEmpty()) {
                 addTagChip(tagText)
                 tagInput.setText("")
             }
         }
 
+        // Parent view of navigation view
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavigationView.selectedItemId = R.id.navigation_add
 
+        // Switch activity based on pressing navigation buttons
         bottomNavigationView.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
