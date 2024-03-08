@@ -13,8 +13,10 @@ class ProfileInfo : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Edit profile button
         val editButton = view.findViewById<Button>(R.id.edit_button)
         editButton.setOnClickListener {
+            // Switch to edit profile view fragment
             val context = activity as AppCompatActivity
             context.switchEditFragment(toEdit = true)
         }

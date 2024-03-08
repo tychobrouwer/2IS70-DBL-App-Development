@@ -13,15 +13,18 @@ class ProfileEdit : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Cancel edit profile button
         val cancelButton = view.findViewById<Button>(R.id.cancel_button)
         cancelButton.setOnClickListener {
+            // Switch back to default profile fragment
             val context = activity as AppCompatActivity
             context.switchEditFragment(toEdit = false)
         }
 
+        // Confirm profile edit button
         val confirmButton = view.findViewById<Button>(R.id.confirm_button)
         confirmButton.setOnClickListener {
-            // SAVE NEW DATA
+            // TODO: Update user information with backend
         }
     }
 

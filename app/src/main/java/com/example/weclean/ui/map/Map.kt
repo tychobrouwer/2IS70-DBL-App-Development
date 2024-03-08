@@ -16,9 +16,11 @@ class Map : AppCompatActivity() {
 
         setContentView(R.layout.activity_map)
 
+        // Parent view of navigation view
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavigationView.selectedItemId = R.id.navigation_map
 
+        // Switch activity based on pressing navigation buttons
         bottomNavigationView.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
