@@ -18,7 +18,7 @@
             android:value="${GOOGLE_MAPS_API_KEY}" />
 
         <activity
-            android:name=".SignupActivity"
+            android:name=".ui.signup.SignupActivity"
             android:exported="false" />
         <activity
             android:name=".ui.login.LoginActivity"
