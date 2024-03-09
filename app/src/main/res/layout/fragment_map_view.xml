@@ -22,6 +22,8 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:layout_margin="20dp"
+            map:mapType="normal"
+            map:cameraZoom="13"
             map:mapId="YOUR_MAP_ID" />
 
     </LinearLayout>
