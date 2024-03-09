@@ -25,23 +25,19 @@ class Map : AppCompatActivity() {
             when (item.itemId) {
                 R.id.navigation_home -> {
                     startActivity(Intent(applicationContext, Home::class.java))
-                    overridePendingTransition(0,0)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_map -> return@OnNavigationItemSelectedListener true
                 R.id.navigation_add -> {
                     startActivity(Intent(applicationContext, Add::class.java))
-                    overridePendingTransition(0,0)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_achievements -> {
                     startActivity(Intent(applicationContext, Achievements::class.java))
-                    overridePendingTransition(0,0)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> {
                     startActivity(Intent(applicationContext, Profile::class.java))
-                    overridePendingTransition(0,0)
                     return@OnNavigationItemSelectedListener true
                 }
             }

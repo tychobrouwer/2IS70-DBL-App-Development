@@ -1,5 +1,6 @@
 package com.example.weclean.ui.map
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -7,9 +8,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.weclean.R
+import com.example.weclean.ui.add.Add
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -25,6 +28,11 @@ class MapView : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val addTrashButton = view.findViewById<Button>(R.id.add_trash_button)
+        addTrashButton.setOnClickListener {
+            startActivity(Intent(activity as AppCompatActivity, Add::class.java))
+        }
 
         getCurrentLocation()
     }

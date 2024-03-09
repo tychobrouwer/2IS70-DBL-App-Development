@@ -136,23 +136,19 @@ class Add : AppCompatActivity() {
             when (item.itemId) {
                 R.id.navigation_home -> {
                     startActivity(Intent(applicationContext, Home::class.java))
-                    overridePendingTransition(0,0)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_map -> {
                     startActivity(Intent(applicationContext, Map::class.java))
-                    overridePendingTransition(0,0)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_add -> return@OnNavigationItemSelectedListener true
                 R.id.navigation_achievements -> {
                     startActivity(Intent(applicationContext, Achievements::class.java))
-                    overridePendingTransition(0,0)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> {
                     startActivity(Intent(applicationContext, Profile::class.java))
-                    overridePendingTransition(0,0)
                     return@OnNavigationItemSelectedListener true
                 }
             }
