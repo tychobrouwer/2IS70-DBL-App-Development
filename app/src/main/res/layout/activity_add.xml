@@ -90,7 +90,7 @@
             android:id="@+id/select_location_label"
             android:text="@string/label_location" />
 
-        <EditText
+        <TextView
             style="@style/Widget.Theme.WeClean.TextInput"
             android:id="@+id/select_location"
             android:autofillHints="postalAddress"
