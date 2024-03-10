@@ -8,6 +8,7 @@ import com.example.weclean.Home
 import com.example.weclean.databinding.ActivitySignupBinding
 import com.example.weclean.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 
 class SignupActivity : AppCompatActivity() {
 
@@ -39,6 +40,8 @@ class SignupActivity : AppCompatActivity() {
                         if (it.isSuccessful) {
                             val intent = Intent(this, Home::class.java)
                             startActivity(intent)
+                        } else if (it.exception is FirebaseAuthUserCollisionException) {
+                            Toast.makeText(this, "Email is already in use", Toast.LENGTH_SHORT).show()
                         } else {
                             Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
                         }
