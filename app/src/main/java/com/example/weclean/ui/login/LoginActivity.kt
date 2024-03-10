@@ -17,17 +17,21 @@ import android.content.Intent
 import com.example.weclean.Home
 
 import com.example.weclean.R
+import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        firebaseAuth = FirebaseAuth.getInstance()
 
         val username = binding.username
         val password = binding.password

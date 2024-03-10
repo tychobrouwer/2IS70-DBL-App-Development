@@ -8,6 +8,8 @@ import com.example.weclean.data.LoginRepository
 import com.example.weclean.data.Result
 
 import com.example.weclean.R
+import com.example.weclean.databinding.ActivityLoginBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 
@@ -18,6 +20,7 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     val loginResult: LiveData<LoginResult> = _loginResult
 
     fun login(username: String, password: String) {
+
         // can be launched in a separate asynchronous job
         val result = loginRepository.login(username, password)
 
