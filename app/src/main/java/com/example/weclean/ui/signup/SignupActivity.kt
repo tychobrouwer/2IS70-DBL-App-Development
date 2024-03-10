@@ -1,12 +1,10 @@
-package com.example.weclean
+package com.example.weclean.ui.signup
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.weclean.Home
 import com.example.weclean.databinding.ActivitySignupBinding
 import com.example.weclean.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -24,7 +22,12 @@ class SignupActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        binding.login.setOnClickListener {
+        binding.yesAccount.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.signup.setOnClickListener {
             val email = binding.registerUsername.text.toString()
             val password = binding.registerPassword.text.toString()
             val confirmPassword = binding.confirmPassword.text.toString()
@@ -34,7 +37,7 @@ class SignupActivity : AppCompatActivity() {
 
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                         if (it.isSuccessful) {
-                            val intent = Intent(this, LoginActivity::class.java)
+                            val intent = Intent(this, Home::class.java)
                             startActivity(intent)
                         } else {
                             Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
@@ -48,6 +51,6 @@ class SignupActivity : AppCompatActivity() {
             }
         }
 
-
     }
+
 }

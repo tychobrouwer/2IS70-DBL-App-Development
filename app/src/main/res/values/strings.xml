@@ -46,6 +46,8 @@
     <string name="action_sign_up">Sign up</string>
     <string name="action_log_in_short">Log in</string>
     <string name="action_sign_up_short">Sign up</string>
+    <string name="no_account">"No account yet? Sing up!"</string>
+    <string name="yes_account">"Already have an account? Log in!"</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
@@ -53,6 +55,8 @@
     <string name="forgot_password_question">"Did you forgot your password?"</string>
     <string name="forgot_password_info">"Fill in your email to reset your password."</string>
     <string name="reset_password">"Reset Password"</string>
+
+
 
 
     <!-- TODO: Remove or change this placeholder text -->

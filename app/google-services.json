@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "405918674714",
+    "project_id": "is70-dbl-app-development",
+    "storage_bucket": "is70-dbl-app-development.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405918674714:android:0e65f1972375f71a3206a3",
+        "android_client_info": {
+          "package_name": "com.example.weclean"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4nw4CiGmxyY-fs3qzvhcsocNWqCbJUeo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405918674714:android:2d7a9b6a403401143206a3",
+        "android_client_info": {
+          "package_name": "weclean.com"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4nw4CiGmxyY-fs3qzvhcsocNWqCbJUeo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
