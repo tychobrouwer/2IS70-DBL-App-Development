@@ -1,7 +1,11 @@
 package com.example.weclean.ui.Home
 
+import android.widget.ImageView
+import android.widget.TextView
+import com.example.weclean.R
+
 data class Event (
     var location: Nothing? = null,
-    var picture: Nothing? = null,
-    var description: Nothing? =null
+    val imageUrl: String? = null,
+    var text: String = "Sample text"
 )
