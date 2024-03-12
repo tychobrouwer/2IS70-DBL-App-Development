@@ -62,4 +62,12 @@
     <string name="forgot_password_info">"Fill in your email to reset your password."</string>
     <string name="reset_password">"Reset Password"</string>
 
+    <string name="title_cCommunity">"Create Community"</string>
+    <string name="label_add_cName">"Enter community name"</string>
+    <string name="hint_add_cName">"eg. municipality, district, organisation name"</string>
+    <string name="label_add_cEmail">"Email"</string>
+    <string name="hint_add_cEmail">"Enter community's email address"</string>
+    <string name="label_add_cLocation">"Location"</string>
+    <string name="hint_add_cLocation">"Where is the community based in?"</string>
+
 </resources>
