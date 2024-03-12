@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.weclean.Home
+import com.example.weclean.ui.Home.Home
 import com.example.weclean.databinding.ActivitySignupBinding
 import com.example.weclean.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth

@@ -1,8 +1,7 @@
-package com.example.weclean
+package com.example.weclean.ui.Home
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -13,8 +12,9 @@ import com.example.weclean.ui.map.Map
 import com.example.weclean.ui.profile.Profile
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.weclean.ui.Home.Event
-import com.example.weclean.ui.Home.EventAdapter
+import com.example.weclean.Achievements
+import com.example.weclean.EventPopup
+import com.example.weclean.R
 
 class Home : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
