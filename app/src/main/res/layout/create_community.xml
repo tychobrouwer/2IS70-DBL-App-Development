@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.profile.ProfileEdit">
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.ScreenTitle"
+        android:id="@+id/cCommunity_title"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="left"
+        android:text="@string/title_cCommunity" />
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.SectionLabel"
+        android:id="@+id/cName_label"
+        android:layout_marginTop="20dp"
+        android:text="@string/label_add_cName" />
+
+    <EditText
+        style="@style/Widget.Theme.WeClean.TextInput"
+        android:id="@+id/community_name"
+        android:inputType="textNoSuggestions"
+        android:autofillHints="name" />
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.SectionLabel"
+        android:id="@+id/cEmail_label"
+        android:text="@string/label_add_cEmail" />
+
+    <EditText
+        style="@style/Widget.Theme.WeClean.TextInput"
+        android:id="@+id/community_email"
+        android:inputType="textEmailAddress"
+        android:autofillHints="emailAddress"
+        android:hint="@string/hint_add_cEmail" />
+
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.SectionLabel"
+        android:id="@+id/cLocation_label"
+        android:text="@string/label_add_cLocation" />
+
+    <EditText
+        style="@style/Widget.Theme.WeClean.TextInput"
+        android:inputType="textNoSuggestions"
+        android:id="@+id/community_location"
+        android:hint="@string/hint_add_cLocation"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal" >
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/Widget.Theme.WeClean.ButtonRed"
+            android:id="@+id/cCancel_button"
+            android:layout_marginEnd="25dp"
+            android:layout_marginVertical="8dp"
+            android:layout_width="100dp"
+            android:text="@string/button_cancel" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/Widget.Theme.WeClean.Button"
+            android:id="@+id/cConfirm_button"
+            android:layout_marginStart="25dp"
+            android:layout_marginVertical="8dp"
+            android:layout_width="100dp"
+            android:text="@string/button_confirm" />
+
+    </LinearLayout>
+
+</LinearLayout>
