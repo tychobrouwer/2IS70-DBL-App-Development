@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WeClean</string>
+    <string name="app_name" translatable="false">WeClean</string>
     <string name="title_activity_home">Home</string>
     <string name="title_activity_map">Map</string>
     <string name="title_activity_add">Add</string>
@@ -40,6 +40,8 @@
 
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_confirm_password">Confirm Password</string>
     <string name="action_log_in">Log in</string>
@@ -48,6 +50,8 @@
     <string name="action_sign_up_short">Sign up</string>
     <string name="no_account">"No account yet? Sing up!"</string>
     <string name="yes_account">"Already have an account? Log in!"</string>
+    <string name="forgot_password">"Forgot your password?"</string>
+    <string name="back_to_login">"Go back to login page"</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
@@ -56,9 +60,4 @@
     <string name="forgot_password_info">"Fill in your email to reset your password."</string>
     <string name="reset_password">"Reset Password"</string>
 
-
-
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

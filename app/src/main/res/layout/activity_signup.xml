@@ -8,14 +8,14 @@
     tools:context=".ui.signup.SignupActivity">
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/logo"
         android:layout_width="240dp"
         android:layout_height="100dp"
         android:layout_marginTop="130dp"
-        android:text="@string/app_name"
-        android:gravity="center"
-        android:textSize="50sp"
         android:fontFamily="@font/aclonica"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textSize="50sp"
         app:fontFamily="@font/aclonica"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -23,16 +23,42 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        style="@style/Widget.Theme.WeClean.TextInput"
         android:id="@+id/registerUsername"
-        android:layout_marginTop="280dp"
+        style="@style/Widget.Theme.WeClean.TextInput"
+        android:layout_marginTop="70dp"
         android:autofillHints="@string/prompt_email"
         android:hint="@string/prompt_email"
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
         android:shadowColor="@color/blue_500"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/logo" />
+
+    <EditText
+        android:id="@+id/firstName"
+        style="@style/Widget.Theme.WeClean.TextInput"
+        android:layout_marginTop="20dp"
+        android:autofillHints="@string/first_name"
+        android:hint="@string/first_name"
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
+        android:shadowColor="@color/blue_500"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/registerUsername" />
+
+    <EditText
+        android:id="@+id/lastName"
+        style="@style/Widget.Theme.WeClean.TextInput"
+        android:layout_marginTop="20dp"
+        android:autofillHints="@string/last_name"
+        android:hint="@string/last_name"
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
+        android:shadowColor="@color/blue_500"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/firstName" />
 
     <EditText
         android:id="@+id/registerPassword"
@@ -45,7 +71,7 @@
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerUsername" />
+        app:layout_constraintTop_toBottomOf="@+id/lastName" />
 
     <EditText
         android:id="@+id/confirmPassword"
@@ -57,15 +83,18 @@
         android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerPassword" />
 
     <androidx.appcompat.widget.AppCompatButton
-        style="@style/Widget.Theme.WeClean.Button"
         android:id="@+id/signup"
+        style="@style/Widget.Theme.WeClean.Button"
         android:layout_marginTop="20dp"
         android:text="@string/action_sign_up"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/confirmPassword" />
 

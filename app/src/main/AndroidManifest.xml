@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WeClean"
         tools:targetApi="31">
+
         <activity
             android:name=".ui.forgotpassword.ForgotPasswordActivity"
             android:exported="false" />
@@ -26,54 +27,46 @@
 
         <activity
             android:name=".ui.signup.SignupActivity"
-            android:exported="true"
-            android:label="Signup">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false"
+            android:label="Signup" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".ui.login.LoginActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="Login">
-            <!--
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            -->
+
         </activity>
+
         <activity
             android:name=".ui.profile.Profile"
             android:exported="false"
             android:label="@string/title_activity_profile" />
+
         <activity
             android:name=".Achievements"
             android:exported="false"
             android:label="@string/title_activity_achievements" />
+
         <activity
             android:name=".ui.add.Add"
             android:exported="false"
             android:label="@string/title_activity_add" />
+
         <activity
             android:name=".ui.map.Map"
             android:exported="false"
             android:label="@string/title_activity_map" />
+
         <activity
             android:name=".Home"
             android:exported="false"
-            android:label="@string/title_activity_home">
+            android:label="@string/title_activity_home" />
 
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
-        </activity>
     </application>
 
 </manifest>
