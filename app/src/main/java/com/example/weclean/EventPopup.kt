@@ -7,11 +7,6 @@ import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.weclean.ui.theme.WeCleanTheme
 
 class EventPopup : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
