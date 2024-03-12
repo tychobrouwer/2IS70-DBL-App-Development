@@ -56,6 +56,8 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_event_popup">EventPopup</string>
     <string name="forgot_password_question">"Did you forgot your password?"</string>
     <string name="forgot_password_info">"Fill in your email to reset your password."</string>
     <string name="reset_password">"Reset Password"</string>

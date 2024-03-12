@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -29,7 +29,11 @@
             android:name=".ui.signup.SignupActivity"
             android:exported="false"
             android:label="Signup" />
-
+        <activity
+            android:name=".EventPopup"
+            android:exported="false"
+            android:label="@string/title_activity_event_popup"
+            android:theme="@style/Theme.WeClean" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true"
@@ -37,6 +41,7 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -66,7 +71,6 @@
             android:name=".Home"
             android:exported="false"
             android:label="@string/title_activity_home" />
-
     </application>
 
 </manifest>
