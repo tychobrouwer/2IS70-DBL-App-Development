@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">WeClean</string>
+    <string name="slogan" translatable="false">Make the Netherlands green again</string>
     <string name="title_activity_home">Home</string>
     <string name="title_activity_map">Map</string>
     <string name="title_activity_add">Add</string>
