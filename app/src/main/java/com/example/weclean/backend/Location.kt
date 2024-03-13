@@ -6,30 +6,36 @@ import com.example.weclean.R
 import java.util.Locale
 
 interface Location {
-    abstract fun updateLocation(latitude: Double, longitude: Double)
+    fun updateLocation(latitude: Double, longitude: Double)
 
     var latitude: Double
     var longitude: Double
     var address: String
+    var streetAddress: String
     var city: String
     var country : String
 }
-class LocationImpl(geocoder: Geocoder,
-                   override var latitude: Double,
-                   override var longitude: Double
+class LocationImpl(geocoder: Geocoder
 ) : Location {
     private val geocoder : Geocoder
 
+    override var latitude: Double = 0.0
+    override var longitude: Double = 0.0
     override var address: String = ""
+    override var streetAddress: String = ""
     override var city: String = ""
     override var country: String = ""
 
     init {
         this.geocoder = geocoder
-
-        setAddressFromLatLng()
     }
 
+    /**
+     * Update the location with the latitude and longitude
+     *
+     * @param latitude
+     * @param longitude
+     */
     override fun updateLocation(latitude: Double, longitude: Double) {
         this.latitude = latitude
         this.longitude = longitude
@@ -37,10 +43,15 @@ class LocationImpl(geocoder: Geocoder,
         setAddressFromLatLng()
     }
 
+    /**
+     * Set the address information using the android Geocoder
+     *
+     */
     private fun setAddressFromLatLng() {
         val addresses = geocoder.getFromLocation(latitude, longitude, 1)
         if (addresses != null) {
             this.address = addresses[0].getAddressLine(0)
+            this.streetAddress = address.split(Regex(","))[0]
             this.city = addresses[0].locality
             this.country = addresses[0].countryName
         }

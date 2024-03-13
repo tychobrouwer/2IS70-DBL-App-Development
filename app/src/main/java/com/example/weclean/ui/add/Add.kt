@@ -1,5 +1,6 @@
 package com.example.weclean.ui.add
 
+import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
@@ -7,18 +8,24 @@ import android.graphics.Color
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.size
+import androidx.core.widget.addTextChangedListener
 import com.example.weclean.Achievements
 import com.example.weclean.ui.Home.Home
 import com.example.weclean.R
+import com.example.weclean.backend.LitteringData
 import com.example.weclean.ui.map.Map
 import com.example.weclean.ui.profile.Profile
 import com.google.android.gms.location.LocationServices
@@ -27,21 +34,33 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.firestore
 import java.util.Locale
 
-
-class Add : AppCompatActivity() {
+class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var permissionCode = 101
+
+    private lateinit var geocoder : Geocoder
+    private lateinit var litteringData : LitteringData
+
+    private var communities = ArrayList<String>()
+
+    private val db = Firebase.firestore
+    private val dbAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        geocoder = Geocoder(this, Locale.getDefault())
+        litteringData = LitteringData(geocoder)
 
         setContentView(R.layout.activity_add)
 
         getCurrentLocation()
 
         // TODO: Here the communities should be fetched and added to the list
-        val communities = ArrayList<String>()
         communities.add("community 1")
         communities.add("community 2")
         communities.add("community 3")
@@ -55,7 +74,15 @@ class Add : AppCompatActivity() {
         // Set adapter for communities selector
         selectCommunityAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         selectCommunityAdapter.setNotifyOnChange(true)
+
+        // Configure and set the dropdown
         selectCommunitySpinner.adapter = selectCommunityAdapter
+        selectCommunitySpinner.onItemSelectedListener = this
+
+        val descriptionInput = findViewById<EditText>(R.id.description)
+        descriptionInput.addTextChangedListener {
+            litteringData.description = descriptionInput.text.toString()
+        }
 
         // Add tag button
         val tagButton = findViewById<Button>(R.id.select_tags_button)
@@ -93,6 +120,9 @@ class Add : AppCompatActivity() {
             }
         }
 
+        val addLitteringButton = findViewById<Button>(R.id.add_littering_button)
+        addLitteringButton.setOnClickListener { this.sendEntryToFirebase() }
+
         // Parent view of navigation view
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavigationView.selectedItemId = R.id.navigation_add
@@ -122,7 +152,30 @@ class Add : AppCompatActivity() {
         })
     }
 
-    // Function to add tag with chip
+    /**
+     * Send littering entry to the Firebase database
+     *
+     */
+    private fun sendEntryToFirebase() {
+        val currentUser = dbAuth.currentUser?.uid
+
+        if (currentUser.isNullOrEmpty()) {
+            Toast.makeText(this, "Unable to get user", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Add a new document with a generated ID
+        db.collection("LitteringData")
+            .add(litteringData.createLitteringData(currentUser))
+            .addOnSuccessListener { Toast.makeText(this, "Created littering entry", Toast.LENGTH_SHORT).show() }
+            .addOnFailureListener { Toast.makeText(this, "Error creating littering entry", Toast.LENGTH_SHORT).show() }
+    }
+
+    /**
+     * Add chip to the ChipGroup and update litteringData
+     *
+     * @param chipText
+     */
     private fun addTagChip(chipText: String) {
         // Chip group view
         val tagChipGroup = findViewById<ChipGroup>(R.id.tag_chip_group)
@@ -162,16 +215,31 @@ class Add : AppCompatActivity() {
 
         // Set click listeners to remove chip
         chip.setOnCloseIconClickListener {
+            // Remove tag to littering data object
+            litteringData.removeTag(chipText)
+
+            // Remove tag from view
             tagChipGroup.removeView(chip)
         }
         chip.setOnClickListener {
+            // Remove tag to littering data object
+            litteringData.removeTag(chipText)
+
+            // Remove tag from view
             tagChipGroup.removeView(chip)
         }
 
         // Add chip to chip group view
         tagChipGroup.addView(chip)
+
+        // Add tag to littering data object
+        litteringData.addTag(chipText)
     }
 
+    /**
+     * Get the current location of the user and update litteringData
+     *
+     */
     private fun getCurrentLocation() {
         // If no access to location
         if (ActivityCompat.checkSelfPermission(
@@ -181,7 +249,6 @@ class Add : AppCompatActivity() {
                 this,
                 android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
         ) {
-
             // Request fine location permission
             ActivityCompat.requestPermissions(
                 this,
@@ -199,22 +266,26 @@ class Add : AppCompatActivity() {
         // Get current location
         fusedLocationProviderClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, CancellationTokenSource().token)
             .addOnSuccessListener { location: Location? ->
-                if (location == null)
-                // TODO: Some error to handle "unable to get location"
-                    println("Couldn't get location")
-                else {
-                    val geoCoder = Geocoder(this, Locale.getDefault())
-                    val addresses = geoCoder.getFromLocation(location.latitude, location.longitude, 1)
-                    if (addresses != null) {
-                        val address = addresses[0].getAddressLine(0)
-                        val city = addresses[0].locality
-
-                        // Location text view
-                        val locationInput = findViewById<TextView>(R.id.select_location)
-                        locationInput.text = address.split(Regex(","))[0] + ", " + city
-                    }
+                if (location == null) {
+                    Toast.makeText(this, "Could not get location", Toast.LENGTH_SHORT).show()
+                    return@addOnSuccessListener
                 }
+
+                litteringData.updateLocation(location.latitude, location.longitude)
+
+                val locationInput = findViewById<TextView>(R.id.select_location)
+                locationInput.text = litteringData.getAddressLine()
             }
+    }
+
+    override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        // Set community of litteringData object
+        litteringData.community = communities[position]
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+        // TODO: Error for no community selected
+        Toast.makeText(this, "No community selected", Toast.LENGTH_SHORT).show()
     }
 
     @Deprecated("Deprecated in Java")
