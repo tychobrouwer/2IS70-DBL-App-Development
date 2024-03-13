@@ -8,10 +8,19 @@ import com.example.weclean.databinding.ActivityForgotPasswordBinding
 import com.example.weclean.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 
+/**
+ * Gets the email the user puts in and sends a reset password mail.
+ */
 class ForgotPasswordActivity : AppCompatActivity() {
     private lateinit var binding: ActivityForgotPasswordBinding
     private lateinit var firebaseAuth: FirebaseAuth
 
+    /**
+     * Gets the email the user puts in and sends the user to
+     * the login screen when the user presses the 'toLogin' button.
+     *
+     * @param savedInstanceState The saved instance state of the activity.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,6 +45,12 @@ class ForgotPasswordActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Sends an email to the user to reset their password.
+     * If it cant send, it gives an error message.
+     *
+     * @param emailAddress the email address the user has put in.
+     */
     private fun sendPasswordResetEmail(emailAddress: String) {
         firebaseAuth.sendPasswordResetEmail(emailAddress)
             .addOnCompleteListener { task ->
