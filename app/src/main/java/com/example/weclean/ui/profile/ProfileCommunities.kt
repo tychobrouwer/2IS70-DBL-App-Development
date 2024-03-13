@@ -62,8 +62,8 @@ class ProfileCommunities : Fragment() {
         val createCommunityButton = view.findViewById<Button>(R.id.create_community_button)
         // Listener for opening the create community fragment
         createCommunityButton.setOnClickListener {
-            println("create community")
-            // TODO: Here the create community fragement needs to be opened
+            val context = activity as AppCompatActivity
+            context.switchCreateCommunityFragment(toCreateCommunity = true)
         }
 
         // List of community objects
