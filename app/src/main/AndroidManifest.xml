@@ -21,9 +21,9 @@
             android:name=".ui.forgotpassword.ForgotPasswordActivity"
             android:exported="false" />
 
-<!--        <meta-data-->
-<!--            android:name="com.google.android.geo.API_KEY"-->
-<!--            android:value="${GOOGLE_MAPS_API_KEY}" />-->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${GOOGLE_MAPS_API_KEY}" />
 
         <activity
             android:name=".ui.signup.SignupActivity"

@@ -101,7 +101,5 @@ class SignupActivity : AppCompatActivity() {
                 Toast.makeText(this, "Empty fields are not allowed", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
-
 }
