@@ -128,6 +128,13 @@
             android:inputType="textMultiLine"
             android:lines="5" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/Widget.Theme.WeClean.Button"
+            android:id="@+id/add_littering_button"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="@string/button_add_littering" />
+
     </LinearLayout>
 
     <include

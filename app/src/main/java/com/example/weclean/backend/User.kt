@@ -5,8 +5,8 @@ class User {
     fun createUser(firstName: String, lastName: String, emailID: String): HashMap<String, Any> {
 
         return hashMapOf(
-            "first" to firstName,
-            "last" to lastName,
+            "firstName" to firstName,
+            "lastName" to lastName,
             "email" to emailID
         )
     }

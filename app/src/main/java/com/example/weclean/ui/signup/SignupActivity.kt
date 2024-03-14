@@ -13,11 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.example.weclean.backend.User
 import com.google.firebase.Firebase
-import com.google.firebase.FirebaseApp
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
-import com.google.firebase.firestore.ktx.firestore
-
 
 private val user1 = User()
 
@@ -54,6 +50,7 @@ class SignupActivity : AppCompatActivity() {
 
             if (email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()
                 && firstName.isNotEmpty() && lastName.isNotEmpty()) {
+
                 if (password == confirmPassword) {
 
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
@@ -61,7 +58,8 @@ class SignupActivity : AppCompatActivity() {
                             //add user to the database
                             val user = user1.createUser(firstName, lastName, email)
 
-                            db.collection("Users").get().addOnSuccessListener { documents ->
+                            db.collection("Community").document("No Community").
+                            collection("Users").get().addOnSuccessListener { documents ->
                                 for (document in documents) {
                                     val userId = document.id
                                     // Assuming document IDs are in the format "userx", extract the integer value of 'x'
@@ -74,7 +72,8 @@ class SignupActivity : AppCompatActivity() {
                                 println("Next possible value for 'x': $nextNumber")
 
                                 // Add a new document with a generated ID
-                                db.collection("Users").document("user$nextNumber")
+                                db.collection("Community").document("No Community").
+                                collection("Users").document("user$nextNumber")
                                     .set(user)
                                     .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
                                     .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }

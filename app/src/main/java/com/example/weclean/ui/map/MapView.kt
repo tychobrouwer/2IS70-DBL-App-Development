@@ -4,20 +4,24 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.Icon
+import android.location.Geocoder
 import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.example.weclean.R
+import com.example.weclean.backend.LitteringData
 import com.example.weclean.ui.add.Add
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -27,27 +31,40 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.GeoPoint
+import com.google.firebase.firestore.firestore
+import java.util.Locale
 import kotlin.math.abs
+
 
 class MapView : Fragment() {
     private lateinit var mapFragment: SupportMapFragment
 
     private val interval: Long = 10000 // 10seconds
     private val fastestInterval: Long = 5000 // 5 seconds
+    private val db = Firebase.firestore
+
     private lateinit var mLastLocation: Location
     private lateinit var mLocationRequest: LocationRequest
     private val requestPermissionCode = 999
     private var fusedLocationProviderClient: FusedLocationProviderClient? = null
 
+    private lateinit var geocoder : Geocoder
+
+    private var litteringData = ArrayList<LitteringData>()
+    private var markersAdded = ArrayList<String>()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        geocoder = Geocoder(activity as AppCompatActivity, Locale.getDefault())
 
         // Add littering button to navigate to the add littering activity
         val addTrashButton = view.findViewById<Button>(R.id.add_trash_button)
@@ -65,6 +82,10 @@ class MapView : Fragment() {
             // Remove indoor styling from map
             googleMap.setIndoorEnabled(false)
             googleMap.uiSettings.isZoomControlsEnabled = true
+            googleMap.setOnCameraMoveListener {
+                val mapPosition = googleMap.cameraPosition
+                getNearbyLitteringEntries(mapPosition.target.latitude, mapPosition.target.longitude)
+            }
 
             // Set styling from the mapstyle.json raw resource
             googleMap.setMapStyle(
@@ -80,6 +101,7 @@ class MapView : Fragment() {
         }
     }
 
+    // Location callback for the fusedLocationProviderClient
     private val mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             locationResult.lastLocation
@@ -87,15 +109,130 @@ class MapView : Fragment() {
                 return
             }
 
-            locationChanged(locationResult.lastLocation!!)
+            locationUpdate(locationResult.lastLocation!!)
         }
     }
 
+    /**
+     * Get littering entries nearby the specified coordinates
+     *
+     * @param latitude
+     * @param longitude
+     */
+    private fun getNearbyLitteringEntries(latitude : Double, longitude : Double) {
+        // About 1 mile in latitude and longitude
+        val lat = 0.0144927536231884
+        val lon = 0.0181818181818182
+        val radius = 5
+
+        // Lower and upper bounds for the coordinates
+        val lowerLat = latitude - (lat * radius)
+        val lowerLon = longitude - (lon * radius)
+        val greaterLat = latitude + (lat * radius)
+        val greaterLon = longitude + (lon * radius)
+
+        // Lower and upper GeoPoint for retrieving littering entries in range
+        val lesserGeoPoint = GeoPoint(lowerLat, lowerLon)
+        val greaterGeoPoint = GeoPoint(greaterLat, greaterLon)
+
+        // Get entries from Firebase
+        db.collection("LitteringData")
+            .whereGreaterThan("geoPoint", lesserGeoPoint)
+            .whereLessThan("geoPoint", greaterGeoPoint)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    // Latitude and longitude of the entry
+                    val entryLatitude = document.getGeoPoint("geoPoint")!!.latitude
+                    val entryLongitude = document.getGeoPoint("geoPoint")!!.longitude
+
+                    // Construct LitteringData object for the entry from database
+                    val litteringEntry = LitteringData(geocoder)
+                    litteringEntry.timeStamp = document.getDate("date")!!.time
+                    litteringEntry.community = document.getString("description")!!
+                    litteringEntry.description = document.getString("description")!!
+                        .replace("_newline", "\n")
+                    litteringEntry.updateLocation(entryLatitude, entryLongitude)
+
+                    // Add entry to return value
+                    litteringData.add(litteringEntry)
+                }
+
+                // Display markers on the map
+                updateLitteringMarkers()
+            }
+            .addOnFailureListener {
+                println(it)
+                Toast.makeText(
+                    activity as AppCompatActivity,
+                    "Unable to get littering entries",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+    }
+
+    /**
+     * Update the littering markers on the map
+     *
+     */
+    private fun updateLitteringMarkers() {
+        mapFragment.getMapAsync { googleMap ->
+            // Loop through littering entries and add markers to the map
+            for (litteringEntry in litteringData) {
+                // Identifier for litteringEntry to keep track of added markers
+                val identifier = "${litteringEntry.latitude}," +
+                        "${litteringEntry.longitude}," +
+                        "${litteringEntry.timeStamp}"
+
+                // If marker not yet displayed on map, add marker
+                if (!markersAdded.contains(identifier)) {
+                    // Marker options for the littering entry
+                    val markerOptions = MarkerOptions()
+                        .title("Littering location")
+                        .position(LatLng(litteringEntry.latitude, litteringEntry.longitude))
+                        .icon(bitmapDescriptorFromVector(
+                            activity as AppCompatActivity,
+                            R.drawable.garbage_bag_icon))
+
+                    // Add marker to the map
+                    googleMap.addMarker(markerOptions)
+                    markersAdded.add(identifier)
+                }
+            }
+        }
+    }
+
+    /**
+     * Convert a vector resource to a bitmap descriptor
+     *
+     * @param context
+     * @param vectorResId
+     * @return
+     */
+    private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
+        return ContextCompat.getDrawable(context, vectorResId)?.run {
+            setBounds(0, 0, intrinsicWidth, intrinsicHeight)
+
+            // Create a bitmap from the vector drawable
+            val bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
+            draw(Canvas(bitmap))
+            BitmapDescriptorFactory.fromBitmap(bitmap)
+        }
+    }
+
+    /**
+     * Pause the location update listener
+     *
+     */
     override fun onPause() {
         super.onPause()
         fusedLocationProviderClient?.removeLocationUpdates(mLocationCallback)
     }
 
+    /**
+     * Start the location update listener using the fusedLocationProviderClient
+     *
+     */
     private fun startLocationUpdates() {
         mLocationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, interval)
             .setMinUpdateIntervalMillis(fastestInterval)
@@ -125,21 +262,31 @@ class MapView : Fragment() {
             Looper.myLooper()!!)
     }
 
-    private fun locationChanged(location: Location) {
+    /**
+     * Function to run when location update received from fusedLocationProviderClient
+     *
+     * @param location
+     */
+    private fun locationUpdate(location: Location) {
         mLastLocation = location
 
         mapFragment.getMapAsync { googleMap ->
-            println("${mLastLocation.latitude}, ${mLastLocation.longitude}")
             val mapPosition = googleMap.cameraPosition
 
-            if (abs(mapPosition.target.latitude - mLastLocation.latitude) > 0.05 &&
-                abs(mapPosition.target.longitude - mLastLocation.longitude) > 0.05) {
+            if (mapPosition.target.latitude == 0.0 && mapPosition.target.longitude == 0.0) {
                 val latLng = LatLng(mLastLocation.latitude, mLastLocation.longitude)
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
             }
+
+            getNearbyLitteringEntries(mLastLocation.latitude, mLastLocation.longitude)
         }
     }
 
+    /**
+     * Check for location permissions
+     *
+     * @param context
+     */
     private fun checkForPermission(context: Context) {
         if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) ==
             PackageManager.PERMISSION_GRANTED) {

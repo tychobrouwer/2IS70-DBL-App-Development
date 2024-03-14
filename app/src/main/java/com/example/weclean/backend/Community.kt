@@ -1,7 +1,14 @@
 package com.example.weclean.backend
 
-data class Community(
-    var communityId: String,
-    var communityMembers: ArrayList<User>,
-    //var cleanUpEvents: ArrayList<CleanUpEvent>
-)
+class Community {
+
+    fun createCommunity(cName: String, email: String, location: String, users : Array<String>): HashMap<String, Any> {
+
+        return hashMapOf(
+            "communityName" to cName,
+            "communityEmail" to email,
+            "communityLocation" to location,
+            "listOfUsers" to users
+        )
+    }
+}
