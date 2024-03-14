@@ -31,15 +31,6 @@
         app:tint="@color/white_200"
         android:src="@drawable/camera_solid" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivImage"
-        android:layout_width="149dp"
-        android:layout_height="134dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintStart_toEndOf="@+id/AddCamera" />
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
