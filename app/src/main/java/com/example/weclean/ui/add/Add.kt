@@ -1,20 +1,27 @@
 package com.example.weclean.ui.add
 
+import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.KeyEvent
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.size
 import com.example.weclean.Achievements
 import com.example.weclean.ui.Home.Home
@@ -31,8 +38,12 @@ import java.util.Locale
 
 
 class Add : AppCompatActivity() {
-    private var permissionCode = 101
-
+    companion object {
+        private var permissionCode = 101
+        private val CAMERA_PERMISSION_CODE = 1
+        private val CAMERA_REQUEST_CODE = 2
+        private val CAMERA = 2
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -56,6 +67,33 @@ class Add : AppCompatActivity() {
         selectCommunityAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         selectCommunityAdapter.setNotifyOnChange(true)
         selectCommunitySpinner.adapter = selectCommunityAdapter
+
+        //Add camera button
+        val camera: Button = findViewById<Button>(R.id.AddCamera)
+        //Listener for camera button
+        camera.setOnClickListener {
+            if(ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.CAMERA)
+                ==PackageManager.PERMISSION_GRANTED
+            ){
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(intent, Add.CAMERA)
+            } else{
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.CAMERA),
+                    Add.CAMERA_PERMISSION_CODE
+                )
+
+            }
+        }
+
+
+
+
+
+
 
         // Add tag button
         val tagButton = findViewById<Button>(R.id.select_tags_button)
@@ -120,6 +158,19 @@ class Add : AppCompatActivity() {
             }
             false
         })
+    }
+
+
+    //function to display taken image
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == RESULT_OK){
+            if(requestCode == Add.CAMERA_REQUEST_CODE) {
+                val ivImage: ImageView = findViewById(R.id.ivImage)
+                val thumbNail: Bitmap = data!!.extras!!.get("data") as Bitmap
+                ivImage.setImageBitmap(thumbNail)
+            }
+        }
     }
 
     // Function to add tag with chip
@@ -229,10 +280,16 @@ class Add : AppCompatActivity() {
             // If request code is permission granted
             if (grantResults.isNotEmpty() &&
                 grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                 // Set the current map location
                 getCurrentLocation()
+                if(requestCode == Add.CAMERA_PERMISSION_CODE){
+                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    startActivityForResult(intent, Add.CAMERA)
+                }else{
+                    Toast.makeText(this,"Permission needs to be accepted", Toast.LENGTH_LONG).show()
+                }
+            }
+
             }
         }
-    }
 }

@@ -16,56 +16,74 @@
         app:layout_constraintTop_toTopOf="parent"
         android:text="@string/title_add" />
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentAddCamera"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/screen_title"
-        android:name="com.example.weclean.ui.add.AddCamera" />
+
+
+
+    <Button
+        android:id="@+id/AddCamera"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="52dp"
+        app:layout_constraintTop_toBottomOf="@+id/screen_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="Take Photo"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivImage"
+        android:layout_width="149dp"
+        android:layout_height="134dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintStart_toEndOf="@+id/AddCamera" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/fragmentAddCamera" >
+        app:layout_constraintTop_toBottomOf="@+id/AddCamera"
+        tools:layout_editor_absoluteX="-30dp">
+
 
         <TextView
-            style="@style/Widget.Theme.WeClean.SectionLabel"
             android:id="@+id/select_community_label"
-            android:layout_marginTop="20dp"
+            style="@style/Widget.Theme.WeClean.SectionLabel"
+            android:layout_marginTop="40dp"
             android:text="@string/label_select_communities" />
 
         <Spinner
-            style="@style/Widget.Theme.WeClean.SpinnerDropdown"
             android:id="@+id/select_community"
+            style="@style/Widget.Theme.WeClean.SpinnerDropdown"
             tools:listitem="@layout/spinner_item" />
 
         <TextView
-            style="@style/Widget.Theme.WeClean.SectionLabel"
             android:id="@+id/select_tags_label"
+            style="@style/Widget.Theme.WeClean.SectionLabel"
             android:text="@string/label_add_tags" />
 
         <LinearLayout
             android:id="@+id/select_tags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <EditText
-                style="@style/Widget.Theme.WeClean.TextInput"
                 android:id="@+id/select_tags_input"
-                android:layout_weight="1"
-                android:layout_marginEnd="10dp"
+                style="@style/Widget.Theme.WeClean.TextInput"
                 android:layout_marginStart="40dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
                 android:autofillHints=""
-                android:hint="@string/hint_tag" />
+                android:hint="@string/hint_tag"
+                android:layout_width="0dp" />
 
             <androidx.appcompat.widget.AppCompatButton
-                style="@style/Widget.Theme.WeClean.Button"
                 android:id="@+id/select_tags_button"
-                android:layout_marginEnd="40dp"
+                style="@style/Widget.Theme.WeClean.Button"
                 android:layout_marginTop="2dp"
+                android:layout_marginEnd="40dp"
                 android:text="@string/button_add" />
 
         </LinearLayout>
@@ -73,8 +91,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:minHeight="38dp" >
+            android:minHeight="38dp"
+            android:orientation="horizontal">
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/tag_chip_group"
@@ -86,31 +104,33 @@
         </LinearLayout>
 
         <TextView
-            style="@style/Widget.Theme.WeClean.SectionLabel"
             android:id="@+id/select_location_label"
+            style="@style/Widget.Theme.WeClean.SectionLabel"
             android:text="@string/label_location" />
 
         <TextView
-            style="@style/Widget.Theme.WeClean.TextInput"
             android:id="@+id/select_location"
+            style="@style/Widget.Theme.WeClean.TextInput"
             android:autofillHints="postalAddress"
             android:hint="@string/hint_location" />
 
         <TextView
-            style="@style/Widget.Theme.WeClean.SectionLabel"
             android:id="@+id/description_label"
+            style="@style/Widget.Theme.WeClean.SectionLabel"
             android:text="@string/label_description" />
 
         <EditText
-            style="@style/Widget.Theme.WeClean.TextInput"
             android:id="@+id/description"
+            style="@style/Widget.Theme.WeClean.TextInput"
             android:autofillHints=""
-            android:inputType="textMultiLine"
             android:gravity="top|start"
-            android:lines="5"
-            android:hint="@string/hint_description" />
+            android:hint="@string/hint_description"
+            android:inputType="textMultiLine"
+            android:lines="5" />
 
     </LinearLayout>
 
-    <include layout="@layout/navbar" />
+    <include
+        android:id="@+id/include"
+        layout="@layout/navbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
