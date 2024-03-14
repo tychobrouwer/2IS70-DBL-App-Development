@@ -1,6 +1,8 @@
 package com.example.weclean.ui.profile
 
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +22,10 @@ class CreateCommunity : Fragment() {
     private lateinit var firebaseAuth: FirebaseAuth
     //private val db = FirebaseFirestore.getInstance()
     private val db = Firebase.firestore
+
+    private var maxNumber = 0
+
+    private var nextNumber = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,31 +70,83 @@ class CreateCommunity : Fragment() {
                 Toast.makeText(context, "Enter your valid email address", Toast.LENGTH_SHORT).show()
             }
 
-            var userDoc: DocumentSnapshot
+            var firstName: String? = null
+            var lastName: String? = null
+            var email: String? = null
+
+            var documentRef : MutableMap<String, Any> = mutableMapOf()
 
             //Now email exists...
+            db.collection("Community").document("No Community").collection("Users").get().addOnSuccessListener { documents ->
+
+                for (document in documents) {
+                    val userData = document.data
+
+                    val e1 = userData["firstName"] as? String
+                    val e2 = userData["lastName"] as? String
+                    val e3 = userData["email"] as? String
+                    if (e3 == userConfirmEmail) {
+
+                        firstName = e1.toString()
+                        lastName = e2.toString()
+                        email = e3.toString()
+
+                        documentRef = userData
+
+                        break
+                    }
+                }
+            }.addOnFailureListener { e ->
+                println("Error retrieving user: $e")
+            }
+
+            //TODO: Delete user from "No Community" page
             db.collection("Community").document("No Community").collection("Users")
+                .whereEqualTo("firstName", firstName)
+                .whereEqualTo("lastName", lastName)
+                .whereEqualTo("email", email)
                 .get()
-                .addOnSuccessListener { documents ->
-
-                    for (document in documents) {
-                        val userData = document.data
-
-                        val e2 = userData["email"] as? String
-                        if (e2 == userConfirmEmail) {
-                            userDoc = document
-
-                            break
-                        }
+                .addOnSuccessListener { querySnapshot ->
+                    // Loop through the query results
+                    for (document in querySnapshot.documents) {
+                        // Delete the user document
+                        document.reference.delete()
+                            .addOnSuccessListener {
+                                println("User document successfully deleted.")
+                            }
+                            .addOnFailureListener { e ->
+                                println("Error deleting user document: $e")
+                            }
                     }
                 }
                 .addOnFailureListener { e ->
-                    println("Error retrieving user: $e")
+                    println("Error retrieving user documents: $e")
                 }
 
-            //TODO: Delete user from "No Community" page
-
             //TODO: Create the new community and add the user to it
+            db.collection("Community").get().addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val userId = document.id
+                    // Assuming document IDs are in the format "userx", extract the integer value of 'x'
+                    val userNumber = userId.removePrefix("community").toIntOrNull() ?: continue
+                    if (userNumber > maxNumber) {
+                        maxNumber = userNumber
+                    }
+                }
+                nextNumber = maxNumber + 1
+                println("Next possible value for 'x': $nextNumber")
+
+                // Add the user to newly generated community
+                db.collection("Community").document("community$nextNumber").
+                collection("Users")
+                    .add(documentRef)
+                    .addOnSuccessListener { Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!") }
+                    .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
+
+            }.addOnFailureListener { e ->
+                println("Error getting documents: $e")
+            }
+
         }
     }
 
