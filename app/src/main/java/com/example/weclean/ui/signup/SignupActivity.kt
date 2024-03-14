@@ -13,11 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.example.weclean.backend.User
 import com.google.firebase.Firebase
-import com.google.firebase.FirebaseApp
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
-import com.google.firebase.firestore.ktx.firestore
-
 
 private val user1 = User()
 
@@ -54,6 +50,7 @@ class SignupActivity : AppCompatActivity() {
 
             if (email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()
                 && firstName.isNotEmpty() && lastName.isNotEmpty()) {
+
                 if (password == confirmPassword) {
 
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
