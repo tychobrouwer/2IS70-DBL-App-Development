@@ -82,6 +82,10 @@ class MapView : Fragment() {
             // Remove indoor styling from map
             googleMap.setIndoorEnabled(false)
             googleMap.uiSettings.isZoomControlsEnabled = true
+            googleMap.setOnCameraMoveListener {
+                val mapPosition = googleMap.cameraPosition
+                getNearbyLitteringEntries(mapPosition.target.latitude, mapPosition.target.longitude)
+            }
 
             // Set styling from the mapstyle.json raw resource
             googleMap.setMapStyle(
@@ -105,7 +109,7 @@ class MapView : Fragment() {
                 return
             }
 
-            locationChanged(locationResult.lastLocation!!)
+            locationUpdate(locationResult.lastLocation!!)
         }
     }
 
@@ -259,23 +263,22 @@ class MapView : Fragment() {
     }
 
     /**
-     * locationChanged listener to update the camera position
+     * Function to run when location update received from fusedLocationProviderClient
      *
      * @param location
      */
-    private fun locationChanged(location: Location) {
+    private fun locationUpdate(location: Location) {
         mLastLocation = location
 
         mapFragment.getMapAsync { googleMap ->
             val mapPosition = googleMap.cameraPosition
 
-            if (abs(mapPosition.target.latitude - mLastLocation.latitude) > 0.05 &&
-                abs(mapPosition.target.longitude - mLastLocation.longitude) > 0.05) {
+            if (mapPosition.target.latitude == 0.0 && mapPosition.target.longitude == 0.0) {
                 val latLng = LatLng(mLastLocation.latitude, mLastLocation.longitude)
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-
-                getNearbyLitteringEntries(mLastLocation.latitude, mLastLocation.longitude)
             }
+
+            getNearbyLitteringEntries(mLastLocation.latitude, mLastLocation.longitude)
         }
     }
 
