@@ -42,22 +42,29 @@ import java.util.Locale
 class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var permissionCode = 101
 
+    // Geocoder used for getting location information
     private lateinit var geocoder : Geocoder
+    // Object for storing the new littering data entry
     private lateinit var litteringData : LitteringData
 
+    // List of communities the user is in
     private var communities = ArrayList<String>()
 
+    // Firebase database
     private val db = Firebase.firestore
+    // Firebase authentication database
     private val dbAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setContentView(R.layout.activity_add)
+
+        // Initialize geocoder and littering data objects
         geocoder = Geocoder(this, Locale.getDefault())
         litteringData = LitteringData(geocoder)
 
-        setContentView(R.layout.activity_add)
-
+        // Get the current location of the user
         getCurrentLocation()
 
         // TODO: Here the communities should be fetched and added to the list
@@ -79,8 +86,10 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         selectCommunitySpinner.adapter = selectCommunityAdapter
         selectCommunitySpinner.onItemSelectedListener = this
 
+        // Description text input field
         val descriptionInput = findViewById<EditText>(R.id.description)
         descriptionInput.addTextChangedListener {
+            // Set description of littering data object to changed value
             litteringData.description = descriptionInput.text.toString()
         }
 
@@ -120,6 +129,7 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
         }
 
+        // Confirm button to send data to Firebase
         val addLitteringButton = findViewById<Button>(R.id.add_littering_button)
         addLitteringButton.setOnClickListener { this.sendEntryToFirebase() }
 
@@ -157,14 +167,16 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
      *
      */
     private fun sendEntryToFirebase() {
+        // Current logged in user
         val currentUser = dbAuth.currentUser?.uid
 
+        // If no user is logged in or user is empty
         if (currentUser.isNullOrEmpty()) {
             Toast.makeText(this, "Unable to get user", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Add a new document with a generated ID
+        // Add a new document with a generated ID for the littering entry
         db.collection("LitteringData")
             .add(litteringData.createLitteringData(currentUser))
             .addOnSuccessListener { Toast.makeText(this, "Created littering entry", Toast.LENGTH_SHORT).show() }
@@ -237,7 +249,7 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     /**
-     * Get the current location of the user and update litteringData
+     * Get the current location of the user and update litteringData object
      *
      */
     private fun getCurrentLocation() {
@@ -271,8 +283,10 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     return@addOnSuccessListener
                 }
 
+                // Update location of the littering data object
                 litteringData.updateLocation(location.latitude, location.longitude)
 
+                // Update location input field
                 val locationInput = findViewById<TextView>(R.id.select_location)
                 locationInput.text = litteringData.getAddressLine()
             }

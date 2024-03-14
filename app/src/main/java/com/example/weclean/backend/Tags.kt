@@ -1,5 +1,9 @@
 package com.example.weclean.backend
 
+/**
+ * Interface for the tags
+ *
+ */
 interface Tags {
     abstract fun addTag(tag: String): ArrayList<String>
     abstract fun removeTag(tag: String): ArrayList<String>
@@ -7,7 +11,12 @@ interface Tags {
     var tags : ArrayList<String>
 }
 
+/**
+ * Implementation of the tags
+ *
+ */
 class TagsImpl : Tags {
+    // List of current tags
     override var tags = ArrayList<String>()
 
     /**

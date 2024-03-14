@@ -4,6 +4,11 @@ import android.location.Geocoder
 import com.google.firebase.firestore.GeoPoint
 import java.util.Date
 
+/**
+ * Interface for the littering data
+ *
+ * @param geocoder
+ */
 class LitteringData(
     geocoder: Geocoder,
 ) : Location, Tags, Image {
@@ -11,8 +16,11 @@ class LitteringData(
     private val tagsData : Tags = TagsImpl()
     private val image : Image = ImageImpl()
 
+    // Community of the littering data
     var community : String = ""
+    // Description of the littering data
     var description : String = ""
+    // Time stamp of the littering data (epoch)
     var timeStamp: Long = System.currentTimeMillis();
 
     /**

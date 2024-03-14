@@ -5,6 +5,10 @@ import android.widget.TextView
 import com.example.weclean.R
 import java.util.Locale
 
+/**
+ * Interface for the location
+ *
+ */
 interface Location {
     fun updateLocation(latitude: Double, longitude: Double)
 
@@ -15,14 +19,24 @@ interface Location {
     var city: String
     var country : String
 }
+
+/**
+ * Implementation of the location
+ *
+ * @param geocoder
+ */
 class LocationImpl(geocoder: Geocoder
 ) : Location {
     private val geocoder : Geocoder
 
+    // Current latitude and longitude of the location
     override var latitude: Double = 0.0
     override var longitude: Double = 0.0
+    // Address information
     override var address: String = ""
+    // Street address, street + number
     override var streetAddress: String = ""
+    // City and country information
     override var city: String = ""
     override var country: String = ""
 

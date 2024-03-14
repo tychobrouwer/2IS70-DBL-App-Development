@@ -97,6 +97,7 @@ class MapView : Fragment() {
         }
     }
 
+    // Location callback for the fusedLocationProviderClient
     private val mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             locationResult.lastLocation
@@ -109,11 +110,10 @@ class MapView : Fragment() {
     }
 
     /**
-     * Get the nearby littering entries from Firebase
+     * Get littering entries nearby the specified coordinates
      *
      * @param latitude
      * @param longitude
-     * @return
      */
     private fun getNearbyLitteringEntries(latitude : Double, longitude : Double) {
         // About 1 mile in latitude and longitude
@@ -142,7 +142,7 @@ class MapView : Fragment() {
                     val entryLatitude = document.getGeoPoint("geoPoint")!!.latitude
                     val entryLongitude = document.getGeoPoint("geoPoint")!!.longitude
 
-                    // Construct LitteringData object for the entry
+                    // Construct LitteringData object for the entry from database
                     val litteringEntry = LitteringData(geocoder)
                     litteringEntry.timeStamp = document.getDate("date")!!.time
                     litteringEntry.community = document.getString("description")!!
@@ -152,8 +152,10 @@ class MapView : Fragment() {
 
                     // Add entry to return value
                     litteringData.add(litteringEntry)
-                    displayLitteringMarkers()
                 }
+
+                // Display markers on the map
+                updateLitteringMarkers()
             }
             .addOnFailureListener {
                 println(it)
@@ -165,15 +167,22 @@ class MapView : Fragment() {
             }
     }
 
-    private fun displayLitteringMarkers() {
+    /**
+     * Update the littering markers on the map
+     *
+     */
+    private fun updateLitteringMarkers() {
         mapFragment.getMapAsync { googleMap ->
+            // Loop through littering entries and add markers to the map
             for (litteringEntry in litteringData) {
-                // Identifier for litteringEntry to keep track of markers
+                // Identifier for litteringEntry to keep track of added markers
                 val identifier = "${litteringEntry.latitude}," +
                         "${litteringEntry.longitude}," +
                         "${litteringEntry.timeStamp}"
 
+                // If marker not yet displayed on map, add marker
                 if (!markersAdded.contains(identifier)) {
+                    // Marker options for the littering entry
                     val markerOptions = MarkerOptions()
                         .title("Littering location")
                         .position(LatLng(litteringEntry.latitude, litteringEntry.longitude))
@@ -181,6 +190,7 @@ class MapView : Fragment() {
                             activity as AppCompatActivity,
                             R.drawable.garbage_bag_icon))
 
+                    // Add marker to the map
                     googleMap.addMarker(markerOptions)
                     markersAdded.add(identifier)
                 }
@@ -188,9 +198,18 @@ class MapView : Fragment() {
         }
     }
 
+    /**
+     * Convert a vector resource to a bitmap descriptor
+     *
+     * @param context
+     * @param vectorResId
+     * @return
+     */
     private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
         return ContextCompat.getDrawable(context, vectorResId)?.run {
             setBounds(0, 0, intrinsicWidth, intrinsicHeight)
+
+            // Create a bitmap from the vector drawable
             val bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
             draw(Canvas(bitmap))
             BitmapDescriptorFactory.fromBitmap(bitmap)
