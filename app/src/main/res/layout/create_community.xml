@@ -57,11 +57,10 @@
 
     <EditText
         style="@style/Widget.Theme.WeClean.TextInput"
-        android:id="@+id/confirm_email"
+        android:id="@+id/community_confirm_email"
         android:inputType="textEmailAddress"
         android:autofillHints="emailAddress"
         android:hint="Write your confirm email here" />
-
 
     <LinearLayout
         android:layout_width="match_parent"

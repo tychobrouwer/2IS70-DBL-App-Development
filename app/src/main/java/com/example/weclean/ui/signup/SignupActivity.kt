@@ -58,7 +58,8 @@ class SignupActivity : AppCompatActivity() {
                             //add user to the database
                             val user = user1.createUser(firstName, lastName, email)
 
-                            db.collection("Users").get().addOnSuccessListener { documents ->
+                            db.collection("Community").document("No Community").
+                            collection("Users").get().addOnSuccessListener { documents ->
                                 for (document in documents) {
                                     val userId = document.id
                                     // Assuming document IDs are in the format "userx", extract the integer value of 'x'
@@ -71,7 +72,8 @@ class SignupActivity : AppCompatActivity() {
                                 println("Next possible value for 'x': $nextNumber")
 
                                 // Add a new document with a generated ID
-                                db.collection("Users").document("user$nextNumber")
+                                db.collection("Community").document("No Community").
+                                collection("Users").document("user$nextNumber")
                                     .set(user)
                                     .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
                                     .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
