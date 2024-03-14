@@ -1,4 +1,4 @@
-package com.example.weclean.ui.Home
+package com.example.weclean.ui.home
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.weclean.EventPopup
 import com.example.weclean.R
 
 class EventAdapter (
@@ -25,12 +24,14 @@ class EventAdapter (
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         val event = events[position]
+        //TODO: get proper data from
         holder.imageView.setImageResource(R.drawable.ic_launcher_background)
-        holder.textView.text = event.text
+        holder.textView.text = event.desc
 
         holder.itemView.setOnClickListener{
             holder.itemView.context.startActivity(
-                Intent(holder.itemView.context, EventPopup::class.java).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                Intent(holder.itemView.context, EventPopup::class.java).putExtra("event",event)
+
             )
 
         }

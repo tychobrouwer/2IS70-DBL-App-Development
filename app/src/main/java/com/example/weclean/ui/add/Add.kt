@@ -1,6 +1,5 @@
 package com.example.weclean.ui.add
 
-import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
@@ -8,7 +7,6 @@ import android.graphics.Color
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.AdapterView
@@ -23,7 +21,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.size
 import androidx.core.widget.addTextChangedListener
 import com.example.weclean.Achievements
-import com.example.weclean.ui.Home.Home
+import com.example.weclean.ui.home.Home
 import com.example.weclean.R
 import com.example.weclean.backend.LitteringData
 import com.example.weclean.ui.map.Map

@@ -1,11 +1,17 @@
-package com.example.weclean.ui.Home
+package com.example.weclean.ui.home
 
-import android.widget.ImageView
-import android.widget.TextView
-import com.example.weclean.R
+import java.io.Serializable
+import java.sql.Date
 
-data class Event (
-    var location: Nothing? = null,
-    val imageUrl: String? = null,
-    var text: String = "Sample text"
-)
+class Event(val  loc: String?,
+            val img: String?,
+            val desc: String?,
+            val date: Date?,
+            val numppl: Int?,
+            val id: Int?
+) : Serializable {
+     //TODO: make a proper class with methods once database in implemented
+
+
+
+}
