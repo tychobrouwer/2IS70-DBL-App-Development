@@ -6,7 +6,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.weclean.Achievements
 import com.example.weclean.ui.add.Add
-import com.example.weclean.ui.home.Home
+import com.example.weclean.ui.Home.Home
 import com.example.weclean.ui.profile.Profile
 import com.example.weclean.R
 

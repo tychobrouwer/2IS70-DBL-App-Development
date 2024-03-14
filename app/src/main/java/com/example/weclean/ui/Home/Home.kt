@@ -1,4 +1,4 @@
-package com.example.weclean.ui.home
+package com.example.weclean.ui.Home
 
 import android.content.Intent
 import android.os.Bundle
@@ -74,7 +74,7 @@ class Home : AppCompatActivity() {
         val textView2 = itemLayout2.findViewById<TextView>(R.id.textView3)
         val imageView2 = itemLayout2.findViewById<ImageView>(R.id.imageView)
 
-// Set the text and image
+        // Set the text and image
         //TODO: one data is retrievable put proper information there
         textView1.text = "Sample1"
         imageView1.setImageResource(R.drawable.ic_launcher_background)
@@ -84,13 +84,13 @@ class Home : AppCompatActivity() {
 
         itemLayout1.setOnClickListener {
             val intent = Intent(this, EventPopup::class.java)
-            intent.putExtra("event",Event(null,null, null, null, null, null))
+            intent.putExtra("event", Event(null,null, null, null, null, null))
             startActivity(intent)
         }
 
         itemLayout2.setOnClickListener {
             val intent = Intent(this, EventPopup::class.java)
-            intent.putExtra("event",Event(null,null, null, null, null, null))
+            intent.putExtra("event", Event(null,null, null, null, null, null))
             startActivity(intent)
         }
 
