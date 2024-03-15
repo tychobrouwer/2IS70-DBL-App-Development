@@ -25,7 +25,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.size
 import androidx.core.widget.addTextChangedListener
 import com.example.weclean.Achievements
-import com.example.weclean.ui.Home.Home
+import com.example.weclean.ui.home.Home
 import com.example.weclean.R
 import com.example.weclean.backend.LitteringData
 import com.example.weclean.ui.map.Map
