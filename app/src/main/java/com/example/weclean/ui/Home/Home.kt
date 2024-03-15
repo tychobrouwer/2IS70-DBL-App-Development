@@ -94,7 +94,7 @@ class Home : AppCompatActivity() {
             startActivity(intent)
         }
 
-// Finally, add the inflated item_layout to your FrameLayout
+        // Finally, add the inflated item_layout to your FrameLayout
         frameLayout1.addView(itemLayout1)
         frameLayout2.addView(itemLayout2)
 
