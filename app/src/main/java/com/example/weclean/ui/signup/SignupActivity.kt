@@ -14,6 +14,9 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.example.weclean.backend.User
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import android.content.Context
+import android.content.SharedPreferences
+
 
 private val user1 = User()
 
@@ -25,6 +28,23 @@ class SignupActivity : AppCompatActivity() {
     //private val db = FirebaseFirestore.getInstance()
     private val db = Firebase.firestore
 
+    // SharedPreferences file name
+    private val PREFS_FILENAME = "com.example.weclean.backend"
+
+    // Key for saving email
+    private val EMAIL_KEY = "user_email"
+
+    // SharedPreferences instance
+    private lateinit var sharedPreferences: SharedPreferences
+
+
+    /**
+     * Signs up user, adds their data to FireStore and then
+     * navigates to the home screen
+     *
+     * @param savedInstanceState
+     *
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,6 +52,9 @@ class SignupActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         firebaseAuth = FirebaseAuth.getInstance()
+
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
 
         //if account then navigate to the page where they confirm they have an account
         binding.yesAccount.setOnClickListener {
@@ -59,6 +82,7 @@ class SignupActivity : AppCompatActivity() {
                     //create the user
                     firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                         if (it.isSuccessful) {
+                            saveUserEmail(email)
                             //add user to the database
                             val user = user1.createUser(firstName, lastName, email)
 
@@ -86,5 +110,17 @@ class SignupActivity : AppCompatActivity() {
                 Toast.makeText(this, "Empty fields are not allowed", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    // Function to save user email to SharedPreferences
+    private fun saveUserEmail(email: String) {
+        val editor = sharedPreferences.edit()
+        editor.putString(EMAIL_KEY, email)
+        editor.apply()
+    }
+
+    // Function to retrieve user email from SharedPreferences
+    private fun getUserEmail(): String? {
+        return sharedPreferences.getString(EMAIL_KEY, null)
     }
 }
