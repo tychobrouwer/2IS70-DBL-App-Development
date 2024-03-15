@@ -1,4 +1,4 @@
-package com.example.weclean.ui.Home
+package com.example.weclean.ui.home
 
 import android.app.Activity
 import android.os.Build

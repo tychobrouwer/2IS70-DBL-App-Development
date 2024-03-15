@@ -43,7 +43,7 @@
             android:exported="false"
             android:label="Signup" />
         <activity
-            android:name=".ui.Home.EventPopup"
+            android:name=".ui.home.EventPopup"
             android:exported="false"
             android:label="@string/title_activity_event_popup" />
         <activity
@@ -67,7 +67,7 @@
             android:exported="false"
             android:label="@string/title_activity_map" />
         <activity
-            android:name=".ui.Home.Home"
+            android:name=".ui.home.Home"
             android:exported="false"
             android:label="@string/title_activity_home" />
     </application>
