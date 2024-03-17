@@ -72,4 +72,11 @@
     <string name="label_add_cLocation">"Location"</string>
     <string name="hint_add_cLocation">"Where is the community based in?"</string>
 
+    <string name="button_upcoming_events">"Upcoming events"</string>
+    <string name="event_name">"Name"</string>
+    <string name="event_date">"Date"</string>
+    <string name="event_time">"Time"</string>
+    <string name="event_location">"Location"</string>
+    <string name="create_event">"Add Event"</string>
+
 </resources>
