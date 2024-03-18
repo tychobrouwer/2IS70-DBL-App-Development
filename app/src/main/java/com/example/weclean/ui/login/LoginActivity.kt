@@ -45,26 +45,24 @@ class LoginActivity : AppCompatActivity() {
             val email = binding.username.text.toString()
             val password = binding.password.text.toString()
 
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-
-                firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-
-                    if (it.isSuccessful) {
-                        val intent = Intent(this, Home::class.java)
-                        startActivity(intent)
-                    } else if (it.exception is FirebaseAuthInvalidCredentialsException) {
-                        Toast.makeText(this, "Incorrect credential(s)", Toast.LENGTH_SHORT).show()
-                    } else if (it.exception is FirebaseTooManyRequestsException) {
-                        Toast.makeText(this, "Too many login attempts, try again later", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
-                    }
-                }
-            } else {
+            if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Empty fields are not allowed", Toast.LENGTH_SHORT).show()
             }
+
+            //now login the user
+            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+
+                if (it.isSuccessful) {
+                    val intent = Intent(this, Home::class.java)
+                    startActivity(intent)
+                } else if (it.exception is FirebaseAuthInvalidCredentialsException) {
+                    Toast.makeText(this, "Incorrect credential(s)", Toast.LENGTH_SHORT).show()
+                } else if (it.exception is FirebaseTooManyRequestsException) {
+                    Toast.makeText(this, "Too many login attempts, try again later", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                }
+            }
         }
-
-
     }
 }

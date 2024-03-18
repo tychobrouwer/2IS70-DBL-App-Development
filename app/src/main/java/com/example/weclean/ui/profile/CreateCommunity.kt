@@ -71,25 +71,11 @@ class CreateCommunity : Fragment() {
                 Toast.makeText(context, "Fields cannot be empty", Toast.LENGTH_SHORT).show()
             }
 
-            //create the community
-            val community = community1.createCommunity(communityName, communityEmail, communityLocation)
+            //Call methhod to create community
+            community1.addCommunityWithUserToDatabase(communityName, communityEmail, communityLocation, userConfirmEmail)
 
-            var documentID = ""
-            var userData: MutableMap<String, Any?> = mutableMapOf()
-
-            //TODO: Create a community with fields listed above
-            //create the community in Community/C_NAME/...(fields)...
-            db.collection("Community").add(community).addOnSuccessListener { documentReference ->
-                Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
-                Toast.makeText(context, "Community created successfully!", Toast.LENGTH_SHORT).show()
-                // Retrieve the ID of the added community document
-                val communityId = documentReference.id
-
-                // Add the user to this community
-                addUserToCommunity(communityId, userConfirmEmail)
-
-            }.addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
-
+            //Display text
+            Toast.makeText(context, "Community created successfully!", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -99,53 +85,6 @@ class CreateCommunity : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.create_community, container, false)
-    }
-
-    private fun addUserToCommunity(communityId: String, userEmail : String) {
-
-        db.collection("Community").document("No Community")
-            .collection("Users").whereEqualTo("email", userEmail).get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    val userData = document.data
-
-                    // Add the user to the community
-                    db.collection("Community").document(communityId)
-                        .collection("Users").add(userData)
-                        .addOnSuccessListener {
-                            Log.d(TAG, "User added successfully to the community")
-
-                            // Now remove the user from standard community
-                            db.collection("Community").document("No Community")
-                                .collection("Users").whereEqualTo("email", userEmail).get()
-                                .addOnSuccessListener { documents ->
-                                    for (document in documents) {
-                                        // Delete the user document
-                                        document.reference.delete()
-                                            .addOnSuccessListener {
-                                                Log.d(TAG, "User document deleted successfully")
-                                                // Handle success, if needed
-                                            }
-                                            .addOnFailureListener { e ->
-                                                Log.w(TAG, "Error deleting user document", e)
-                                                // Handle failure, if needed
-                                            }
-                                    }
-                                }
-                                .addOnFailureListener { exception ->
-                                    Log.w(TAG, "Error getting user document: ", exception)
-                                }
-
-                        }
-                        .addOnFailureListener { e ->
-                            Log.w(TAG, "Error adding user to the community", e)
-                            // Handle failure, if needed
-                        }
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting user document: ", exception)
-            }
     }
 
 }

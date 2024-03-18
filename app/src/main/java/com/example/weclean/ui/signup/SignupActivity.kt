@@ -23,20 +23,11 @@ private val user1 = User()
 class SignupActivity : AppCompatActivity() {
 
     //variables for sign up activity and firebase authentication
-    private lateinit var binding:ActivitySignupBinding
+    private lateinit var binding: ActivitySignupBinding
     private lateinit var firebaseAuth: FirebaseAuth
+
     //private val db = FirebaseFirestore.getInstance()
     private val db = Firebase.firestore
-
-    // SharedPreferences file name
-    private val PREFS_FILENAME = "com.example.weclean.backend"
-
-    // Key for saving email
-    private val EMAIL_KEY = "user_email"
-
-    // SharedPreferences instance
-    private lateinit var sharedPreferences: SharedPreferences
-
 
     /**
      * Signs up user, adds their data to FireStore and then
@@ -52,9 +43,6 @@ class SignupActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         firebaseAuth = FirebaseAuth.getInstance()
-
-        // Initialize SharedPreferences
-        sharedPreferences = getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
 
         //if account then navigate to the page where they confirm they have an account
         binding.yesAccount.setOnClickListener {
@@ -72,55 +60,34 @@ class SignupActivity : AppCompatActivity() {
             val firstName = binding.firstName.text.toString()
             val lastName = binding.lastName.text.toString()
 
-            //ensuring the fields are not empty
-            if (email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()
-                && firstName.isNotEmpty() && lastName.isNotEmpty()) {
-
-                //and password matches with the confirm password
-                if (password == confirmPassword) {
-
-                    //create the user
-                    firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            saveUserEmail(email)
-                            //add user to the database
-                            val user = user1.createUser(firstName, lastName, email)
-
-                            //add user to Community/No Community/Users/...
-                            db.collection("Community").document("No Community").
-                            collection("Users").add(user)
-                                .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
-                                .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
-
-                            //navigate to the home screen
-                            val intent = Intent(this, Home::class.java)
-                            startActivity(intent)
-
-                        } else if (it.exception is FirebaseAuthUserCollisionException) {
-                            Toast.makeText(this, "Email is already in use", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                } else {
-                    Toast.makeText(this, "Password is not matching", Toast.LENGTH_SHORT).show()
-                }
-            } else {
+            if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()
+                || firstName.isEmpty() || lastName.isEmpty()
+            ) {
                 Toast.makeText(this, "Empty fields are not allowed", Toast.LENGTH_SHORT).show()
             }
+
+            if (password != confirmPassword) {
+                Toast.makeText(this, "Password is not matching", Toast.LENGTH_SHORT).show()
+            }
+            
+            //create the user
+            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+                if (it.isSuccessful) {
+
+                    //add user to Community/No Community/Users/...
+                    user1.addToDatabase(firstName, lastName, email)
+
+                    //navigate to the home screen
+                    val intent = Intent(this, Home::class.java)
+                    startActivity(intent)
+
+                } else if (it.exception is FirebaseAuthUserCollisionException) {
+                    Toast.makeText(this, "Email is already in use", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                }
+            }
+
         }
-    }
-
-    // Function to save user email to SharedPreferences
-    private fun saveUserEmail(email: String) {
-        val editor = sharedPreferences.edit()
-        editor.putString(EMAIL_KEY, email)
-        editor.apply()
-    }
-
-    // Function to retrieve user email from SharedPreferences
-    private fun getUserEmail(): String? {
-        return sharedPreferences.getString(EMAIL_KEY, null)
     }
 }
