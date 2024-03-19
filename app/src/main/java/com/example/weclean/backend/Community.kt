@@ -29,21 +29,22 @@ class Community {
     //private val db = FirebaseFirestore.getInstance()
     private val db = Firebase.firestore
 
-    fun createCommunity(cName: String, email: String, location: String): HashMap<String, Any> {
+    fun createCommunity(cName: String, email: String, location: String, cCode : Int): HashMap<String, Any> {
 
         return hashMapOf(
             "communityName" to cName,
             "communityEmail" to email,
-            "communityLocation" to location
+            "communityLocation" to location,
+            "communityCode" to cCode
         )
     }
 
-    fun addCommunityWithUserToDatabase(cName: String, email: String, location: String, userConfirmEmail : String) {
+    fun addCommunityWithUserToDatabase(cName: String, email: String, location: String, userConfirmEmail : String, cCode : Int) {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
         //create the community
-        val community = createCommunity(cName, email, location);
+        val community = createCommunity(cName, email, location, cCode);
 
         db.collection("Community").add(community).addOnSuccessListener { documentReference ->
             Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
