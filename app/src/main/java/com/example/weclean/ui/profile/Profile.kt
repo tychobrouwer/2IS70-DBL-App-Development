@@ -11,8 +11,6 @@ import com.example.weclean.R
 import com.example.weclean.ui.map.Map
 
 class Profile : AppCompatActivity() {
-    val isEditView = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -59,7 +57,7 @@ class Profile : AppCompatActivity() {
     }
 }
 
-fun AppCompatActivity.switchEditFragment(toEdit: Boolean) {
+fun AppCompatActivity.switchEditFragment(toStatus: ProfileViewStatus) {
     // Fragment manager and transaction for switching default and edit profile fragments
     val fragmentManager = supportFragmentManager
     val transaction = fragmentManager.beginTransaction()
@@ -68,57 +66,36 @@ fun AppCompatActivity.switchEditFragment(toEdit: Boolean) {
     val profileInfo = fragmentManager.findFragmentById(R.id.fragmentProfileInfo)
     val profileEdit = fragmentManager.findFragmentById(R.id.fragmentProfileEdit)
     val profileCommunities = fragmentManager.findFragmentById(R.id.fragmentProfileCommunities)
+    val profileCreateCommunity = fragmentManager.findFragmentById(R.id.fragmentCreateCommunity)
 
     // Null check on fragments
-    if (profileInfo != null && profileEdit != null && profileCommunities != null) {
+    if (profileInfo != null &&
+        profileEdit != null &&
+        profileCommunities != null &&
+        profileCreateCommunity != null) {
+
         // Cancel transaction
         transaction.commit()
         return
     }
 
-    if (toEdit) {
+    if (toStatus == ProfileViewStatus.PROFILE_EDIT) {
         // Remove default profile view fragments and add profile edit fragment
         transaction.remove(profileInfo!!)
         transaction.remove(profileCommunities!!)
+        transaction.remove(profileCreateCommunity!!)
         transaction.add(R.id.fragmentProfileEdit, ProfileEdit())
-    } else {
+    } else if (toStatus == ProfileViewStatus.PROFILE) {
         // Remove profile edit fragment and add default profile view fragments
         transaction.remove(profileEdit!!)
-        transaction.add(R.id.fragmentProfileInfo, ProfileInfo())
-        transaction.add(R.id.fragmentProfileCommunities, ProfileCommunities())
-    }
-
-    // Complete transaction and navigate
-    transaction.commit()
-}
-
-fun AppCompatActivity.switchCreateCommunityFragment(toCreateCommunity: Boolean) {
-    // Fragment manager and transaction for switching default and create community fragments
-    val fragmentManager = supportFragmentManager
-    val transaction = fragmentManager.beginTransaction()
-
-    // Get views for default profile, create profile, and communities list views
-    val profileInfo = fragmentManager.findFragmentById(R.id.fragmentProfileInfo)
-    val profileCreateCommunity = fragmentManager.findFragmentById(R.id.fragmentCreateCommunity)
-    val profileCommunities = fragmentManager.findFragmentById(R.id.fragmentProfileCommunities)
-
-    // Null check on fragments
-    if (profileInfo != null && profileCreateCommunity != null && profileCommunities != null) {
-        // Cancel transaction
-        transaction.commit()
-        return
-    }
-
-    if (toCreateCommunity) {
-        // Remove default profile view fragments and add profile edit fragment
-        transaction.remove(profileInfo!!)
-        transaction.remove(profileCommunities!!)
-        transaction.add(R.id.fragmentCreateCommunity, CreateCommunity())
-    } else {
-        // Remove profile edit fragment and add default profile view fragments
         transaction.remove(profileCreateCommunity!!)
         transaction.add(R.id.fragmentProfileInfo, ProfileInfo())
         transaction.add(R.id.fragmentProfileCommunities, ProfileCommunities())
+    } else if (toStatus == ProfileViewStatus.COMMUNITY_CREATE) {
+        transaction.remove(profileEdit!!)
+        transaction.remove(profileInfo!!)
+        transaction.remove(profileCommunities!!)
+        transaction.add(R.id.fragmentCreateCommunity, CreateCommunity())
     }
 
     // Complete transaction and navigate

@@ -9,12 +9,24 @@ import com.example.weclean.ui.add.Add
 import com.example.weclean.ui.home.Home
 import com.example.weclean.ui.profile.Profile
 import com.example.weclean.R
+import com.example.weclean.ui.profile.ProfileCommunities
+import com.example.weclean.ui.profile.ProfileInfo
 
 class Map : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_map)
+
+        // Fragment manager for managing navigation between fragments
+        val fragmentManager = supportFragmentManager
+
+        // Begin new transition for fragment
+        val transaction = fragmentManager.beginTransaction()
+
+        // Ensure fragments for default profile view are created
+        transaction.add(R.id.fragmentMapView, MapView())
+        transaction.commit()
 
         // Parent view of navigation view
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)

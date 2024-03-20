@@ -18,7 +18,7 @@ class ProfileEdit : Fragment() {
         cancelButton.setOnClickListener {
             // Switch back to default profile fragment
             val context = activity as AppCompatActivity
-            context.switchEditFragment(toEdit = false)
+            context.switchEditFragment(ProfileViewStatus.PROFILE)
         }
 
         // Confirm profile edit button
