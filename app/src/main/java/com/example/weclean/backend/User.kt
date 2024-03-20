@@ -19,9 +19,7 @@ import android.content.SharedPreferences
 class User {
 
     //variables for sign up activity and firebase authentication
-    private lateinit var binding:ActivitySignupBinding
     private lateinit var firebaseAuth: FirebaseAuth
-    //private val db = FirebaseFirestore.getInstance()
     private val db = Firebase.firestore
 
     fun createUser(firstName: String, lastName: String, emailID: String): HashMap<String, Any> {

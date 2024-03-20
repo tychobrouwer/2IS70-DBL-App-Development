@@ -50,7 +50,7 @@ dependencies {
     implementation("androidx.annotation:annotation:1.7.1")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.android.gms:play-services-location:21.2.0")
-    implementation("com.google.maps.android:android-maps-utils:2.2.0")
+    implementation("com.google.maps.android:android-maps-utils:3.8.2")
     implementation("com.google.firebase:firebase-auth:22.3.1")
     implementation("com.google.firebase:firebase-firestore-ktx:24.10.3")
     testImplementation("junit:junit:4.13.2")

@@ -29,7 +29,7 @@ class Community {
     //private val db = FirebaseFirestore.getInstance()
     private val db = Firebase.firestore
 
-    fun createCommunity(cName: String, email: String, location: String, cCode : Int): HashMap<String, Any> {
+    private fun createCommunity(cName: String, email: String, location: String, cCode : Int): HashMap<String, Any> {
 
         return hashMapOf(
             "communityName" to cName,

@@ -25,7 +25,7 @@ class EventPopup : AppCompatActivity() {
 
         setContentView(R.layout.activity_eventpopup)
 
-        val event = getSerializable(this, "event", Event::class.java)
+        val event: EventData = getSerializable(this, "event", EventData::class.java)
 
         val textCity = findViewById<TextView>(R.id.citypop)
         val numPpl = findViewById<TextView>(R.id.textView7)

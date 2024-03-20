@@ -63,7 +63,7 @@ class ProfileCommunities : Fragment() {
         // Listener for opening the create community fragment
         createCommunityButton.setOnClickListener {
             val context = activity as AppCompatActivity
-            context.switchEditFragment(ProfileViewStatus.COMMUNITY_CREATE)
+            context.switchEditFragment(ProfileViewStatus.COMMUNITY_CREATE, ProfileViewStatus.PROFILE)
         }
 
         // List of community objects

@@ -49,9 +49,9 @@ class Home : AppCompatActivity() {
 
         //TODO: when the database will be ready implement a proper data retrieve
         val eventList = mutableListOf(
-            Event(null,null, null, null, null, null),
-            Event(null,null, null, null, null, null),
-            Event(null,null, null, null, null, null)
+            EventData(null,null, null, null, null, null),
+            EventData(null,null, null, null, null, null),
+            EventData(null,null, null, null, null, null)
         )
 
         val adapter = EventAdapter(eventList)
@@ -84,13 +84,13 @@ class Home : AppCompatActivity() {
 
         itemLayout1.setOnClickListener {
             val intent = Intent(this, EventPopup::class.java)
-            intent.putExtra("event", Event(null,null, null, null, null, null))
+            intent.putExtra("event", EventData(null,null, null, null, null, null))
             startActivity(intent)
         }
 
         itemLayout2.setOnClickListener {
             val intent = Intent(this, EventPopup::class.java)
-            intent.putExtra("event", Event(null,null, null, null, null, null))
+            intent.putExtra("event", EventData(null,null, null, null, null, null))
             startActivity(intent)
         }
 

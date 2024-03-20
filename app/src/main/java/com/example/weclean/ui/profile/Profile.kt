@@ -57,7 +57,7 @@ class Profile : AppCompatActivity() {
     }
 }
 
-fun AppCompatActivity.switchEditFragment(toStatus: ProfileViewStatus) {
+fun AppCompatActivity.switchEditFragment(toStatus: ProfileViewStatus, fromStatus: ProfileViewStatus) {
     // Fragment manager and transaction for switching default and edit profile fragments
     val fragmentManager = supportFragmentManager
     val transaction = fragmentManager.beginTransaction()
@@ -83,16 +83,18 @@ fun AppCompatActivity.switchEditFragment(toStatus: ProfileViewStatus) {
         // Remove default profile view fragments and add profile edit fragment
         transaction.remove(profileInfo!!)
         transaction.remove(profileCommunities!!)
-        transaction.remove(profileCreateCommunity!!)
         transaction.add(R.id.fragmentProfileEdit, ProfileEdit())
     } else if (toStatus == ProfileViewStatus.PROFILE) {
         // Remove profile edit fragment and add default profile view fragments
-        transaction.remove(profileEdit!!)
-        transaction.remove(profileCreateCommunity!!)
+        if (fromStatus == ProfileViewStatus.PROFILE_EDIT) {
+            transaction.remove(profileEdit!!)
+        } else if (fromStatus == ProfileViewStatus.COMMUNITY_CREATE) {
+            transaction.remove(profileCreateCommunity!!)
+        }
+
         transaction.add(R.id.fragmentProfileInfo, ProfileInfo())
         transaction.add(R.id.fragmentProfileCommunities, ProfileCommunities())
     } else if (toStatus == ProfileViewStatus.COMMUNITY_CREATE) {
-        transaction.remove(profileEdit!!)
         transaction.remove(profileInfo!!)
         transaction.remove(profileCommunities!!)
         transaction.add(R.id.fragmentCreateCommunity, CreateCommunity())
