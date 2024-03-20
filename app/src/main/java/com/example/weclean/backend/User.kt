@@ -38,9 +38,8 @@ class User {
         //add user to the database
         val user = createUser(firstName, lastName, emailID)
 
-        //add user to Community/No Community/Users/...
-        db.collection("Community").document("No Community").
-        collection("Users").add(user)
+        //add user to Users/...
+        db.collection("Users").add(user)
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
 
