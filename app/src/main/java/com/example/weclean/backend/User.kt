@@ -31,7 +31,7 @@ class User {
         )
     }
 
-    fun addToDatabase(username: String, emailID: String, country: String) {
+    fun addToDatabase(uid: String, username: String, emailID: String, country: String) {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
@@ -40,7 +40,7 @@ class User {
         val user = createUser(username, emailID, country)
 
         // add user to Users/...
-        db.collection("Users").add(user)
+        db.collection("Users").document(uid).set(user)
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
 

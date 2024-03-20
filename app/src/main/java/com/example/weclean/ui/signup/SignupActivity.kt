@@ -63,10 +63,11 @@ class SignupActivity : AppCompatActivity() {
             //create the user
             firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
+                    val uid = it.result.user?.uid
                     val country = getResources().configuration.locales.get(0).country
 
                     // add user to Community/No Community/Users/...
-                    userData.addToDatabase(username, email, country)
+                    userData.addToDatabase(uid, username, email, country)
 
                     //navigate to the home screen
                     val intent = Intent(this, Home::class.java)
