@@ -1,4 +1,4 @@
-package com.example.weclean.ui.Home
+package com.example.weclean.ui.home
 
 import android.content.Intent
 import android.os.Bundle
@@ -94,7 +94,7 @@ class Home : AppCompatActivity() {
             startActivity(intent)
         }
 
-// Finally, add the inflated item_layout to your FrameLayout
+        // Finally, add the inflated item_layout to your FrameLayout
         frameLayout1.addView(itemLayout1)
         frameLayout2.addView(itemLayout2)
 

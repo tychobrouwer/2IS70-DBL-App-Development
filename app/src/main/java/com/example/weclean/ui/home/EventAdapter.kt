@@ -1,4 +1,4 @@
-package com.example.weclean.ui.Home
+package com.example.weclean.ui.home
 
 import android.content.Intent
 import android.view.LayoutInflater
