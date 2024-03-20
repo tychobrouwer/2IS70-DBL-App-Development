@@ -71,5 +71,7 @@
     <string name="hint_add_cEmail">"Enter community's email address"</string>
     <string name="label_add_cLocation">"Location"</string>
     <string name="hint_add_cLocation">"Where is the community based in?"</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
