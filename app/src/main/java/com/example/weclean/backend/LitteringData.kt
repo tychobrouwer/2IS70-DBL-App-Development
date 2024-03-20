@@ -46,6 +46,7 @@ class LitteringData(
         return hashMapOf(
             "geoPoint" to GeoPoint(latitude, longitude),
             "description" to description.replace("\n", "_newline"),
+            "imageId" to imageId,
             "tags" to tags,
             "date" to Date(timeStamp),
             "community" to community,
@@ -78,4 +79,8 @@ class LitteringData(
     }
 
     override var tags = tagsData.tags
+
+    override var imageId: String
+        get() = image.imageId
+        set(value) { image.imageId = value }
 }
