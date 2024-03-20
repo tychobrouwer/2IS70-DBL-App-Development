@@ -22,23 +22,22 @@ class User {
     private lateinit var firebaseAuth: FirebaseAuth
     private val db = Firebase.firestore
 
-    fun createUser(firstName: String, lastName: String, emailID: String): HashMap<String, Any> {
+    private fun createUser(username: String, emailID: String): HashMap<String, Any> {
 
         return hashMapOf(
-            "firstName" to firstName,
-            "lastName" to lastName,
+            "username" to username,
             "email" to emailID
         )
     }
 
-    fun addToDatabase(firstName: String, lastName: String, emailID: String) {
+    fun addToDatabase(username: String, emailID: String) {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        //add user to the database
-        val user = createUser(firstName, lastName, emailID)
+        // add user to the database
+        val user = createUser(username, emailID)
 
-        //add user to Users/...
+        // add user to Users/...
         db.collection("Users").add(user)
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }

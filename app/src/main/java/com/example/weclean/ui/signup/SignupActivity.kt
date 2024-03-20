@@ -51,14 +51,15 @@ class SignupActivity : AppCompatActivity() {
         binding.signup.setOnClickListener {
 
             //get all text input fields
-            val email = binding.registerUsername.text.toString()
+            val email = binding.email.text.toString()
             val password = binding.registerPassword.text.toString()
             val confirmPassword = binding.confirmPassword.text.toString()
-            val firstName = binding.firstName.text.toString()
-            val lastName = binding.lastName.text.toString()
+            val username = binding.username.text.toString()
 
-            if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()
-                || firstName.isEmpty() || lastName.isEmpty()
+            if (email.isEmpty() ||
+                password.isEmpty() ||
+                confirmPassword.isEmpty() ||
+                username.isEmpty()
             ) {
                 Toast.makeText(this, "Empty fields are not allowed", Toast.LENGTH_SHORT).show()
             }
@@ -72,7 +73,7 @@ class SignupActivity : AppCompatActivity() {
                 if (it.isSuccessful) {
 
                     //add user to Community/No Community/Users/...
-                    user1.addToDatabase(firstName, lastName, email)
+                    user1.addToDatabase(username, email)
 
                     //navigate to the home screen
                     val intent = Intent(this, Home::class.java)

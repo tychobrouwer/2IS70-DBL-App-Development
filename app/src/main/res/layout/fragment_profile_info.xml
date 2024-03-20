@@ -45,11 +45,11 @@
     <TextView
         style="@style/Widget.Theme.WeClean.SectionLabel"
         android:id="@+id/birthdate_label"
-        android:text="@string/label_brith_date" />
+        android:text="@string/label_username" />
 
     <TextView
         style="@style/Widget.Theme.WeClean.Text"
-        android:id="@+id/birthdate" />
+        android:id="@+id/username" />
 
     <TextView
         style="@style/Widget.Theme.WeClean.SectionLabel"

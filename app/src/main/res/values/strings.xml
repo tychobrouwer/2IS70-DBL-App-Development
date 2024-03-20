@@ -29,11 +29,12 @@
     <string name="label_country_region">Country/Region</string>
     <string name="label_location">Location</string>
     <string name="label_communities">Communities</string>
-    <string name="label_select_communities">Select Communities</string>
+    <string name="label_select_communities">Select Community</string>
     <string name="label_add_tags">Add Tags</string>
     <string name="label_password">Password</string>
     <string name="label_description">Description</string>
     <string name="label_littering_data">Littering Entry</string>
+    <string name="label_username">Username</string>
 
     <string name="hint_tag">Tag</string>
     <string name="hint_location">Location</string>
@@ -45,6 +46,7 @@
     <string name="prompt_email">Email</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
+    <string name="username">Username</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_confirm_password">Confirm Password</string>
     <string name="action_log_in">Log in</string>
@@ -72,14 +74,12 @@
     <string name="hint_add_cEmail">"Enter community's email address"</string>
     <string name="label_add_cLocation">"Location"</string>
     <string name="hint_add_cLocation">"Where is the community based in?"</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="button_upcoming_events">"Upcoming events"</string>
-    <string name="event_name">"Name"</string>
-    <string name="event_date">"Date"</string>
-    <string name="event_time">"Time"</string>
-    <string name="event_location">"Location"</string>
-    <string name="create_event">"Add Event"</string>
+    <string name="button_upcoming_events">Upcoming events</string>
+    <string name="event_name">Name</string>
+    <string name="event_date">Date</string>
+    <string name="event_time">Time</string>
+    <string name="event_location">Location</string>
+    <string name="create_event">Add Event</string>
 
 </resources>
