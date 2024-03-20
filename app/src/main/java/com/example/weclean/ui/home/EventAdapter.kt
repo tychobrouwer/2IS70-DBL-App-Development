@@ -1,43 +1,40 @@
 package com.example.weclean.ui.home
 
-import android.content.Intent
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weclean.R
+import com.example.weclean.ui.events.EventData
+import java.util.ArrayList
 
-class EventAdapter (
-    private var events: List<EventData>
-) : RecyclerView.Adapter<EventAdapter.EventViewHolder>(){
-    inner class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val imageView: ImageView = itemView.findViewById(R.id.imageView2)
-        val textView: TextView = itemView.findViewById(R.id.textView)
+class EventAdapter(
+    private val listener: EventViewHolder.Listener,
+    private var dataArrayList: ArrayList<EventData>
+) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
+    class EventViewHolder(view: View, private val listener: Listener) : RecyclerView.ViewHolder(view) {
+        interface Listener {
+            fun onEventClicked(event: EventData)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false)
-        return EventViewHolder(view)
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_event, parent, false)
+        return EventViewHolder(itemView, listener)
     }
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        val event = events[position]
-        //TODO: get proper data from
-        holder.imageView.setImageResource(R.drawable.ic_launcher_background)
-        holder.textView.text = event.desc
+        val event = dataArrayList[position]
 
-        holder.itemView.setOnClickListener{
-            holder.itemView.context.startActivity(
-                Intent(holder.itemView.context, EventPopup::class.java).putExtra("event",event)
-
-            )
-
+        holder.itemView.setOnClickListener {
+            listener.onEventClicked(event)
         }
     }
 
     override fun getItemCount(): Int {
-        return events.size
+        return dataArrayList.size
     }
 }
