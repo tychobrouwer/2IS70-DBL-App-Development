@@ -15,11 +15,25 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:text="@string/label_littering_data" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/littering_image"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/screen_title" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/screen_title" >
+        app:layout_constraintTop_toBottomOf="@+id/littering_image" >
 
         <TextView
             style="@style/Widget.Theme.WeClean.Title"

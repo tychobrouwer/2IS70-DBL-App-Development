@@ -1,26 +1,30 @@
 package com.example.weclean.ui.map
 
+import android.graphics.BitmapFactory
 import android.location.Geocoder
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.weclean.R
 import com.example.weclean.backend.LitteringData
 import com.example.weclean.backend.dayStringFormat
 import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.GeoPoint
-import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.Filter
+import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.FirebaseStorage
 import java.util.Locale
+
 
 class LitteringDetails : Fragment() {
     private val db = Firebase.firestore
+    private val dbStore = FirebaseStorage.getInstance()
 
     private var litteringId: String = ""
     private lateinit var geocoder : Geocoder
@@ -56,6 +60,7 @@ class LitteringDetails : Fragment() {
                 litteringData = LitteringData(geocoder)
                 litteringData.timeStamp = document.getDate("date")!!.time
                 litteringData.community = document.getString("community")!!
+                litteringData.imageId = document.getString("imageId")!!
                 litteringData.description = document.getString("description")!!
                     .replace("_newline", "\n")
                 litteringData.updateLocation(entryLatitude, entryLongitude)
@@ -69,6 +74,19 @@ class LitteringDetails : Fragment() {
         view.findViewById<TextView>(R.id.littering_location).text = litteringData.getAddressLine()
         view.findViewById<TextView>(R.id.littering_time).text = dayStringFormat(litteringData.timeStamp)
         view.findViewById<TextView>(R.id.littering_description).text = litteringData.description
+
+        // Load image from Firebase Storage
+        val imageView = view.findViewById<ImageView>(R.id.littering_image)
+
+        val imageRef = dbStore.getReference(litteringData.imageId)
+        imageRef.getBytes(1024 * 1024)
+            .addOnSuccessListener {
+                val bmp = BitmapFactory.decodeByteArray(it, 0, it.size)
+                imageView.setImageBitmap(bmp)
+            }
+            .addOnFailureListener {
+                Toast.makeText(activity, "Failed to load image", Toast.LENGTH_SHORT).show()
+            }
     }
 
     override fun onCreateView(
