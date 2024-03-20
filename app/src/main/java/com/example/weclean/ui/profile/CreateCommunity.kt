@@ -65,23 +65,17 @@ class CreateCommunity : Fragment() {
             val communityConfirmEmailEditText = view.findViewById<EditText>(R.id.community_confirm_email)
             val userConfirmEmail = communityConfirmEmailEditText.text.toString().trim()
 
-            val communityCode = view.findViewById<EditText>(R.id.community_code)
-            val cCode = communityCode.text.toString().toIntOrNull() ?: 0
-
-            val checkSizeOfCode = communityCode.text.toString().trim()
-
             //ensure fields are not empty
             if (communityName.isEmpty() || communityEmail.isEmpty() ||
                 communityLocation.isEmpty() || userConfirmEmail.isEmpty()) {
                 Toast.makeText(context, "Fields cannot be empty", Toast.LENGTH_SHORT).show()
             }
 
-            if (cCode == 0 || checkSizeOfCode.length != 5) {
-                Toast.makeText(context, "Enter a number of length 5", Toast.LENGTH_SHORT).show()
-            }
+            //TODO: GENERATE A UNIQUE COMMUNITY CODE
+            val cCode = 1
 
             //Call methhod to create community
-            community1.addCommunityWithUserToDatabase(communityName, communityEmail, communityLocation, userConfirmEmail, cCode)
+            community1.getUserDocumentId(communityName, communityEmail, communityLocation, userConfirmEmail, cCode)
 
             //Display text
             Toast.makeText(context, "Community created successfully!", Toast.LENGTH_SHORT).show()

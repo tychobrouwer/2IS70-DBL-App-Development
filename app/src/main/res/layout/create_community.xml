@@ -66,25 +66,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
-
-        <TextView
-            style="@style/Widget.Theme.WeClean.SectionLabel"
-            android:id="@+id/cCommunityCode_label"
-            android:text="Community Code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            style="@style/Widget.Theme.WeClean.TextInput"
-            android:id="@+id/community_code"
-            android:inputType="number"
-            android:hint="Input 5 numbers"
-            android:layout_marginStart="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
+        android:gravity="center_vertical"/>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -29,83 +29,45 @@ class Community {
     //private val db = FirebaseFirestore.getInstance()
     private val db = Firebase.firestore
 
-    private fun createCommunity(cName: String, email: String, location: String, cCode : Int): HashMap<String, Any> {
+    private fun createCommunity(cName: String, email: String, location: String, cCode: Int, userIds: ArrayList<String>): HashMap<String, Any> {
 
         return hashMapOf(
             "communityName" to cName,
             "communityEmail" to email,
             "communityLocation" to location,
-            "communityCode" to cCode
+            "communityCode" to cCode,
+            "userIds" to userIds
         )
     }
 
-    fun addCommunityWithUserToDatabase(cName: String, email: String, location: String, userConfirmEmail : String, cCode : Int) {
+
+    private fun addCommunityWithUserToDatabase(cName: String, email: String, location: String, cCode : Int, userID : String) {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
+        val users = ArrayList<String>()
+        users.add(userID)
+
         //create the community
-        val community = createCommunity(cName, email, location, cCode);
+        val community = createCommunity(cName, email, location, cCode, users);
 
-        db.collection("Community").add(community).addOnSuccessListener { documentReference ->
+        db.collection("Community").add(community).addOnSuccessListener {
             Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
-            // Retrieve the ID of the added community document
-            val communityId = documentReference.id
-
-            // Add the user to this community
-            getUserData(communityId, userConfirmEmail)
-
         }.addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
     }
 
-    private fun getUserData (communityId: String, userEmail: String) {
-        db.collection("Community").document("No Community")
-            .collection("Users").whereEqualTo("email", userEmail).get()
+    fun getUserDocumentId(cName: String, email: String, location: String, userConfirmEmail : String, cCode : Int) {
+        db.collection("Users")
+            .whereEqualTo("email", userConfirmEmail)
+            .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    val userData = document.data
-                    addUserToCommunitySuccess(communityId, userData, userEmail)
+                    val userID = document.id // This retrieves the document ID
+                    addCommunityWithUserToDatabase(cName, email, location, cCode, userID)
                 }
             }
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error getting user document: ", exception)
-            }
-    }
-
-    private fun addUserToCommunitySuccess(communityId: String, userData: Map<String, Any>, userEmail: String) {
-        db.collection("Community").document(communityId)
-            .collection("Users").add(userData)
-            .addOnSuccessListener {
-                Log.d(TAG, "User added successfully to the community")
-                removeUserFromStandardCommunity(userEmail)
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding user to the community", e)
-                // Handle failure, if needed
-            }
-    }
-
-    private fun removeUserFromStandardCommunity(userEmail: String) {
-        db.collection("Community").document("No Community")
-            .collection("Users").whereEqualTo("email", userEmail).get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    deleteUserDocument(document.reference)
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting user document: ", exception)
-            }
-    }
-
-    private fun deleteUserDocument(documentReference: DocumentReference) {
-        documentReference.delete()
-            .addOnSuccessListener {
-                Log.d(TAG, "User document deleted successfully")
-                // Handle success, if needed
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error deleting user document", e)
-                // Handle failure, if needed
             }
     }
 }
