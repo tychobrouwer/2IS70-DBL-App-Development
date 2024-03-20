@@ -22,20 +22,22 @@ class User {
     private lateinit var firebaseAuth: FirebaseAuth
     private val db = Firebase.firestore
 
-    private fun createUser(username: String, emailID: String): HashMap<String, Any> {
+    private fun createUser(username: String, emailID: String, country: String): HashMap<String, Any> {
 
         return hashMapOf(
             "username" to username,
-            "email" to emailID
+            "email" to emailID,
+            "country" to country,
         )
     }
 
-    fun addToDatabase(username: String, emailID: String) {
+    fun addToDatabase(username: String, emailID: String, country: String) {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
+
         // add user to the database
-        val user = createUser(username, emailID)
+        val user = createUser(username, emailID, country)
 
         // add user to Users/...
         db.collection("Users").add(user)

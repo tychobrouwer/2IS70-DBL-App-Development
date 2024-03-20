@@ -59,4 +59,13 @@
     <TextView
         style="@style/Widget.Theme.WeClean.Text"
         android:id="@+id/region" />
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.SectionLabel"
+        android:id="@+id/phone_label"
+        android:text="@string/label_littering_entries" />
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.Text"
+        android:id="@+id/littering_entries" />
 </LinearLayout>

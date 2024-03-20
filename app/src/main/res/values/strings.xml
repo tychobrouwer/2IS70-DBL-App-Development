@@ -35,6 +35,7 @@
     <string name="label_description">Description</string>
     <string name="label_littering_data">Littering Entry</string>
     <string name="label_username">Username</string>
+    <string name="label_littering_entries">Number of Reports</string>
 
     <string name="hint_tag">Tag</string>
     <string name="hint_location">Location</string>

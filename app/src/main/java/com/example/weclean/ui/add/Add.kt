@@ -42,6 +42,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue.arrayUnion
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
@@ -251,7 +252,16 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     .add(litteringData.createLitteringData(currentUser))
                     .addOnSuccessListener {
                         Toast.makeText(this, "Created littering entry", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(applicationContext, Home::class.java))
+
+                        db.collection("Users")
+                            .document(currentUser)
+                            .update("litteringEntries", arrayUnion(it.id))
+                            .addOnSuccessListener {
+                                startActivity(Intent(applicationContext, Home::class.java))
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(this, "Error adding littering entry to user", Toast.LENGTH_SHORT).show()
+                            }
                     }
                     .addOnFailureListener {
                         Toast.makeText(this, "Error creating littering entry", Toast.LENGTH_SHORT).show()
