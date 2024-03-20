@@ -57,7 +57,7 @@ class Profile : AppCompatActivity() {
     }
 }
 
-fun AppCompatActivity.switchEditFragment(toStatus: ProfileViewStatus, fromStatus: ProfileViewStatus) {
+fun AppCompatActivity.switchFragment(toStatus: ProfileViewStatus, fromStatus: ProfileViewStatus) {
     // Fragment manager and transaction for switching default and edit profile fragments
     val fragmentManager = supportFragmentManager
     val transaction = fragmentManager.beginTransaction()

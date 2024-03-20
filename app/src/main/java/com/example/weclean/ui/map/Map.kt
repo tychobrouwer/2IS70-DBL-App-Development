@@ -9,8 +9,11 @@ import com.example.weclean.ui.add.Add
 import com.example.weclean.ui.home.Home
 import com.example.weclean.ui.profile.Profile
 import com.example.weclean.R
+import com.example.weclean.ui.profile.CreateCommunity
 import com.example.weclean.ui.profile.ProfileCommunities
+import com.example.weclean.ui.profile.ProfileEdit
 import com.example.weclean.ui.profile.ProfileInfo
+import com.example.weclean.ui.profile.ProfileViewStatus
 
 class Map : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,4 +59,33 @@ class Map : AppCompatActivity() {
             false
         })
     }
+}
+
+fun AppCompatActivity.switchFragment(toStatus: MapViewStatus, documentId: String) {
+    // Fragment manager and transaction for switching default and edit profile fragments
+    val fragmentManager = supportFragmentManager
+    val transaction = fragmentManager.beginTransaction()
+
+    // Get views for default profile, edit profile, and communities list views
+    val mapView = fragmentManager.findFragmentById(R.id.fragmentMapView)
+    val litteringDetails = fragmentManager.findFragmentById(R.id.fragmentLitteringDetails)
+
+    // Null check on fragments
+    if (mapView != null && litteringDetails != null) {
+        // Cancel transaction
+        transaction.commit()
+        return
+    }
+
+    if (toStatus == MapViewStatus.Map) {
+        // Remove default profile view fragments and add profile edit fragment
+        transaction.remove(litteringDetails!!)
+        transaction.add(R.id.fragmentMapView, MapView())
+    } else if (toStatus == MapViewStatus.LitteringDetails) {
+        transaction.remove(mapView!!)
+        transaction.add(R.id.fragmentLitteringDetails, LitteringDetails().newInstance(documentId))
+    }
+
+    // Complete transaction and navigate
+    transaction.commit()
 }

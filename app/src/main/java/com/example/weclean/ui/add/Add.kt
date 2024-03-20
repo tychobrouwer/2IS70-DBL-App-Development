@@ -207,7 +207,10 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         // Add a new document with a generated ID for the littering entry
         db.collection("LitteringData")
             .add(litteringData.createLitteringData(currentUser))
-            .addOnSuccessListener { Toast.makeText(this, "Created littering entry", Toast.LENGTH_SHORT).show() }
+            .addOnSuccessListener {
+                Toast.makeText(this, "Created littering entry", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(applicationContext, Home::class.java))
+            }
             .addOnFailureListener { Toast.makeText(this, "Error creating littering entry", Toast.LENGTH_SHORT).show() }
     }
 

@@ -6,10 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.weclean.R
+import com.google.firebase.auth.FirebaseAuth
 
 class ProfileInfo : Fragment() {
+    private val dbAuth = FirebaseAuth.getInstance()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -18,8 +22,10 @@ class ProfileInfo : Fragment() {
         editButton.setOnClickListener {
             // Switch to edit profile view fragment
             val context = activity as AppCompatActivity
-            context.switchEditFragment(ProfileViewStatus.PROFILE_EDIT, ProfileViewStatus.PROFILE)
+            context.switchFragment(ProfileViewStatus.PROFILE_EDIT, ProfileViewStatus.PROFILE)
         }
+
+        view.findViewById<TextView>(R.id.email).text = dbAuth.currentUser?.email
     }
 
     override fun onCreateView(

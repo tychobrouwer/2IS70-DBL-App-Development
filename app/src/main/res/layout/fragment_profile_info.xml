@@ -39,7 +39,7 @@
         android:text="@string/label_email" />
 
     <TextView
-        style="@style/Widget.Theme.WeClean.TextInput"
+        style="@style/Widget.Theme.WeClean.Text"
         android:id="@+id/email" />
 
     <TextView
@@ -48,7 +48,7 @@
         android:text="@string/label_brith_date" />
 
     <TextView
-        style="@style/Widget.Theme.WeClean.TextInput"
+        style="@style/Widget.Theme.WeClean.Text"
         android:id="@+id/birthdate" />
 
     <TextView
@@ -57,6 +57,6 @@
         android:text="@string/label_country_region" />
 
     <TextView
-        style="@style/Widget.Theme.WeClean.TextInput"
+        style="@style/Widget.Theme.WeClean.Text"
         android:id="@+id/region" />
 </LinearLayout>

@@ -6,19 +6,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.weclean.R
+import com.google.firebase.auth.FirebaseAuth
 
 class ProfileEdit : Fragment() {
+    private val dbAuth = FirebaseAuth.getInstance()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<TextView>(R.id.email).text = dbAuth.currentUser?.email
 
         // Cancel edit profile button
         val cancelButton = view.findViewById<Button>(R.id.cancel_button)
         cancelButton.setOnClickListener {
             // Switch back to default profile fragment
             val context = activity as AppCompatActivity
-            context.switchEditFragment(ProfileViewStatus.PROFILE, ProfileViewStatus.PROFILE_EDIT)
+            context.switchFragment(ProfileViewStatus.PROFILE, ProfileViewStatus.PROFILE_EDIT)
         }
 
         // Confirm profile edit button

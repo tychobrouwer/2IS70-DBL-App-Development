@@ -17,11 +17,15 @@ class LitteringData(
     private val image : Image = ImageImpl()
 
     // Community of the littering data
-    var community : String = ""
+    var community = ""
     // Description of the littering data
-    var description : String = ""
+    var description = ""
     // Time stamp of the littering data (epoch)
-    var timeStamp: Long = System.currentTimeMillis();
+    var timeStamp = System.currentTimeMillis()
+    // Firebase id of the littering data
+    var id = ""
+    // Creator of the littering data
+    var creator = ""
 
     /**
      * Compose the address line to display to the user

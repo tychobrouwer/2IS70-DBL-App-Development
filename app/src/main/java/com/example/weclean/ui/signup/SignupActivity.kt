@@ -26,9 +26,6 @@ class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
     private lateinit var firebaseAuth: FirebaseAuth
 
-    //private val db = FirebaseFirestore.getInstance()
-    private val db = Firebase.firestore
-
     /**
      * Signs up user, adds their data to FireStore and then
      * navigates to the home screen

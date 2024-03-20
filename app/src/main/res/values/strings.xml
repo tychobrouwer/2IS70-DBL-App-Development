@@ -33,6 +33,7 @@
     <string name="label_add_tags">Add Tags</string>
     <string name="label_password">Password</string>
     <string name="label_description">Description</string>
+    <string name="label_littering_data">Littering Entry</string>
 
     <string name="hint_tag">Tag</string>
     <string name="hint_location">Location</string>
