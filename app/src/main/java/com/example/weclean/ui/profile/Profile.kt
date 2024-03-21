@@ -8,6 +8,7 @@ import com.example.weclean.Achievements
 import com.example.weclean.ui.add.Add
 import com.example.weclean.ui.home.Home
 import com.example.weclean.R
+import com.example.weclean.ui.events.EventsActivity
 import com.example.weclean.ui.map.Map
 
 class Profile : AppCompatActivity() {
@@ -46,8 +47,8 @@ class Profile : AppCompatActivity() {
                     startActivity(Intent(applicationContext, Add::class.java))
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.navigation_achievements -> {
-                    startActivity(Intent(applicationContext, Achievements::class.java))
+                R.id.navigation_events -> {
+                    startActivity(Intent(applicationContext, EventsActivity::class.java))
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> return@OnNavigationItemSelectedListener true

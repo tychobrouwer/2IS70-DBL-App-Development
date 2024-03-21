@@ -31,6 +31,7 @@ import com.example.weclean.Achievements
 import com.example.weclean.R
 import com.example.weclean.backend.FireBase
 import com.example.weclean.backend.LitteringData
+import com.example.weclean.ui.events.EventsActivity
 import com.example.weclean.ui.home.Home
 import com.example.weclean.ui.map.Map
 import com.example.weclean.ui.profile.Profile
@@ -189,8 +190,8 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_add -> return@OnNavigationItemSelectedListener true
-                R.id.navigation_achievements -> {
-                    startActivity(Intent(applicationContext, Achievements::class.java))
+                R.id.navigation_events -> {
+                    startActivity(Intent(applicationContext, EventsActivity::class.java))
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> {

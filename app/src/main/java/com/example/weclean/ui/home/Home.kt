@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weclean.Achievements
 import com.example.weclean.R
+import com.example.weclean.ui.events.EventsActivity
 
 class Home : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,8 +36,8 @@ class Home : AppCompatActivity() {
                     startActivity(Intent(applicationContext, Add::class.java))
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.navigation_achievements -> {
-                    startActivity(Intent(applicationContext, Achievements::class.java))
+                R.id.navigation_events -> {
+                    startActivity(Intent(applicationContext, EventsActivity::class.java))
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> {

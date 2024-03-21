@@ -9,6 +9,7 @@ import com.example.weclean.ui.add.Add
 import com.example.weclean.ui.home.Home
 import com.example.weclean.ui.profile.Profile
 import com.example.weclean.R
+import com.example.weclean.ui.events.EventsActivity
 
 class Map : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,8 +43,8 @@ class Map : AppCompatActivity() {
                     startActivity(Intent(applicationContext, Add::class.java))
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.navigation_achievements -> {
-                    startActivity(Intent(applicationContext, Achievements::class.java))
+                R.id.navigation_events -> {
+                    startActivity(Intent(applicationContext, EventsActivity::class.java))
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> {
