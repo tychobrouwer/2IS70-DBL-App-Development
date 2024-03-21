@@ -16,14 +16,16 @@
 
     <TableLayout
         android:id="@+id/events_table"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="15dp"
         android:padding="16dp"
         android:stretchColumns="*"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/upcoming_events">
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -52,6 +54,7 @@
                 android:text="@string/event_location"
                 android:textStyle="bold" />
         </TableRow>
+
     </TableLayout>
 
     <Button

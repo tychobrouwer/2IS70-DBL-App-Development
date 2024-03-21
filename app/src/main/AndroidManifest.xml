@@ -70,6 +70,10 @@
             android:name=".ui.home.Home"
             android:exported="false"
             android:label="@string/title_activity_home" />
+        <activity
+            android:name=".ui.events.EventsActivity"
+            android:exported="false"
+            android:label="Events" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -79,6 +83,5 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
-
     </application>
 </manifest>
