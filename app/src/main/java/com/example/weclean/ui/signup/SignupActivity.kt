@@ -48,6 +48,7 @@ class SignupActivity : AppCompatActivity() {
             val password = binding.registerPassword.text.toString()
             val confirmPassword = binding.confirmPassword.text.toString()
             val username = binding.username.text.toString()
+            val dob = "-"
 
             if (email.isEmpty() ||
                 password.isEmpty() ||
@@ -68,7 +69,7 @@ class SignupActivity : AppCompatActivity() {
                     val country = getResources().configuration.locales.get(0).country
 
                     // add user to Community/No Community/Users/...
-                    userObject.addToDatabase(uid, username, email, country)
+                    userObject.addToDatabase(uid, username, email, dob, country)
 
                     //navigate to the home screen
                     val intent = Intent(this, Home::class.java)

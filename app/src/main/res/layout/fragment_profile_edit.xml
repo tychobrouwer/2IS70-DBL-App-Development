@@ -29,25 +29,6 @@
 
     <TextView
         style="@style/Widget.Theme.WeClean.SectionLabel"
-        android:id="@+id/password_label"
-        android:text="@string/label_password" />
-
-    <EditText
-        style="@style/Widget.Theme.WeClean.TextInput"
-        android:id="@+id/password"
-        android:inputType="textPassword"
-        android:autofillHints="password"
-        android:hint="@string/hint_password" />
-
-    <EditText
-        style="@style/Widget.Theme.WeClean.TextInput"
-        android:id="@+id/password_repeat"
-        android:inputType="textPassword"
-        android:autofillHints="password"
-        android:hint="@string/hint_password_repeat" />
-
-    <TextView
-        style="@style/Widget.Theme.WeClean.SectionLabel"
         android:id="@+id/birthdate_label"
         android:text="@string/label_brith_date" />
 

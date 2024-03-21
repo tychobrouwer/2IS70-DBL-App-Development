@@ -9,18 +9,19 @@ class User {
     //variables for sign up activity and firebase authentication
     private val fireBase = FireBase()
 
-    private fun createUser(username: String, emailID: String, country: String): HashMap<String, Any> {
+    private fun createUser(username: String, emailID: String, dateOfBirth: String, country: String): HashMap<String, Any> {
 
         return hashMapOf(
             "username" to username,
             "email" to emailID,
+            "dob" to dateOfBirth,
             "country" to country,
         )
     }
 
-    fun addToDatabase(uid: String, username: String, emailID: String, country: String) {
+    fun addToDatabase(uid: String, username: String, emailID: String, dob : String, country: String) {
         // add user to the database
-        val user = createUser(username, emailID, country)
+        val user = createUser(username, emailID, dob, country)
 
         // add user to Users/...
         runBlocking {
