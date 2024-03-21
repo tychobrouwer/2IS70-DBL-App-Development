@@ -1,6 +1,5 @@
 package com.example.weclean.ui.profile
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,12 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.weclean.R
 import com.example.weclean.backend.Community
 import com.example.weclean.backend.FireBase
-import com.example.weclean.ui.home.Home
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.Filter
-import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -60,7 +53,7 @@ class ProfileCommunities : Fragment() {
             // If empty, close dialog else add user to community
             if (communityCode.isNotEmpty()) {
                 runBlocking {
-                    val result = communityObject.addUserToCommunity(communityCode)
+                    val result = communityObject.addUserWithCode(communityCode)
 
                     if (result) {
                         joinDialog.dismiss()

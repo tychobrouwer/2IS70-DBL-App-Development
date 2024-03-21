@@ -1,9 +1,6 @@
 package com.example.weclean.ui.profile
 
-import android.content.ContentValues
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,13 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.weclean.R
-import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.firestore
 import com.example.weclean.backend.Community
-import android.content.Context
-import android.content.SharedPreferences
 import kotlinx.coroutines.runBlocking
 
 class CreateCommunity : Fragment() {
@@ -72,7 +63,7 @@ class CreateCommunity : Fragment() {
             val cCode = 1
 
             runBlocking {
-                val result = communityObject.addCommunityToDatabase(
+                val result = communityObject.addToDatabase(
                     communityName,
                     communityEmail,
                     communityLocation,

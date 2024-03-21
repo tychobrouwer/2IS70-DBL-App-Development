@@ -21,7 +21,6 @@ import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
 import java.util.Locale
 
-
 class LitteringDetails : Fragment() {
     private val db = Firebase.firestore
     private val dbStore = FirebaseStorage.getInstance()

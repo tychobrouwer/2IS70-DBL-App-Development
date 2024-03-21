@@ -9,11 +9,6 @@ import com.example.weclean.ui.add.Add
 import com.example.weclean.ui.home.Home
 import com.example.weclean.ui.profile.Profile
 import com.example.weclean.R
-import com.example.weclean.ui.profile.CreateCommunity
-import com.example.weclean.ui.profile.ProfileCommunities
-import com.example.weclean.ui.profile.ProfileEdit
-import com.example.weclean.ui.profile.ProfileInfo
-import com.example.weclean.ui.profile.ProfileViewStatus
 
 class Map : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

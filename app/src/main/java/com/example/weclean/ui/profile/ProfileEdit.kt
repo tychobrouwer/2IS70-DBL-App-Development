@@ -9,15 +9,15 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.weclean.R
-import com.google.firebase.auth.FirebaseAuth
+import com.example.weclean.backend.FireBase
 
 class ProfileEdit : Fragment() {
-    private val dbAuth = FirebaseAuth.getInstance()
+    private val fireBase = FireBase()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<TextView>(R.id.email).text = dbAuth.currentUser?.email
+        view.findViewById<TextView>(R.id.email).text = fireBase.currentUserEmail()
 
         // Cancel edit profile button
         val cancelButton = view.findViewById<Button>(R.id.cancel_button)

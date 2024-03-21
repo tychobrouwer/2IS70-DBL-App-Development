@@ -1,9 +1,6 @@
 package com.example.weclean.backend
 
 import android.location.Geocoder
-import android.widget.TextView
-import com.example.weclean.R
-import java.util.Locale
 
 /**
  * Interface for the location

@@ -1,26 +1,11 @@
 package com.example.weclean.backend
 
-import android.content.ContentValues
 import android.content.ContentValues.TAG
-import android.content.Intent
-import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.example.weclean.ui.home.Home
-import com.example.weclean.databinding.ActivitySignupBinding
-import com.example.weclean.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
-import android.content.Context
-import android.content.SharedPreferences
-import com.example.weclean.backend.User
-import com.example.weclean.ui.profile.CreateCommunity
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Filter
-import kotlinx.coroutines.runBlocking
 
 private val user1 = User()
 
@@ -49,7 +34,7 @@ class Community {
         )
     }
 
-    suspend fun addCommunityToDatabase(name: String, contactEmail: String, location: String, code : Int) : Boolean {
+    suspend fun addToDatabase(name: String, contactEmail: String, location: String, code : Int) : Boolean {
         val adminId = fireBase.currentUserId()
         val community = createCommunity(name, contactEmail, location, code, arrayListOf(adminId), arrayListOf(adminId))
 
@@ -66,7 +51,7 @@ class Community {
         return true
     }
 
-    suspend fun addUserToCommunity(communityCode: String) : Boolean {
+    suspend fun addUserWithCode(communityCode: String) : Boolean {
         val userId = fireBase.currentUserId()
 
         val communityData = fireBase.getDocumentsWithFilter(
