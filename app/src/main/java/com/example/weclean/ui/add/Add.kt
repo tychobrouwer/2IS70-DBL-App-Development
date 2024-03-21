@@ -65,7 +65,7 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var litteringData : LitteringData
 
     // List of communities the user is in
-    private var communities = ArrayList<String>()
+    private var communities = ArrayList<Pair<String, String>>()
 
     private var photoUri: Uri? = null
     private var imageAdded = false
@@ -89,7 +89,7 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val selectCommunitySpinner = findViewById<Spinner>(R.id.select_community)
         // Create adapter with list of communities
         val selectCommunityAdapter = ArrayAdapter(
-            this, R.layout.spinner_item, communities)
+            this, R.layout.spinner_item, communities.map { it.first })
 
         // Set adapter for communities selector
         selectCommunityAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
@@ -223,7 +223,7 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     val communityResult =
                         fireBase.getDocument("Community", community as String) ?: return@launch
 
-                    communities.add(communityResult.getString("name")!!)
+                    communities.add(Pair(communityResult.getString("name")!!, communityResult.id))
                 }
             }
         }
@@ -272,10 +272,8 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 return@runBlocking
             }
 
-            val communityId = "temp"
-
             val resultCommunity = fireBase.addToArray(
-                "Community", communityId, "litteringEntries", resultLitteringData.id)
+                "Community", litteringData.community, "litteringEntries", resultLitteringData.id)
 
             if (!resultCommunity) {
                 Toast.makeText(this@Add, "Error updating community", Toast.LENGTH_SHORT).show()
@@ -408,7 +406,7 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
         // Set community of litteringData object
-        litteringData.community = communities[position]
+        litteringData.community =  communities[position].second
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
