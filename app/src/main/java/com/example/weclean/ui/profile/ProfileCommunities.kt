@@ -1,5 +1,6 @@
 package com.example.weclean.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,18 +9,36 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.weclean.R
+import com.example.weclean.backend.Community
+import com.example.weclean.backend.FireBase
+import com.example.weclean.ui.home.Home
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.Filter
+import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class ProfileCommunities : Fragment() {
+    private val communityObject = Community()
+    private val fireBase = FireBase()
+
+    private val communities = ArrayList<CommunityListData>()
+
+    private lateinit var joinDialog: AlertDialog
+
     private fun joinCommunityDialog() {
         // Builder for alert dialog popup
         val builder = AlertDialog.Builder(activity as AppCompatActivity)
         builder.setCancelable(true)
 
         // Create dialog from builder
-        val joinDialog = builder.create()
+        joinDialog = builder.create()
 
         // Inflate dialog from R.layout.profile_join_community
         val dialogLayout = layoutInflater.inflate(R.layout.profile_join_community, null)
@@ -36,13 +55,21 @@ class ProfileCommunities : Fragment() {
         // Listener for join button
         joinButton!!.setOnClickListener {
             // Get community code from text input
-            val communityCode = editText!!.text
+            val communityCode = editText!!.text.toString()
 
-            // If not empty, close dialog
+            // If empty, close dialog else add user to community
             if (communityCode.isNotEmpty()) {
-                // TODO: Here the user needs to be added to the community
-                println("Join community with code $communityCode")
-                joinDialog.dismiss()
+                runBlocking {
+                    val result = communityObject.addUserToCommunity(communityCode)
+
+                    if (result) {
+                        joinDialog.dismiss()
+                    } else {
+                        Toast.makeText(context, "Community code no valid", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } else {
+                Toast.makeText(context, "Please enter a community code", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -66,12 +93,7 @@ class ProfileCommunities : Fragment() {
             context.switchFragment(ProfileViewStatus.COMMUNITY_CREATE, ProfileViewStatus.PROFILE)
         }
 
-        // List of community objects
-        // TODO: This needs to be updated to use the backend
-        val communities = ArrayList<CommunityListData>()
-        communities.add(CommunityListData("Community 1", true))
-        communities.add(CommunityListData("Community 2", false))
-        communities.add(CommunityListData("Community 3", false))
+        setCommunities()
 
         // Create list adapter for the communities list
         val communitiesListAdapter = CommunityListAdapter(
@@ -82,6 +104,30 @@ class ProfileCommunities : Fragment() {
         // Get the community list view, and set the adapter
         val communitiesListView  = view.findViewById<ListView>(R.id.community_list)
         communitiesListView.adapter = communitiesListAdapter
+    }
+
+    private fun setCommunities() {
+        runBlocking {
+            launch {
+                val communitiesResult = fireBase.getDocument("Users", fireBase.currentUserId())
+
+                if (communitiesResult == null) {
+                    Toast.makeText(activity as AppCompatActivity, "Error getting user", Toast.LENGTH_SHORT).show()
+                    return@launch
+                }
+
+                val userCommunities = communitiesResult.get("communityIds") as ArrayList<*>
+                for (community in userCommunities) {
+                    val communityResult =
+                        fireBase.getDocument("Community", community as String) ?: return@launch
+
+                    communities.add(CommunityListData(
+                        communityResult.get("name") as String,
+                        (communityResult.get("adminIds") as ArrayList<*>).contains(fireBase.currentUserId())
+                    ))
+                }
+            }
+        }
     }
 
     override fun onCreateView(

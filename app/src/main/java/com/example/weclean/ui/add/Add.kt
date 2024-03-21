@@ -30,6 +30,7 @@ import androidx.core.view.size
 import androidx.core.widget.addTextChangedListener
 import com.example.weclean.Achievements
 import com.example.weclean.R
+import com.example.weclean.backend.FireBase
 import com.example.weclean.backend.LitteringData
 import com.example.weclean.ui.home.Home
 import com.example.weclean.ui.map.Map
@@ -45,6 +46,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue.arrayUnion
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.util.Locale
 
@@ -53,7 +56,6 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     companion object {
         private var permissionCode = 101
         private const val CAMERA_PERMISSION_CODE = 1
-        private const val CAMERA_REQUEST_CODE = 2
         private const val CAMERA = 2
     }
 
@@ -68,11 +70,7 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var photoUri: Uri? = null
     private var imageAdded = false
 
-    // Firebase database
-    private val db = Firebase.firestore
-    // Firebase authentication database
-    private val dbAuth = FirebaseAuth.getInstance()
-    private val dbStore = FirebaseStorage.getInstance()
+    private val fireBase = FireBase()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,11 +83,7 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         // Get the current location of the user
         getCurrentLocation()
-
-        // TODO: Here the communities should be fetched and added to the list
-        communities.add("community 1")
-        communities.add("community 2")
-        communities.add("community 3")
+        setCommunities()
 
         // Get dropdown for selecting communities
         val selectCommunitySpinner = findViewById<Spinner>(R.id.select_community)
@@ -142,7 +136,6 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     arrayOf(Manifest.permission.CAMERA),
                     Add.CAMERA_PERMISSION_CODE
                 )
-
             }
         }
 
@@ -215,11 +208,24 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         })
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    private fun setCommunities() {
+        runBlocking {
+            launch {
+                val communitiesResult = fireBase.getDocument("Users", fireBase.currentUserId())
 
-        if (requestCode == 2 && resultCode == RESULT_OK) {
-            imageAdded = true
+                if (communitiesResult == null) {
+                    Toast.makeText(this@Add, "Error getting user", Toast.LENGTH_SHORT).show()
+                    return@launch
+                }
+
+                val userCommunities = communitiesResult.get("communityIds") as ArrayList<*>
+                for (community in userCommunities) {
+                    val communityResult =
+                        fireBase.getDocument("Community", community as String) ?: return@launch
+
+                    communities.add(communityResult.getString("name")!!)
+                }
+            }
         }
     }
 
@@ -229,10 +235,10 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
      */
     private fun sendEntryToFirebase() {
         // Current logged in user
-        val currentUser = dbAuth.currentUser?.uid
+        val userId = fireBase.currentUserId()
 
         // If no user is logged in or user is empty
-        if (currentUser.isNullOrEmpty()) {
+        if (userId.isNullOrEmpty()) {
             Toast.makeText(this, "Unable to get user", Toast.LENGTH_SHORT).show()
             return
         } else if (photoUri == null || !imageAdded) {
@@ -240,36 +246,45 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             return
         }
 
-        val imageFirebaseId = "${currentUser},${System.currentTimeMillis()}"
+        val imageFirebaseId = "${userId},${System.currentTimeMillis()}"
 
-        dbStore.getReference(imageFirebaseId)
-            .putFile(photoUri!!)
-            .addOnSuccessListener {_ ->
-                litteringData.imageId = imageFirebaseId
+        runBlocking {
+            val resultImage = fireBase.addFileWithUri(imageFirebaseId, photoUri!!)
 
-                // Add a new document with a generated ID for the littering entry
-                db.collection("LitteringData")
-                    .add(litteringData.createLitteringData(currentUser))
-                    .addOnSuccessListener {
-                        Toast.makeText(this, "Created littering entry", Toast.LENGTH_SHORT).show()
-
-                        db.collection("Users")
-                            .document(currentUser)
-                            .update("litteringEntries", arrayUnion(it.id))
-                            .addOnSuccessListener {
-                                startActivity(Intent(applicationContext, Home::class.java))
-                            }
-                            .addOnFailureListener {
-                                Toast.makeText(this, "Error adding littering entry to user", Toast.LENGTH_SHORT).show()
-                            }
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(this, "Error creating littering entry", Toast.LENGTH_SHORT).show()
-                    }
+            if (resultImage == null) {
+                Toast.makeText(this@Add, "Error uploading image", Toast.LENGTH_SHORT).show()
+                return@runBlocking
             }
-            .addOnFailureListener {
-                Toast.makeText(this, "Error uploading image", Toast.LENGTH_SHORT).show()
+
+            val resultLitteringData = fireBase.addDocument(
+                "LitteringData", litteringData.createLitteringData(userId))
+
+            if (resultLitteringData == null) {
+                Toast.makeText(this@Add, "Error creating littering entry", Toast.LENGTH_SHORT).show()
+                return@runBlocking
             }
+
+            val resultUser = fireBase.addToArray(
+                "Users", userId, "litteringEntries", resultLitteringData.id)
+
+            if (!resultUser) {
+                Toast.makeText(this@Add, "Error updating user", Toast.LENGTH_SHORT).show()
+                return@runBlocking
+            }
+
+            val communityId = "temp"
+
+            val resultCommunity = fireBase.addToArray(
+                "Community", communityId, "litteringEntries", resultLitteringData.id)
+
+            if (!resultCommunity) {
+                Toast.makeText(this@Add, "Error updating community", Toast.LENGTH_SHORT).show()
+                return@runBlocking
+            }
+
+            Toast.makeText(this@Add, "Littering entry added", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(applicationContext, Home::class.java))
+        }
     }
 
     /**
@@ -380,6 +395,15 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 val locationInput = findViewById<TextView>(R.id.select_location)
                 locationInput.text = litteringData.getAddressLine()
             }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 2 && resultCode == RESULT_OK) {
+            imageAdded = true
+        }
     }
 
     override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {

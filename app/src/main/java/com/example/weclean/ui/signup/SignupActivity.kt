@@ -11,12 +11,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.example.weclean.backend.User
 
-private val userData = User()
 
 class SignupActivity : AppCompatActivity() {
     //variables for sign up activity and firebase authentication
     private lateinit var binding: ActivitySignupBinding
     private lateinit var firebaseAuth: FirebaseAuth
+
+    private val userObject = User()
 
     /**
      * Signs up user, adds their data to FireStore and then
@@ -63,11 +64,11 @@ class SignupActivity : AppCompatActivity() {
             //create the user
             firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
-                    val uid = it.result.user?.uid
+                    val uid = it.result.user?.uid.toString()
                     val country = getResources().configuration.locales.get(0).country
 
                     // add user to Community/No Community/Users/...
-                    userData.addToDatabase(uid, username, email, country)
+                    userObject.addToDatabase(uid, username, email, country)
 
                     //navigate to the home screen
                     val intent = Intent(this, Home::class.java)

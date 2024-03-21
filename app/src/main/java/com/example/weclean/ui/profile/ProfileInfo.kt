@@ -10,13 +10,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.weclean.R
+import com.example.weclean.backend.FireBase
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.runBlocking
 
 class ProfileInfo : Fragment() {
-    private val db = Firebase.firestore
-    private val dbAuth = FirebaseAuth.getInstance()
+    private val fireBase = FireBase()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,19 +30,26 @@ class ProfileInfo : Fragment() {
             context.switchFragment(ProfileViewStatus.PROFILE_EDIT, ProfileViewStatus.PROFILE)
         }
 
-        view.findViewById<TextView>(R.id.email).text = dbAuth.currentUser?.email
+        runBlocking { setProfileInfo(view) }
+    }
 
-        db.collection("Users").document(dbAuth.currentUser?.uid.toString()).get()
-            .addOnSuccessListener { document ->
-                val statLitteringEntries = (document.get("litteringEntries") as ArrayList<*>?)?.size ?: 0
+    private suspend fun setProfileInfo(view: View) {
+        val userId = fireBase.currentUserId()
 
-                view.findViewById<TextView>(R.id.username).text = document.getString("username")
-                view.findViewById<TextView>(R.id.region).text = document.getString("country")
-                view.findViewById<TextView>(R.id.littering_entries).text = statLitteringEntries.toString()
-            }
-            .addOnFailureListener {
-                Toast.makeText(context, "Error getting user information", Toast.LENGTH_SHORT).show()
-            }
+        view.findViewById<TextView>(R.id.email).text = fireBase.currentUserEmail()
+
+        val userData = fireBase.getDocument("Users", userId)
+
+        if (userData == null) {
+            Toast.makeText(context, "Error getting user information", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val statLitteringEntries = (userData.get("litteringEntries") as ArrayList<*>?)?.size ?: 0
+
+        view.findViewById<TextView>(R.id.username).text = userData.getString("username")
+        view.findViewById<TextView>(R.id.region).text = userData.getString("country")
+        view.findViewById<TextView>(R.id.littering_entries).text = statLitteringEntries.toString()
     }
 
     override fun onCreateView(

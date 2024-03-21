@@ -17,57 +17,67 @@ import com.google.firebase.firestore.firestore
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.weclean.backend.User
+import com.example.weclean.ui.profile.CreateCommunity
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.Filter
+import kotlinx.coroutines.runBlocking
 
 private val user1 = User()
 
 class Community {
 
     //variables for sign up activity and firebase authentication
-    private lateinit var binding:ActivitySignupBinding
+    private var fireBase = FireBase()
+
     private lateinit var firebaseAuth: FirebaseAuth
-    //private val db = FirebaseFirestore.getInstance()
     private val db = Firebase.firestore
 
-    private fun createCommunity(cName: String, email: String, location: String, cCode: Int, userIds: ArrayList<String>): HashMap<String, Any> {
-
+    private fun createCommunity(cName: String,
+                                email: String,
+                                location: String,
+                                cCode: Int,
+                                userIds: ArrayList<String>,
+                                adminIds: ArrayList<String>)
+    : HashMap<String, Any> {
         return hashMapOf(
-            "communityName" to cName,
-            "communityEmail" to email,
-            "communityLocation" to location,
-            "communityCode" to cCode,
-            "userIds" to userIds
+            "name" to cName,
+            "contactEmail" to email,
+            "location" to location,
+            "code" to cCode,
+            "userIds" to userIds,
+            "adminIds" to adminIds
         )
     }
 
+    suspend fun addCommunityToDatabase(name: String, contactEmail: String, location: String, code : Int) : Boolean {
+        val adminId = fireBase.currentUserId()
+        val community = createCommunity(name, contactEmail, location, code, arrayListOf(adminId), arrayListOf(adminId))
 
-    private fun addCommunityWithUserToDatabase(cName: String, email: String, location: String, cCode : Int, userID : String) {
+        val result = fireBase.addDocument("Community", community)
 
-        firebaseAuth = FirebaseAuth.getInstance()
+        if (result == null) {
+            Log.d(TAG, "Error creating community")
 
-        val users = ArrayList<String>()
-        users.add(userID)
+            return false
+        }
 
-        //create the community
-        val community = createCommunity(cName, email, location, cCode, users);
+        fireBase.addToArray("Users", adminId, "communityIds", result.id)
 
-        db.collection("Community").add(community).addOnSuccessListener {
-            Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
-        }.addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
+        return true
     }
 
-    fun getUserDocumentId(cName: String, email: String, location: String, userConfirmEmail : String, cCode : Int) {
-        db.collection("Users")
-            .whereEqualTo("email", userConfirmEmail)
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    val userID = document.id // This retrieves the document ID
-                    addCommunityWithUserToDatabase(cName, email, location, cCode, userID)
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting user document: ", exception)
-            }
+    suspend fun addUserToCommunity(communityCode: String) : Boolean {
+        val userId = fireBase.currentUserId()
+
+        val communityData = fireBase.getDocumentsWithFilter(
+            "Community",
+            Filter.equalTo("Code",communityCode)
+        ) ?: return false
+
+        val communityId = communityData!!.documents[0].id
+        val userResult = fireBase.addToArray("Users", userId, "Communities", communityId)
+        val communityResult = fireBase.addToArray("Community", communityId, "userIds", userId)
+
+        return !(!userResult || !communityResult)
     }
 }

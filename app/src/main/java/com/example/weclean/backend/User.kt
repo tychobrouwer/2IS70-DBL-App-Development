@@ -35,7 +35,6 @@ class User {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-
         // add user to the database
         val user = createUser(username, emailID, country)
 

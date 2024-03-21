@@ -20,13 +20,10 @@ import com.google.firebase.firestore.firestore
 import com.example.weclean.backend.Community
 import android.content.Context
 import android.content.SharedPreferences
+import kotlinx.coroutines.runBlocking
 
-private val community1 = Community()
 class CreateCommunity : Fragment() {
-
-    private lateinit var firebaseAuth: FirebaseAuth
-    //private val db = FirebaseFirestore.getInstance()
-    private val db = Firebase.firestore
+    private val communityObject = Community()
 
     /**
      * Create a community and add the user who created the community
@@ -37,8 +34,6 @@ class CreateCommunity : Fragment() {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        firebaseAuth = FirebaseAuth.getInstance()
 
         // Cancel create community button
         val cancelButton = view.findViewById<Button>(R.id.cCancel_button)
@@ -59,26 +54,37 @@ class CreateCommunity : Fragment() {
             val communityEmailEditText = view.findViewById<EditText>(R.id.community_email)
             val communityEmail = communityEmailEditText.text.toString().trim()
 
-            val communityLocationEditText = view.findViewById<EditText>(R.id.community_location)
-            val communityLocation = communityLocationEditText.text.toString()
-
             val communityConfirmEmailEditText = view.findViewById<EditText>(R.id.community_confirm_email)
             val userConfirmEmail = communityConfirmEmailEditText.text.toString().trim()
+
+            val communityLocationEditText = view.findViewById<EditText>(R.id.community_location)
+            val communityLocation = communityLocationEditText.text.toString()
 
             //ensure fields are not empty
             if (communityName.isEmpty() || communityEmail.isEmpty() ||
                 communityLocation.isEmpty() || userConfirmEmail.isEmpty()) {
                 Toast.makeText(context, "Fields cannot be empty", Toast.LENGTH_SHORT).show()
+            } else if (communityEmail != userConfirmEmail) {
+                Toast.makeText(context, "Emails do not match", Toast.LENGTH_SHORT).show()
             }
 
             //TODO: GENERATE A UNIQUE COMMUNITY CODE
             val cCode = 1
 
-            //Call methhod to create community
-            community1.getUserDocumentId(communityName, communityEmail, communityLocation, userConfirmEmail, cCode)
+            runBlocking {
+                val result = communityObject.addCommunityToDatabase(
+                    communityName,
+                    communityEmail,
+                    communityLocation,
+                    cCode)
 
-            //Display text
-            Toast.makeText(context, "Community created successfully!", Toast.LENGTH_SHORT).show()
+                if (result) {
+                    Toast.makeText(context, "Community created successfully!", Toast.LENGTH_SHORT).show()
+
+                    // Switch back to default profile fragment
+                    // TODO: Switch to community profile fragment
+                }
+            }
         }
     }
 
