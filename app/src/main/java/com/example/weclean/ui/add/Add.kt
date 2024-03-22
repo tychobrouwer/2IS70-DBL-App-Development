@@ -62,9 +62,12 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     // List of communities the user is in
     private var communities = ArrayList<Pair<String, String>>()
 
+    // Uri of the photo taken
     private var photoUri: Uri? = null
+    // Boolean to check if image is added to the littering data
     private var imageAdded = false
 
+    // FireBase class instance to communicate with the database
     private val fireBase = FireBase()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,6 +81,7 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         // Get the current location of the user
         getCurrentLocation()
+        // Set the communities the user is in
         setCommunities()
 
         // Get dropdown for selecting communities
@@ -118,12 +122,15 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
                 val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
+                // Get the uri for the photo file
                 photoUri = FileProvider.getUriForFile(
                     applicationContext,
                     "$packageName.fileprovider",
                     photoFile)
 
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                // Add the uri to the intent
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+                // Start the camera activity
                 startActivityForResult(intent, Add.CAMERA)
             } else{
                 ActivityCompat.requestPermissions(
@@ -203,9 +210,14 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         })
     }
 
+    /**
+     * Set the communities the user is in
+     *
+     */
     private fun setCommunities() {
         runBlocking {
             launch {
+                // Get communities the user is in
                 val communitiesResult = fireBase.getDocument("Users", fireBase.currentUserId())
 
                 if (communitiesResult == null) {
@@ -213,11 +225,14 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     return@launch
                 }
 
-                val userCommunities = communitiesResult.get("communityIds") as ArrayList<*>
-                for (community in userCommunities) {
+                // Get the community ids the user is in
+                val userCommunityIds = communitiesResult.get("communityIds") as ArrayList<*>
+                for (community in userCommunityIds) {
+                    // Get the community data
                     val communityResult =
                         fireBase.getDocument("Community", community as String) ?: return@launch
 
+                    // Add the community to the list
                     communities.add(Pair(communityResult.getString("name")!!, communityResult.id))
                 }
             }
@@ -241,9 +256,12 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             return
         }
 
+        // Create a unique id for the image
         val imageFirebaseId = "${userId},${System.currentTimeMillis()}"
+        litteringData.imageId = imageFirebaseId
 
         runBlocking {
+            // Add image to the FireBase storage
             val resultImage = fireBase.addFileWithUri(imageFirebaseId, photoUri!!)
 
             if (resultImage == null) {
@@ -251,6 +269,7 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 return@runBlocking
             }
 
+            // Upload the littering data to the FireBase database
             val resultLitteringData = fireBase.addDocument(
                 "LitteringData", litteringData.createLitteringData(userId))
 
@@ -259,6 +278,7 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 return@runBlocking
             }
 
+            // Add littering entry id to the user
             val resultUser = fireBase.addToArray(
                 "Users", userId, "litteringEntries", resultLitteringData.id)
 
@@ -267,6 +287,7 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 return@runBlocking
             }
 
+            // Add littering entry id to the community
             val resultCommunity = fireBase.addToArray(
                 "Community", litteringData.community, "litteringEntries", resultLitteringData.id)
 
@@ -405,7 +426,6 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
-        // TODO: Error for no community selected
         Toast.makeText(this, "No community selected", Toast.LENGTH_SHORT).show()
     }
 

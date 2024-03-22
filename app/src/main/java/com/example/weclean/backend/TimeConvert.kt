@@ -1,7 +1,13 @@
 package com.example.weclean.backend
 
+/**
+ * Convert the timestamp to a readable format
+ *
+ * @param timeStamp
+ * @return String of the time ago
+ */
 fun dayStringFormat(timeStamp: Long): String {
-    val ONE_SECOND = 1000L
+    // Time constants
     val ONE_MINUTE = 60000L
     val ONE_HOUR = 3600000L
     val ONE_DAY = 86400000L
@@ -10,9 +16,9 @@ fun dayStringFormat(timeStamp: Long): String {
 
     val currentTime = System.currentTimeMillis()
     val difference = currentTime - timeStamp
+
     return when {
         difference < ONE_MINUTE -> {
-            val timeAgo = difference / ONE_SECOND
             "Just Now"
         }
         difference < ONE_HOUR -> {

@@ -27,14 +27,23 @@ class ProfileInfo : Fragment() {
             context.switchFragment(ProfileViewStatus.PROFILE_EDIT)
         }
 
+        // Set the user's profile information
         runBlocking { setProfileInfo(view) }
     }
 
+    /**
+     * Set the user's profile information in the view
+     *
+     * @param view
+     */
     private suspend fun setProfileInfo(view: View) {
+        // Get the current user's ID
         val userId = fireBase.currentUserId()
 
+        // Set the email field to the current user's email
         view.findViewById<TextView>(R.id.email).text = fireBase.currentUserEmail()
 
+        // Get the user's data from the database
         val userData = fireBase.getDocument("Users", userId)
 
         if (userData == null) {
@@ -42,8 +51,10 @@ class ProfileInfo : Fragment() {
             return
         }
 
+        // Get the number of littering entries the user has made
         val statLitteringEntries = (userData.get("litteringEntries") as ArrayList<*>?)?.size ?: 0
 
+        // Set the user's data in the view
         view.findViewById<TextView>(R.id.username).text = userData.getString("username")
         view.findViewById<TextView>(R.id.region).text = userData.getString("country")
         view.findViewById<TextView>(R.id.littering_entries).text = statLitteringEntries.toString()

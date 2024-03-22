@@ -12,20 +12,17 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.weclean.R
 import com.example.weclean.backend.FireBase
 import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
-import com.example.weclean.backend.User
 
 class ProfileEdit : Fragment() {
+    // FireBase class instance to communicate with the database
     private val fireBase = FireBase()
-    private lateinit var firebaseAuth: FirebaseAuth
     private val db = Firebase.firestore
-
-    private val user1 = User()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Set the email field to the current user's email
         view.findViewById<TextView>(R.id.email).text = fireBase.currentUserEmail()
 
         // Cancel edit profile button
@@ -59,12 +56,12 @@ class ProfileEdit : Fragment() {
                     // Save the document ID
                     documentID = document.id
 
+                    // Create a new data object with the updated fields
                     val data = hashMapOf(
                         "dob" to dateOfBirth,
                         "country" to country
                     )
 
-                    //Update the document
                     // Update the document with the provided fields
                     db.document(documentID).update(data as Map<String, Any>).addOnSuccessListener {
                         println("Document with ID $documentID updated successfully.")

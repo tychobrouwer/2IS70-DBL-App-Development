@@ -60,6 +60,11 @@ class Profile : AppCompatActivity() {
     }
 }
 
+/**
+ * Switch between profile fragments
+ *
+ * @param toStatus
+ */
 fun AppCompatActivity.switchFragment(toStatus: ProfileViewStatus) {
     // Fragment manager and transaction for switching default and edit profile fragments
     val fragmentManager = supportFragmentManager
@@ -82,19 +87,21 @@ fun AppCompatActivity.switchFragment(toStatus: ProfileViewStatus) {
         return
     }
 
+    // Remove all fragments
     try {
         transaction.remove(profileInfo!!)
-    } catch (e: Exception) {}
+    } catch (_: Exception) {}
     try {
         transaction.remove(profileCommunities!!)
-    } catch (e: Exception) {}
+    } catch (_: Exception) {}
     try {
         transaction.remove(profileEdit!!)
-    } catch (e: Exception) {}
+    } catch (_: Exception) {}
     try {
         transaction.remove(profileCreateCommunity!!)
-    } catch (e: Exception) {}
+    } catch (_: Exception) {}
 
+    // Add fragment based on status
     if (toStatus == ProfileViewStatus.PROFILE_EDIT) {
         transaction.add(R.id.fragmentProfileEdit, ProfileEdit())
     } else if (toStatus == ProfileViewStatus.PROFILE) {

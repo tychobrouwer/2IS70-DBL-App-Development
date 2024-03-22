@@ -55,3 +55,13 @@ x
 Happ/src/main/java/com/example/weclean/ui/profile/CommunityListAdapter.kt,7/6/76e5c36a8f89012c50580a50299a670dda922307
 u
 Eapp/src/main/java/com/example/weclean/ui/profile/CommunityListData.kt,2/0/2031f0cf99dfc1457d9e5d9618a84d66a74f098d
+j
+:app/src/main/java/com/example/weclean/backend/Community.kt,6/7/67ad3469ff7f2b5cb427fbfed61e89328c4cae44
+f
+6app/src/main/java/com/example/weclean/backend/Image.kt,1/8/1857d29babdf5d24f8ee393b7955e71b9a300ab0
+i
+9app/src/main/java/com/example/weclean/backend/Location.kt,b/6/b655158b44b4483090b5f11a046b63659b790bdd
+l
+<app/src/main/java/com/example/weclean/backend/TimeConvert.kt,0/8/089b82d3cf81f2ae6b804bedc28bee5ab19769c9
+e
+5app/src/main/java/com/example/weclean/backend/User.kt,7/b/7bc98fece2cc47b0457683bda018793c8b2607fd

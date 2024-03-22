@@ -6,9 +6,18 @@ import kotlinx.coroutines.runBlocking
 
 class User {
 
-    //variables for sign up activity and firebase authentication
+    // FireBase class instance to communicate with the database
     private val fireBase = FireBase()
 
+    /**
+     * Create a user object
+     *
+     * @param username
+     * @param emailID
+     * @param dateOfBirth
+     * @param country
+     * @return Hashmap of the user object
+     */
     private fun createUser(username: String, emailID: String, dateOfBirth: String, country: String): HashMap<String, Any> {
 
         return hashMapOf(
@@ -19,6 +28,15 @@ class User {
         )
     }
 
+    /**
+     * Add a user to the database
+     *
+     * @param uid
+     * @param username
+     * @param emailID
+     * @param dob
+     * @param country
+     */
     fun addToDatabase(uid: String, username: String, emailID: String, dob : String, country: String) {
         // add user to the database
         val user = createUser(username, emailID, dob, country)
@@ -27,7 +45,7 @@ class User {
         runBlocking {
             val result = fireBase.addDocumentWithName("Users", uid, user)
 
-            if (result == null) {
+            if (!result) {
                 Log.d(TAG, "Error creating user")
             } else {
                 Log.d(TAG, "User created successfully")

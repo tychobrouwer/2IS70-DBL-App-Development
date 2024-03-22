@@ -2,10 +2,6 @@ package com.example.weclean.backend
 
 import android.location.Geocoder
 
-/**
- * Interface for the location
- *
- */
 interface Location {
     fun updateLocation(latitude: Double, longitude: Double)
 
