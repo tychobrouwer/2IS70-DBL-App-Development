@@ -23,7 +23,7 @@
         tools:ignore="UnusedAttribute"
         tools:targetApi="31">
         <activity
-            android:name=".AddEventActivity"
+            android:name=".ui.events.AddEventActivity"
             android:exported="false" />
         <activity
             android:name=".ui.splashscreen.SplashScreen"

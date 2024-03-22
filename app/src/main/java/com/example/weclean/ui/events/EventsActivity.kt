@@ -2,6 +2,7 @@ package com.example.weclean.ui.events
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.weclean.R
 import com.example.weclean.ui.add.Add
@@ -15,6 +16,12 @@ class EventsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_events)
+
+        // Set OnClickListener for the addEvent button
+        val buttonClick = findViewById<Button>(R.id.addEvent)
+        buttonClick.setOnClickListener {
+            startActivity(Intent(this, AddEventActivity::class.java))
+        }
 
         // Parent view of navigation view
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
@@ -43,5 +50,6 @@ class EventsActivity : AppCompatActivity() {
             }
             false
         })
+
     }
 }

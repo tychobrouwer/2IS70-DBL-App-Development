@@ -27,8 +27,8 @@
             android:gravity="center"/>
 
         <androidx.appcompat.widget.AppCompatButton
-            style="@style/Widget.Theme.WeClean.Button"
             android:id="@+id/edit_button"
+            style="@style/Widget.Theme.WeClean.Button"
             android:text="@string/button_edit_profile" />
     </LinearLayout>
 
