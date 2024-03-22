@@ -59,6 +59,12 @@ class Map : AppCompatActivity() {
     }
 }
 
+/**
+ * Switch between fragments for the map view and the littering details view
+ *
+ * @param toStatus
+ * @param documentId
+ */
 fun AppCompatActivity.switchFragment(toStatus: MapViewStatus, documentId: String = "") {
     // Fragment manager and transaction for switching default and edit profile fragments
     val fragmentManager = supportFragmentManager

@@ -14,15 +14,9 @@ import com.example.weclean.backend.Community
 import kotlinx.coroutines.runBlocking
 
 class CreateCommunity : Fragment() {
+    // Community object
     private val communityObject = Community()
 
-    /**
-     * Create a community and add the user who created the community
-     * to this community
-     *
-     * @param view
-     * @param savedInstanceState
-     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -30,8 +24,7 @@ class CreateCommunity : Fragment() {
         val cancelButton = view.findViewById<Button>(R.id.cCancel_button)
         cancelButton.setOnClickListener {
             // Switch back to default profile fragment
-            val context = activity as AppCompatActivity
-            context.switchFragment(ProfileViewStatus.PROFILE)
+            (activity as AppCompatActivity).switchFragment(ProfileViewStatus.PROFILE)
         }
 
         // Confirm create community button
@@ -63,6 +56,7 @@ class CreateCommunity : Fragment() {
             val cCode = 1
 
             runBlocking {
+                // Add community to database
                 val result = communityObject.addToDatabase(
                     communityName,
                     communityEmail,
@@ -73,7 +67,7 @@ class CreateCommunity : Fragment() {
                     Toast.makeText(context, "Community created successfully!", Toast.LENGTH_SHORT).show()
 
                     // Switch back to default profile fragment
-                    // TODO: Switch to community profile fragment
+                    (activity as AppCompatActivity).switchFragment(ProfileViewStatus.PROFILE)
                 }
             }
         }

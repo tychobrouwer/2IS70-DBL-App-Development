@@ -44,26 +44,35 @@ import java.util.Locale
 
 
 class MapView : Fragment() {
+    // Google maps fragment
     private lateinit var mapFragment: SupportMapFragment
 
+    // Location update interval
     private val interval: Long = 10000 // 10seconds
     private val fastestInterval: Long = 5000 // 5 seconds
+
+    // Firebase instance
     private val db = Firebase.firestore
 
+    // Last location received from the fusedLocationProviderClient
     private lateinit var mLastLocation: Location
     private lateinit var mLocationRequest: LocationRequest
     private val requestPermissionCode = 999
     private var fusedLocationProviderClient: FusedLocationProviderClient? = null
 
+    // Geocoder to get address from latitude and longitude
     private lateinit var geocoder : Geocoder
 
+    // List of littering entries
     private var litteringData = ArrayList<LitteringData>()
+    // Map of markers added to the map
     private var markersAdded : MutableMap<String, String> = mutableMapOf()
 
     @SuppressLint("PotentialBehaviorOverride")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Geocoder to get address from latitude and longitude
         geocoder = Geocoder(activity as AppCompatActivity, Locale.getDefault())
 
         // Add littering button to navigate to the add littering activity
@@ -72,7 +81,9 @@ class MapView : Fragment() {
             startActivity(Intent(activity as AppCompatActivity, Add::class.java))
         }
 
+        // Check for location permissions
         checkForPermission(activity as AppCompatActivity)
+        // Start location updates
         startLocationUpdates()
 
         // Fragment containing the google maps support fragment
@@ -213,7 +224,7 @@ class MapView : Fragment() {
      *
      * @param context
      * @param vectorResId
-     * @return
+     * @return BitmapDescriptor of the vector resource
      */
     private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
         return ContextCompat.getDrawable(context, vectorResId)?.run {
@@ -245,6 +256,7 @@ class MapView : Fragment() {
             .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
             .build()
 
+        // Builder for the location settings request
         val builder = LocationSettingsRequest.Builder()
         builder.addLocationRequest(mLocationRequest)
 
@@ -277,13 +289,16 @@ class MapView : Fragment() {
         mLastLocation = location
 
         mapFragment.getMapAsync { googleMap ->
+            // Camera position of the map
             val mapPosition = googleMap.cameraPosition
 
+            // Move the map to the current location if the map is at the default location
             if (mapPosition.target.latitude == 0.0 && mapPosition.target.longitude == 0.0) {
                 val latLng = LatLng(mLastLocation.latitude, mLastLocation.longitude)
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
             }
 
+            // Get littering entries nearby the current location
             getNearbyLitteringEntries(mLastLocation.latitude, mLastLocation.longitude)
         }
     }

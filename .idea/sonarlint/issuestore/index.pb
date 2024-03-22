@@ -1,23 +1,15 @@
 
-9
-	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
-F
-app/proguard-rules.pro,9\e\9e08934d811afe28fbc77aaa3c0d747b94348db9
-D
-app/build.gradle.kts,d\2\d2a4383452aad84a18429a5844d31330a012a9e6
-C
-settings.gradle.kts,7\4\749edfcc96398253e5b3416184e95c46621da850
-A
-gradle.properties,2\a\2afbb999f001938c88fa43fc2ef52abf0f8213e4
-X
-(gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
-@
-build.gradle.kts,d\b\dbcff70658daf80b53ce624f6adcaa529df5ed8d
-S
-#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
-]
--.idea/sonarlint/securityhotspotstore/index.pb,8\8\88a9255124c95bdc913197c120a8d560edc59c8e
-i
-9app/src/main/java/com/example/weclean/AddEventActivity.kt,e\4\e4ebbca2b04ca596d06868eaf15a28a10d2c4682
-P
- app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
+o
+?app/src/main/java/com/example/weclean/ui/profile/ProfileEdit.kt,7/6/761cfe83d01b9bfea7f575c326ffd85e755f2e5b
+s
+Capp/src/main/java/com/example/weclean/ui/profile/CreateCommunity.kt,0/d/0d62d90d65f5adec775d45ba85aa6e7c75b2936d
+g
+7app/src/main/java/com/example/weclean/ui/map/MapView.kt,a/c/ac2f84b6e6c26d426a65de760d2ec09f3fcf54b7
+k
+;app/src/main/java/com/example/weclean/ui/profile/Profile.kt,9/e/9e1616ea98065de465242843143be333d67fd94a
+c
+3app/src/main/java/com/example/weclean/ui/map/Map.kt,8/4/8437d85d21c3e615a7791f49f5fd930f344e2f6d
+o
+?app/src/main/java/com/example/weclean/ui/profile/ProfileInfo.kt,5/f/5f1237183002ea231031d104def45f68e639c28a
+p
+@app/src/main/java/com/example/weclean/ui/map/LitteringDetails.kt,f/3/f3970750271b329c959161a490cdafef42879c98

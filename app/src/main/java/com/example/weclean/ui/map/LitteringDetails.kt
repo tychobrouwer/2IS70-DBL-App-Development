@@ -27,17 +27,27 @@ import kotlinx.coroutines.runBlocking
 import java.util.Locale
 
 class LitteringDetails : Fragment() {
-    private val db = Firebase.firestore
-    private val dbStore = FirebaseStorage.getInstance()
+    // FireBase class instance to communicate with the database
     private val fireBase = FireBase()
 
+    // Littering ID to show details of
     private var litteringId: String = ""
 
+    // Geocoder to get address from latitude and longitude
     private lateinit var geocoder : Geocoder
+    // Littering data object
     private lateinit var litteringData: LitteringData
+    // View of the fragment
     private lateinit var view : View
 
+    /**
+     * Create a new instance of the LitteringDetails fragment with the littering ID
+     *
+     * @param litteringId
+     * @return
+     */
     fun newInstance(litteringId: String): LitteringDetails {
+        // Create new fragment with littering ID
         val fragment = LitteringDetails()
         fragment.litteringId = litteringId
 
@@ -47,15 +57,19 @@ class LitteringDetails : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Geocoder to get address from latitude and longitude
         geocoder = Geocoder(activity as AppCompatActivity, Locale.getDefault())
+        // Littering data object
         litteringData = LitteringData(geocoder)
 
         this.view = view
 
+        // Update littering entry fields in the fragment
         runBlocking { updateFields() }
     }
 
     private suspend fun updateFields() {
+        // Get littering data from database
         val litteringDataResult = fireBase.getDocument("LitteringData", litteringId)
 
         if (litteringDataResult == null) {
@@ -78,10 +92,12 @@ class LitteringDetails : Fragment() {
         litteringData.tags = (litteringDataResult.get("tags") as ArrayList<*>).map { it as String } as ArrayList<String>
         litteringData.id = litteringDataResult.id
 
+        // Update the fields in the fragment
         view.findViewById<TextView>(R.id.littering_location).text = litteringData.getAddressLine()
         view.findViewById<TextView>(R.id.littering_time).text = dayStringFormat(litteringData.timeStamp)
         view.findViewById<TextView>(R.id.littering_description).text = litteringData.description
 
+        // Add tags to the chip group
         for (tag in litteringData.tags) {
             addTagChip(view, tag)
         }
@@ -89,6 +105,7 @@ class LitteringDetails : Fragment() {
         // Load image from Firebase Storage
         val imageView = view.findViewById<ImageView>(R.id.littering_image)
 
+        // Get image bytes from Firebase Storage
         val imageBytes = fireBase.getFileBytes(litteringData.imageId, 1024 * 1024)
 
         if (imageBytes == null) {
@@ -96,12 +113,13 @@ class LitteringDetails : Fragment() {
             return
         }
 
+        // Set image view with the image bytes
         val bmp = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
         imageView.setImageBitmap(bmp)
     }
 
     /**
-     * Add chip to the ChipGroup and update litteringData
+     * Add chip to the ChipGroup
      *
      * @param chipText
      */

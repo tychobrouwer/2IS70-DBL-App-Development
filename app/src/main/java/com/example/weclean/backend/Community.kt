@@ -11,12 +11,20 @@ private val user1 = User()
 
 class Community {
 
-    //variables for sign up activity and firebase authentication
+    // FireBase class instance to communicate with the database
     private var fireBase = FireBase()
 
-    private lateinit var firebaseAuth: FirebaseAuth
-    private val db = Firebase.firestore
-
+    /**
+     * Create a community object
+     *
+     * @param cName
+     * @param email
+     * @param location
+     * @param cCode
+     * @param userIds
+     * @param adminIds
+     * @return Hashmap of the community object
+     */
     private fun createCommunity(cName: String,
                                 email: String,
                                 location: String,
@@ -34,6 +42,15 @@ class Community {
         )
     }
 
+    /**
+     * Add a community to the database
+     *
+     * @param name
+     * @param contactEmail
+     * @param location
+     * @param code
+     * @return Boolean if adding community to the database was successful
+     */
     suspend fun addToDatabase(name: String, contactEmail: String, location: String, code : Int) : Boolean {
         val adminId = fireBase.currentUserId()
         val community = createCommunity(name, contactEmail, location, code, arrayListOf(adminId), arrayListOf(adminId))
@@ -51,6 +68,12 @@ class Community {
         return true
     }
 
+    /**
+     * Add a user to a community with a community code
+     *
+     * @param communityCode
+     * @return Boolean if adding user to community was successful
+     */
     suspend fun addUserWithCode(communityCode: String) : Boolean {
         val userId = fireBase.currentUserId()
 

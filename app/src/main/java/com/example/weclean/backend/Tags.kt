@@ -11,10 +11,6 @@ interface Tags {
     var tags : ArrayList<String>
 }
 
-/**
- * Implementation of the tags
- *
- */
 class TagsImpl : Tags {
     // List of current tags
     override var tags = ArrayList<String>()

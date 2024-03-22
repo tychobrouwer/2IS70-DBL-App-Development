@@ -30,7 +30,7 @@ class LitteringData(
     /**
      * Compose the address line to display to the user
      *
-     * @return
+     * @return String of the address line
      */
     fun getAddressLine() : String {
         return location.streetAddress + ", " + location.city
@@ -40,7 +40,7 @@ class LitteringData(
      * Creates a hashmap of the important data to be stored in the database
      *
      * @param creator
-     * @return
+     * @return HashMap of the littering data
      */
     fun createLitteringData(creator : String) : HashMap<String, Any> {
         return hashMapOf(
