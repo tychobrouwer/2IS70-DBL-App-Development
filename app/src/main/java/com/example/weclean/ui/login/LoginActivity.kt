@@ -45,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
 
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Empty fields are not allowed", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
 
             //now login the user
