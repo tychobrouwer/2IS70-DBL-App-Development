@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.weclean.Achievements
 import com.example.weclean.ui.add.Add
 import com.example.weclean.ui.home.Home
 import com.example.weclean.R
@@ -51,14 +50,17 @@ class Profile : AppCompatActivity() {
                     startActivity(Intent(applicationContext, EventsActivity::class.java))
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.navigation_profile -> return@OnNavigationItemSelectedListener true
+                R.id.navigation_profile -> {
+                    switchFragment(ProfileViewStatus.PROFILE)
+                    return@OnNavigationItemSelectedListener true
+                }
             }
             false
         })
     }
 }
 
-fun AppCompatActivity.switchFragment(toStatus: ProfileViewStatus, fromStatus: ProfileViewStatus) {
+fun AppCompatActivity.switchFragment(toStatus: ProfileViewStatus) {
     // Fragment manager and transaction for switching default and edit profile fragments
     val fragmentManager = supportFragmentManager
     val transaction = fragmentManager.beginTransaction()
@@ -80,24 +82,25 @@ fun AppCompatActivity.switchFragment(toStatus: ProfileViewStatus, fromStatus: Pr
         return
     }
 
-    if (toStatus == ProfileViewStatus.PROFILE_EDIT) {
-        // Remove default profile view fragments and add profile edit fragment
+    try {
         transaction.remove(profileInfo!!)
+    } catch (e: Exception) {}
+    try {
         transaction.remove(profileCommunities!!)
+    } catch (e: Exception) {}
+    try {
+        transaction.remove(profileEdit!!)
+    } catch (e: Exception) {}
+    try {
+        transaction.remove(profileCreateCommunity!!)
+    } catch (e: Exception) {}
+
+    if (toStatus == ProfileViewStatus.PROFILE_EDIT) {
         transaction.add(R.id.fragmentProfileEdit, ProfileEdit())
     } else if (toStatus == ProfileViewStatus.PROFILE) {
-        // Remove profile edit fragment and add default profile view fragments
-        if (fromStatus == ProfileViewStatus.PROFILE_EDIT) {
-            transaction.remove(profileEdit!!)
-        } else if (fromStatus == ProfileViewStatus.COMMUNITY_CREATE) {
-            transaction.remove(profileCreateCommunity!!)
-        }
-
         transaction.add(R.id.fragmentProfileInfo, ProfileInfo())
         transaction.add(R.id.fragmentProfileCommunities, ProfileCommunities())
     } else if (toStatus == ProfileViewStatus.COMMUNITY_CREATE) {
-        transaction.remove(profileInfo!!)
-        transaction.remove(profileCommunities!!)
         transaction.add(R.id.fragmentCreateCommunity, CreateCommunity())
     }
 

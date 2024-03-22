@@ -29,6 +29,14 @@ class FireBase {
         }
     }
 
+    suspend fun getFileBytes(document: String, maxByteSize: Long) : ByteArray? {
+        return try {
+            dbStore.getReference(document).getBytes(maxByteSize).await()
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
     suspend fun addDocumentWithName(collection: String, document: String, data: Any) : Boolean {
         return try {
             db.collection(collection).document(document).set(data).await()

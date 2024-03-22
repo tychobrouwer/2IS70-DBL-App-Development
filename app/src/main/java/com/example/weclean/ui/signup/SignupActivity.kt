@@ -71,7 +71,7 @@ class SignupActivity : AppCompatActivity() {
                     // add user to Community/No Community/Users/...
                     userObject.addToDatabase(uid, username, email, dob, country)
 
-                    //navigate to the home screen
+                    // navigate to the home screen
                     val intent = Intent(this, Home::class.java)
                     startActivity(intent)
 

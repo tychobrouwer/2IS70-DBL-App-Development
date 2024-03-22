@@ -78,7 +78,9 @@ class LitteringData(
         return tagsData.removeTag(tag)
     }
 
-    override var tags = tagsData.tags
+    override var tags: ArrayList<String>
+        get() = tagsData.tags
+        set(value) { tagsData.tags = value }
 
     override var imageId: String
         get() = image.imageId
