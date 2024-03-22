@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.weclean.Achievements
 import com.example.weclean.ui.add.Add
 import com.example.weclean.ui.home.Home
 import com.example.weclean.ui.profile.Profile
@@ -38,7 +37,10 @@ class Map : AppCompatActivity() {
                     startActivity(Intent(applicationContext, Home::class.java))
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.navigation_map -> return@OnNavigationItemSelectedListener true
+                R.id.navigation_map -> {
+                    switchFragment(MapViewStatus.Map)
+                    return@OnNavigationItemSelectedListener true
+                }
                 R.id.navigation_add -> {
                     startActivity(Intent(applicationContext, Add::class.java))
                     return@OnNavigationItemSelectedListener true
@@ -57,7 +59,7 @@ class Map : AppCompatActivity() {
     }
 }
 
-fun AppCompatActivity.switchFragment(toStatus: MapViewStatus, documentId: String) {
+fun AppCompatActivity.switchFragment(toStatus: MapViewStatus, documentId: String = "") {
     // Fragment manager and transaction for switching default and edit profile fragments
     val fragmentManager = supportFragmentManager
     val transaction = fragmentManager.beginTransaction()

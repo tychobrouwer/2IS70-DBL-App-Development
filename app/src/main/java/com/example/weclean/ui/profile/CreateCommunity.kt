@@ -31,7 +31,7 @@ class CreateCommunity : Fragment() {
         cancelButton.setOnClickListener {
             // Switch back to default profile fragment
             val context = activity as AppCompatActivity
-            context.switchFragment(ProfileViewStatus.PROFILE, ProfileViewStatus.COMMUNITY_CREATE)
+            context.switchFragment(ProfileViewStatus.PROFILE)
         }
 
         // Confirm create community button
