@@ -102,7 +102,7 @@
 
         <TextView
             android:id="@+id/select_location"
-            style="@style/Widget.Theme.WeClean.TextInput"
+            style="@style/Widget.Theme.WeClean.Text"
             android:autofillHints="postalAddress"
             android:hint="@string/hint_location" />
 

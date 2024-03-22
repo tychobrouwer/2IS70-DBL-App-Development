@@ -17,11 +17,15 @@ class LitteringData(
     private val image : Image = ImageImpl()
 
     // Community of the littering data
-    var community : String = ""
+    var community = ""
     // Description of the littering data
-    var description : String = ""
+    var description = ""
     // Time stamp of the littering data (epoch)
-    var timeStamp: Long = System.currentTimeMillis();
+    var timeStamp = System.currentTimeMillis()
+    // Firebase id of the littering data
+    var id = ""
+    // Creator of the littering data
+    var creator = ""
 
     /**
      * Compose the address line to display to the user
@@ -42,6 +46,7 @@ class LitteringData(
         return hashMapOf(
             "geoPoint" to GeoPoint(latitude, longitude),
             "description" to description.replace("\n", "_newline"),
+            "imageId" to imageId,
             "tags" to tags,
             "date" to Date(timeStamp),
             "community" to community,
@@ -74,4 +79,8 @@ class LitteringData(
     }
 
     override var tags = tagsData.tags
+
+    override var imageId: String
+        get() = image.imageId
+        set(value) { image.imageId = value }
 }

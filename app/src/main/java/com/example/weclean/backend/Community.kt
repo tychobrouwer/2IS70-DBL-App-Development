@@ -1,111 +1,68 @@
 package com.example.weclean.backend
 
-import android.content.ContentValues
 import android.content.ContentValues.TAG
-import android.content.Intent
-import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.example.weclean.ui.home.Home
-import com.example.weclean.databinding.ActivitySignupBinding
-import com.example.weclean.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
-import android.content.Context
-import android.content.SharedPreferences
-import com.example.weclean.backend.User
-import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.Filter
 
 private val user1 = User()
 
 class Community {
 
     //variables for sign up activity and firebase authentication
-    private lateinit var binding:ActivitySignupBinding
+    private var fireBase = FireBase()
+
     private lateinit var firebaseAuth: FirebaseAuth
-    //private val db = FirebaseFirestore.getInstance()
     private val db = Firebase.firestore
 
-    fun createCommunity(cName: String, email: String, location: String, cCode : Int): HashMap<String, Any> {
-
+    private fun createCommunity(cName: String,
+                                email: String,
+                                location: String,
+                                cCode: Int,
+                                userIds: ArrayList<String>,
+                                adminIds: ArrayList<String>)
+    : HashMap<String, Any> {
         return hashMapOf(
-            "communityName" to cName,
-            "communityEmail" to email,
-            "communityLocation" to location,
-            "communityCode" to cCode
+            "name" to cName,
+            "contactEmail" to email,
+            "location" to location,
+            "code" to cCode,
+            "userIds" to userIds,
+            "adminIds" to adminIds
         )
     }
 
-    fun addCommunityWithUserToDatabase(cName: String, email: String, location: String, userConfirmEmail : String, cCode : Int) {
+    suspend fun addToDatabase(name: String, contactEmail: String, location: String, code : Int) : Boolean {
+        val adminId = fireBase.currentUserId()
+        val community = createCommunity(name, contactEmail, location, code, arrayListOf(adminId), arrayListOf(adminId))
 
-        firebaseAuth = FirebaseAuth.getInstance()
+        val result = fireBase.addDocument("Community", community)
 
-        //create the community
-        val community = createCommunity(cName, email, location, cCode);
+        if (result == null) {
+            Log.d(TAG, "Error creating community")
 
-        db.collection("Community").add(community).addOnSuccessListener { documentReference ->
-            Log.d(ContentValues.TAG, "DocumentSnapshot successfully written!")
-            // Retrieve the ID of the added community document
-            val communityId = documentReference.id
+            return false
+        }
 
-            // Add the user to this community
-            getUserData(communityId, userConfirmEmail)
+        fireBase.addToArray("Users", adminId, "communityIds", result.id)
 
-        }.addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error writing document", e) }
+        return true
     }
 
-    private fun getUserData (communityId: String, userEmail: String) {
-        db.collection("Community").document("No Community")
-            .collection("Users").whereEqualTo("email", userEmail).get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    val userData = document.data
-                    addUserToCommunitySuccess(communityId, userData, userEmail)
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting user document: ", exception)
-            }
-    }
+    suspend fun addUserWithCode(communityCode: String) : Boolean {
+        val userId = fireBase.currentUserId()
 
-    private fun addUserToCommunitySuccess(communityId: String, userData: Map<String, Any>, userEmail: String) {
-        db.collection("Community").document(communityId)
-            .collection("Users").add(userData)
-            .addOnSuccessListener {
-                Log.d(TAG, "User added successfully to the community")
-                removeUserFromStandardCommunity(userEmail)
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding user to the community", e)
-                // Handle failure, if needed
-            }
-    }
+        val communityData = fireBase.getDocumentsWithFilter(
+            "Community",
+            Filter.equalTo("Code",communityCode)
+        ) ?: return false
 
-    private fun removeUserFromStandardCommunity(userEmail: String) {
-        db.collection("Community").document("No Community")
-            .collection("Users").whereEqualTo("email", userEmail).get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    deleteUserDocument(document.reference)
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting user document: ", exception)
-            }
-    }
+        val communityId = communityData!!.documents[0].id
+        val userResult = fireBase.addToArray("Users", userId, "Communities", communityId)
+        val communityResult = fireBase.addToArray("Community", communityId, "userIds", userId)
 
-    private fun deleteUserDocument(documentReference: DocumentReference) {
-        documentReference.delete()
-            .addOnSuccessListener {
-                Log.d(TAG, "User document deleted successfully")
-                // Handle success, if needed
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error deleting user document", e)
-                // Handle failure, if needed
-            }
+        return !(!userResult || !communityResult)
     }
 }

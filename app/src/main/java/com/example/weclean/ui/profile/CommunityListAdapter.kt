@@ -9,7 +9,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.weclean.R
-import java.util.ArrayList;
+import java.util.ArrayList
 
 class CommunityListAdapter(context: Context, dataArrayList: ArrayList<CommunityListData>) : ArrayAdapter<CommunityListData>(context,
     R.layout.community_list_item, dataArrayList) {
@@ -42,9 +42,9 @@ class CommunityListAdapter(context: Context, dataArrayList: ArrayList<CommunityL
 
         // Hide either delete or manage button based on if user is an admin of community
         if (listData.userIsAdmin) {
-            listViewParent.removeView(listManageButton)
-        } else {
             listViewParent.removeView(listLeaveButton)
+        } else {
+            listViewParent.removeView(listManageButton)
         }
 
         return view

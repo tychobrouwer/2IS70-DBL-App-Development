@@ -1,9 +1,6 @@
 package com.example.weclean.backend
 
 import android.location.Geocoder
-import android.widget.TextView
-import com.example.weclean.R
-import java.util.Locale
 
 /**
  * Interface for the location
@@ -64,10 +61,10 @@ class LocationImpl(geocoder: Geocoder
     private fun setAddressFromLatLng() {
         val addresses = geocoder.getFromLocation(latitude, longitude, 1)
         if (addresses != null) {
-            this.address = addresses[0].getAddressLine(0)
-            this.streetAddress = address.split(Regex(","))[0]
-            this.city = addresses[0].locality
-            this.country = addresses[0].countryName
+            address = addresses[0].getAddressLine(0)
+            streetAddress = address.split(Regex(","))[0]
+            city = addresses[0].locality
+            country = addresses[0].countryName
         }
     }
 }

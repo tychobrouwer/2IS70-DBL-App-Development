@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weclean.Achievements
 import com.example.weclean.R
+import com.example.weclean.ui.events.EventsActivity
 
 class Home : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,8 +36,8 @@ class Home : AppCompatActivity() {
                     startActivity(Intent(applicationContext, Add::class.java))
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.navigation_achievements -> {
-                    startActivity(Intent(applicationContext, Achievements::class.java))
+                R.id.navigation_events -> {
+                    startActivity(Intent(applicationContext, EventsActivity::class.java))
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_profile -> {
@@ -49,9 +50,9 @@ class Home : AppCompatActivity() {
 
         //TODO: when the database will be ready implement a proper data retrieve
         val eventList = mutableListOf(
-            Event(null,null, null, null, null, null),
-            Event(null,null, null, null, null, null),
-            Event(null,null, null, null, null, null)
+            EventData(null,null, null, null, null, null),
+            EventData(null,null, null, null, null, null),
+            EventData(null,null, null, null, null, null)
         )
 
         val adapter = EventAdapter(eventList)
@@ -84,13 +85,13 @@ class Home : AppCompatActivity() {
 
         itemLayout1.setOnClickListener {
             val intent = Intent(this, EventPopup::class.java)
-            intent.putExtra("event", Event(null,null, null, null, null, null))
+            intent.putExtra("event", EventData(null,null, null, null, null, null))
             startActivity(intent)
         }
 
         itemLayout2.setOnClickListener {
             val intent = Intent(this, EventPopup::class.java)
-            intent.putExtra("event", Event(null,null, null, null, null, null))
+            intent.putExtra("event", EventData(null,null, null, null, null, null))
             startActivity(intent)
         }
 

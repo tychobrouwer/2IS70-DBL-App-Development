@@ -18,9 +18,9 @@
         android:title="@string/title_add" />
 
     <item
-        android:id="@+id/navigation_achievements"
-        android:icon="@drawable/trophy_solid"
-        android:title="@string/title_achievements" />
+        android:id="@+id/navigation_events"
+        android:icon="@drawable/calendar_days_solid"
+        android:title="@string/title_events" />
 
     <item
         android:id="@+id/navigation_profile"

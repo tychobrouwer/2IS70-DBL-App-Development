@@ -30,7 +30,7 @@
     <TextView
         style="@style/Widget.Theme.WeClean.SectionLabel"
         android:id="@+id/cEmail_label"
-        android:text="@string/label_add_cEmail" />
+        android:text="@string/label_contact_email" />
 
     <EditText
         style="@style/Widget.Theme.WeClean.TextInput"
@@ -38,6 +38,18 @@
         android:inputType="textEmailAddress"
         android:autofillHints="emailAddress"
         android:hint="@string/hint_add_cEmail" />
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.SectionLabel"
+        android:id="@+id/cConfirmEmail_label"
+        android:text="@string/label_confirm_contact_email" />
+
+    <EditText
+        style="@style/Widget.Theme.WeClean.TextInput"
+        android:id="@+id/community_confirm_email"
+        android:inputType="textEmailAddress"
+        android:autofillHints="emailAddress"
+        android:hint="Write your confirm email here" />
 
     <TextView
         style="@style/Widget.Theme.WeClean.SectionLabel"
@@ -50,42 +62,6 @@
         android:id="@+id/community_location"
         android:hint="@string/hint_add_cLocation"/>
 
-    <TextView
-        style="@style/Widget.Theme.WeClean.SectionLabel"
-        android:id="@+id/cConfirmEmail_label"
-        android:text="Confirm Email" />
-
-    <EditText
-        style="@style/Widget.Theme.WeClean.TextInput"
-        android:id="@+id/community_confirm_email"
-        android:inputType="textEmailAddress"
-        android:autofillHints="emailAddress"
-        android:hint="Write your confirm email here" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-
-        <TextView
-            style="@style/Widget.Theme.WeClean.SectionLabel"
-            android:id="@+id/cCommunityCode_label"
-            android:text="Community Code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            style="@style/Widget.Theme.WeClean.TextInput"
-            android:id="@+id/community_code"
-            android:inputType="number"
-            android:hint="Input 5 numbers"
-            android:layout_marginStart="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,20 +71,17 @@
         <androidx.appcompat.widget.AppCompatButton
             style="@style/Widget.Theme.WeClean.ButtonRed"
             android:id="@+id/cCancel_button"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_marginEnd="25dp"
+            android:layout_marginVertical="8dp"
+            android:layout_width="100dp"
             android:text="@string/button_cancel" />
 
         <androidx.appcompat.widget.AppCompatButton
             style="@style/Widget.Theme.WeClean.Button"
             android:id="@+id/cConfirm_button"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_marginStart="25dp"
+            android:layout_marginVertical="8dp"
+            android:layout_width="100dp"
             android:text="@string/button_confirm" />
 
     </LinearLayout>

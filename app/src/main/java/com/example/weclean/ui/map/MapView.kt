@@ -1,12 +1,12 @@
 package com.example.weclean.ui.map
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.drawable.Icon
 import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
@@ -41,7 +41,6 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.firestore
 import java.util.Locale
-import kotlin.math.abs
 
 
 class MapView : Fragment() {
@@ -59,8 +58,9 @@ class MapView : Fragment() {
     private lateinit var geocoder : Geocoder
 
     private var litteringData = ArrayList<LitteringData>()
-    private var markersAdded = ArrayList<String>()
+    private var markersAdded : MutableMap<String, String> = mutableMapOf()
 
+    @SuppressLint("PotentialBehaviorOverride")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -86,6 +86,14 @@ class MapView : Fragment() {
                 val mapPosition = googleMap.cameraPosition
                 getNearbyLitteringEntries(mapPosition.target.latitude, mapPosition.target.longitude)
             }
+
+            googleMap.setOnInfoWindowClickListener { marker ->
+                val litteringId = markersAdded[marker.id] ?: return@setOnInfoWindowClickListener
+
+                val context = activity as AppCompatActivity
+                context.switchFragment(MapViewStatus.LitteringDetails, litteringId)
+            }
+
 
             // Set styling from the mapstyle.json raw resource
             googleMap.setMapStyle(
@@ -149,10 +157,12 @@ class MapView : Fragment() {
                     // Construct LitteringData object for the entry from database
                     val litteringEntry = LitteringData(geocoder)
                     litteringEntry.timeStamp = document.getDate("date")!!.time
-                    litteringEntry.community = document.getString("description")!!
+                    litteringEntry.community = document.getString("community")!!
+                    litteringEntry.creator = document.getString("creator")!!
                     litteringEntry.description = document.getString("description")!!
                         .replace("_newline", "\n")
                     litteringEntry.updateLocation(entryLatitude, entryLongitude)
+                    litteringEntry.id = document.id
 
                     // Add entry to return value
                     litteringData.add(litteringEntry)
@@ -179,13 +189,8 @@ class MapView : Fragment() {
         mapFragment.getMapAsync { googleMap ->
             // Loop through littering entries and add markers to the map
             for (litteringEntry in litteringData) {
-                // Identifier for litteringEntry to keep track of added markers
-                val identifier = "${litteringEntry.latitude}," +
-                        "${litteringEntry.longitude}," +
-                        "${litteringEntry.timeStamp}"
-
                 // If marker not yet displayed on map, add marker
-                if (!markersAdded.contains(identifier)) {
+                if (!markersAdded.values.contains(litteringEntry.id)) {
                     // Marker options for the littering entry
                     val markerOptions = MarkerOptions()
                         .title("Littering location")
@@ -195,8 +200,9 @@ class MapView : Fragment() {
                             R.drawable.garbage_bag_icon))
 
                     // Add marker to the map
-                    googleMap.addMarker(markerOptions)
-                    markersAdded.add(identifier)
+                    val marker = googleMap.addMarker(markerOptions) ?: return@getMapAsync
+
+                    markersAdded[marker.id] = litteringEntry.id
                 }
             }
         }
@@ -306,3 +312,4 @@ class MapView : Fragment() {
         return inflater.inflate(R.layout.fragment_map_view, container, false)
     }
 }
+

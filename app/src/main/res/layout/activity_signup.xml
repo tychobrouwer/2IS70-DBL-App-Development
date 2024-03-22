@@ -23,10 +23,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/registerUsername"
+        android:id="@+id/email"
         style="@style/Widget.Theme.WeClean.TextInput"
         android:layout_marginTop="70dp"
-        android:autofillHints="@string/prompt_email"
+        android:autofillHints="emailAddress"
         android:hint="@string/prompt_email"
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
@@ -36,48 +36,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logo" />
 
-    <EditText
-        android:id="@+id/firstName"
-        style="@style/Widget.Theme.WeClean.TextInput"
-        android:layout_marginTop="20dp"
-        android:autofillHints="@string/first_name"
-        android:hint="@string/first_name"
-        android:inputType="textPersonName"
-        android:selectAllOnFocus="true"
-        android:shadowColor="@color/blue_500"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/registerUsername" />
+<!--    <EditText-->
+<!--        android:id="@+id/firstName"-->
+<!--        style="@style/Widget.Theme.WeClean.TextInput"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:autofillHints="@string/first_name"-->
+<!--        android:hint="@string/first_name"-->
+<!--        android:inputType="textPersonName"-->
+<!--        android:selectAllOnFocus="true"-->
+<!--        android:shadowColor="@color/blue_500"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/registerUsername" />-->
 
     <EditText
-        android:id="@+id/lastName"
+        android:id="@+id/username"
         style="@style/Widget.Theme.WeClean.TextInput"
         android:layout_marginTop="20dp"
-        android:autofillHints="@string/last_name"
-        android:hint="@string/last_name"
+        android:autofillHints="username"
+        android:hint="@string/username"
         android:inputType="textPersonName"
         android:selectAllOnFocus="true"
         android:shadowColor="@color/blue_500"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/firstName" />
+        app:layout_constraintTop_toBottomOf="@id/email" />
 
     <EditText
         android:id="@+id/registerPassword"
         style="@style/Widget.Theme.WeClean.TextInput"
         android:layout_marginTop="20dp"
-        android:autofillHints="@string/prompt_password"
+        android:autofillHints="password"
         android:hint="@string/prompt_password"
         android:imeActionLabel="@string/action_sign_up_short"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lastName" />
+        app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <EditText
         android:id="@+id/confirmPassword"
         style="@style/Widget.Theme.WeClean.TextInput"
         android:layout_marginTop="20dp"
-        android:autofillHints="@string/prompt_confirm_password"
+        android:autofillHints="password"
         android:hint="@string/prompt_confirm_password"
         android:imeActionLabel="@string/action_sign_up_short"
         android:imeOptions="actionDone"

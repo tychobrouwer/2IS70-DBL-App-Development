@@ -1,51 +1,37 @@
 package com.example.weclean.backend
 
 import android.content.ContentValues.TAG
-import android.content.Intent
-import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.example.weclean.ui.home.Home
-import com.example.weclean.databinding.ActivitySignupBinding
-import com.example.weclean.ui.login.LoginActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.firestore
-import android.content.Context
-import android.content.SharedPreferences
+import kotlinx.coroutines.runBlocking
 
 class User {
 
     //variables for sign up activity and firebase authentication
-    private lateinit var binding:ActivitySignupBinding
-    private lateinit var firebaseAuth: FirebaseAuth
-    //private val db = FirebaseFirestore.getInstance()
-    private val db = Firebase.firestore
+    private val fireBase = FireBase()
 
-    fun createUser(firstName: String, lastName: String, emailID: String): HashMap<String, Any> {
+    private fun createUser(username: String, emailID: String, dateOfBirth: String, country: String): HashMap<String, Any> {
 
         return hashMapOf(
-            "firstName" to firstName,
-            "lastName" to lastName,
-            "email" to emailID
+            "username" to username,
+            "email" to emailID,
+            "dob" to dateOfBirth,
+            "country" to country,
         )
     }
 
-    fun addToDatabase(firstName: String, lastName: String, emailID: String) {
+    fun addToDatabase(uid: String, username: String, emailID: String, dob : String, country: String) {
+        // add user to the database
+        val user = createUser(username, emailID, dob, country)
 
-        firebaseAuth = FirebaseAuth.getInstance()
+        // add user to Users/...
+        runBlocking {
+            val result = fireBase.addDocumentWithName("Users", uid, user)
 
-        //add user to the database
-        val user = createUser(firstName, lastName, emailID)
-
-        //add user to Community/No Community/Users/...
-        db.collection("Community").document("No Community").
-        collection("Users").add(user)
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
-
+            if (result == null) {
+                Log.d(TAG, "Error creating user")
+            } else {
+                Log.d(TAG, "User created successfully")
+            }
+        }
     }
-
 }

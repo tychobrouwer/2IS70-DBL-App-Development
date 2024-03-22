@@ -15,30 +15,30 @@ class Achievements : AppCompatActivity() {
 
         setContentView(R.layout.activity_achievements)
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
-        bottomNavigationView.selectedItemId = R.id.navigation_achievements
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.navigation_home -> {
-                    startActivity(Intent(applicationContext, Home::class.java))
-                    return@OnNavigationItemSelectedListener true
-                }
-                R.id.navigation_map -> {
-                    startActivity(Intent(applicationContext, Map::class.java))
-                    return@OnNavigationItemSelectedListener true
-                }
-                R.id.navigation_add -> {
-                    startActivity(Intent(applicationContext, Add::class.java))
-                    return@OnNavigationItemSelectedListener true
-                }
-                R.id.navigation_achievements -> return@OnNavigationItemSelectedListener true
-                R.id.navigation_profile -> {
-                    startActivity(Intent(applicationContext, Profile::class.java))
-                    return@OnNavigationItemSelectedListener true
-                }
-            }
-            false
-        })
+//        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
+//        bottomNavigationView.selectedItemId = R.id.navigation_add
+//
+//        bottomNavigationView.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
+//            when (item.itemId) {
+//                R.id.navigation_home -> {
+//                    startActivity(Intent(applicationContext, Home::class.java))
+//                    return@OnNavigationItemSelectedListener true
+//                }
+//                R.id.navigation_map -> {
+//                    startActivity(Intent(applicationContext, Map::class.java))
+//                    return@OnNavigationItemSelectedListener true
+//                }
+//                R.id.navigation_add -> {
+//                    startActivity(Intent(applicationContext, Add::class.java))
+//                    return@OnNavigationItemSelectedListener true
+//                }
+//                R.id.navigation_events -> return@OnNavigationItemSelectedListener true
+//                R.id.navigation_profile -> {
+//                    startActivity(Intent(applicationContext, Profile::class.java))
+//                    return@OnNavigationItemSelectedListener true
+//                }
+//            }
+//            false
+//        })
     }
 }
