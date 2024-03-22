@@ -1,3 +1,4 @@
+<!-- TODO: add comments for each section to easier understand what section is for what part of the app -->
 <resources>
     <string name="app_name" translatable="false">WeClean</string>
     <string name="slogan" translatable="false">Make the Netherlands green again</string>
@@ -79,12 +80,18 @@
     <string name="label_add_cLocation">"Location"</string>
     <string name="hint_add_cLocation">"Where is the community based in?"</string>
 
+    <!-- Events -->
     <string name="button_upcoming_events">Upcoming events</string>
-    <string name="event_name">Name</string>
-    <string name="event_date">Date</string>
-    <string name="event_time">Time</string>
-    <string name="event_location">Location</string>
+    <string name="event_name_table">Name</string>
+    <string name="event_date_table">Date</string>
+    <string name="event_time_table">Time</string>
+    <string name="event_location_table">Location</string>
     <string name="create_event">Add Event</string>
+    <string name="event_name">Event Name</string>
+    <string name="event_date">Date and Time</string>
+    <string name="description_event">Description of the cleanup event</string>
+
+
 
     <string name="button_remove_members">REMOVE</string>
     <string name="title_manage_community">Manage Community</string>

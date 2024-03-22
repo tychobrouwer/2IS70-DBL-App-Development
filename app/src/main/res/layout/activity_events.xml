@@ -33,25 +33,25 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/event_name"
+                android:text="@string/event_name_table"
                 android:textStyle="bold" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/event_date"
+                android:text="@string/event_date_table"
                 android:textStyle="bold" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/event_time"
+                android:text="@string/event_time_table"
                 android:textStyle="bold" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/event_location"
+                android:text="@string/event_location_table"
                 android:textStyle="bold" />
         </TableRow>
 

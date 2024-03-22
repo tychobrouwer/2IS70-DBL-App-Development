@@ -17,3 +17,7 @@ S
 #.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
 ]
 -.idea/sonarlint/securityhotspotstore/index.pb,8\8\88a9255124c95bdc913197c120a8d560edc59c8e
+i
+9app/src/main/java/com/example/weclean/AddEventActivity.kt,e\4\e4ebbca2b04ca596d06868eaf15a28a10d2c4682
+P
+ app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
