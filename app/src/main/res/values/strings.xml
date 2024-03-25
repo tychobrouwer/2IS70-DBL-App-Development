@@ -25,7 +25,9 @@
     <string name="button_manage">Manage</string>
     <string name="button_leave">Leave</string>
     <string name="button_add_littering">Add Littering Entry</string>
+    <string name="button_log_out">Log out</string>
 
+    <!-- Profile -->
     <string name="label_email">Email</string>
     <string name="label_brith_date">Date of Birth</string>
     <string name="label_country_region">Country/Region</string>
@@ -90,8 +92,6 @@
     <string name="event_name">Event Name</string>
     <string name="event_date">Date and Time</string>
     <string name="description_event">Description of the cleanup event</string>
-
-
 
     <string name="button_remove_members">REMOVE</string>
     <string name="title_manage_community">Manage Community</string>
