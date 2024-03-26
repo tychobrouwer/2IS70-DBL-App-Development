@@ -31,6 +31,7 @@ class CommunityTest {
         assert(result["code"] == 123)
         assert(result["userIds"] == userIds)
         assert(result["adminIds"] == adminIds)
+        assert(false)
     }
 
     @Test

@@ -25,7 +25,7 @@ class Community {
      * @param adminIds
      * @return Hashmap of the community object
      */
-    private fun createCommunity(cName: String,
+    fun createCommunity(cName: String,
                                 email: String,
                                 location: String,
                                 cCode: Int,
