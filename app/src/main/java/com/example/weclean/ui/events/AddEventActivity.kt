@@ -3,7 +3,6 @@ package com.example.weclean.ui.events
 import android.Manifest
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
@@ -12,7 +11,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -28,25 +26,15 @@ import androidx.core.content.FileProvider
 import androidx.core.widget.addTextChangedListener
 import com.example.weclean.R
 import com.example.weclean.backend.FireBase
-import com.example.weclean.backend.Location
 import com.example.weclean.backend.LocationImpl
 import com.example.weclean.ui.home.EventData
 import com.example.weclean.ui.home.Home
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.Status
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FetchPlaceRequest
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.util.Locale
 
-
 class AddEventActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
-
     var eventData : EventData = EventData(null)
 
     private var communities = ArrayList<Pair<String, String>>()
@@ -66,7 +54,6 @@ class AddEventActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         private const val CAMERA_PERMISSION_CODE = 1
         private const val CAMERA = 2
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,10 +86,7 @@ class AddEventActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         val name = findViewById<EditText>(R.id.eventName)
         name.addTextChangedListener {
             eventData.name = name.text.toString()
-
         }
-
-
 
         val date = findViewById<EditText>(R.id.dateAndTime)
         date.setOnClickListener{
@@ -136,62 +120,20 @@ class AddEventActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
 
         }
 
-        //I have no idea what any of this does
-////        val autocompleteFragment =
-////            supportFragmentManager.findFragmentById(R.id.Location)
-////                    as AutocompleteSupportFragment
-////
-////        autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME))
-////
-////        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-////            override fun onPlaceSelected(place: Place) {
-////                val placeFields: List<Place.Field> = listOf(Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.ADDRESS_COMPONENTS)
-////
-////                // Construct a request object, passing the place ID and fields array.
-////                val request = FetchPlaceRequest.builder(place.id, placeFields).build()
-////
-////                // Issue the request to the Places Geo Data API.
-////                val placesClient = Places.createClient(this)
-////                placesClient.fetchPlace(request).addOnSuccessListener { response ->
-////                    val place = response.place
-////                    Log.i(TAG, "Place found: ${place.name}")
-////                    Log.i(TAG, "Latitude: ${place.latLng?.latitude}")
-////                    Log.i(TAG, "Longitude: ${place.latLng?.longitude}")
-////                    Log.i(TAG, "Address: ${place.address}")
-////
-////                    // You can extract address components (city, country, etc.) from the place.addressComponents field
-////                    // and set them in your LocationImpl object.
-////                }.addOnFailureListener { exception ->
-////                    if (exception is ApiException) {
-////                        val apiException = exception as ApiException
-////                        Log.e(TAG, "Place not found: " + apiException.statusCode)
-////                    }
-////                }
-////            }
-//
-//            override fun onError(status: Status) {
-//                Log.i(TAG, "An error occurred: $status")
-//            }
-//        })
+        val longitudeView = findViewById<EditText>(R.id.longitude)
+        longitudeView.addTextChangedListener {
+            longitude = longitudeView.text.toString().toDouble()
+        }
 
-
-
-        val long = findViewById<EditText>(R.id.longitude)
-        long.addTextChangedListener {
-            longitude = long.text.toString().toDouble()
+        val latitudeView = findViewById<EditText>(R.id.latitude)
+        latitudeView.addTextChangedListener {
+            latidude = latitudeView.text.toString().toDouble()
 
         }
 
-        val lat = findViewById<EditText>(R.id.latitude)
-        lat.addTextChangedListener {
-            latidude = lat.text.toString().toDouble()
-
-        }
-
-        val desc = findViewById<EditText>(R.id.description)
-        desc.addTextChangedListener {
-            eventData.desc = desc.text.toString()
-
+        val descriptionView = findViewById<EditText>(R.id.description)
+        descriptionView.addTextChangedListener {
+            eventData.desc = descriptionView.text.toString()
         }
 
         //Add camera button
@@ -229,6 +171,7 @@ class AddEventActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
                 )
             }
         }
+
         val geocoder = Geocoder(this, Locale.getDefault())
         val locat = LocationImpl(geocoder)
 
@@ -237,10 +180,7 @@ class AddEventActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
             locat.updateLocation(latidude, longitude)
             eventData.loc = locat
             sendEntryToFirebase()
-
-
         }
-
     }
 
     private fun setCommunities() {
