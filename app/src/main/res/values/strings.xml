@@ -97,5 +97,6 @@
     <string name="title_manage_community">Manage Community</string>
     <string name="label_community_code">Community Code</string>
     <string name="hint_community_code">V347835F844V</string>
+    <string name="title_activity_event_table">EventTable</string>
 
 </resources>

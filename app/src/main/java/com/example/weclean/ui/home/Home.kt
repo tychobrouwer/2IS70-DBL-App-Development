@@ -12,15 +12,25 @@ import com.example.weclean.ui.map.Map
 import com.example.weclean.ui.profile.Profile
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.weclean.Achievements
 import com.example.weclean.R
 import com.example.weclean.ui.events.EventsActivity
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class Home : AppCompatActivity() {
+
+    private val db = Firebase.firestore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_home)
+
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavigationView.selectedItemId = R.id.navigation_home
@@ -48,12 +58,17 @@ class Home : AppCompatActivity() {
             false
         })
 
+        var eventList: ArrayList<EventData>
+
+        eventList = fetchUserEvents()
+
+
         //TODO: when the database will be ready implement a proper data retrieve
-        val eventList = mutableListOf(
-            EventData(null,null, null, null, null, null),
-            EventData(null,null, null, null, null, null),
-            EventData(null,null, null, null, null, null)
-        )
+//        eventList = mutableListOf(
+//            EventData(null,null, null, null, null, null, null),
+//            EventData(null,null, null, null, null, null, null),
+//            EventData(null,null, null, null, null, null, null)
+//        )
 
         val adapter = EventAdapter(eventList)
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
@@ -85,13 +100,13 @@ class Home : AppCompatActivity() {
 
         itemLayout1.setOnClickListener {
             val intent = Intent(this, EventPopup::class.java)
-            intent.putExtra("event", EventData(null,null, null, null, null, null))
+            intent.putExtra("event", EventData(null,))
             startActivity(intent)
         }
 
         itemLayout2.setOnClickListener {
             val intent = Intent(this, EventPopup::class.java)
-            intent.putExtra("event", EventData(null,null, null, null, null, null))
+            intent.putExtra("event", EventData(null))
             startActivity(intent)
         }
 
@@ -101,5 +116,26 @@ class Home : AppCompatActivity() {
 
     }
 
+    private fun fetchUserEvents(): ArrayList<EventData> {
+        val user = FirebaseAuth.getInstance().currentUser ?: throw Exception("not authenticated")
+        val uid = user.uid
+        val eventList = arrayListOf<EventData>()
+        runBlocking {
+            val doc = db.collection("Users").document(uid).get().await()
+            val commun = doc.get("communityIds") as? ArrayList<String> ?: emptyList()
 
+
+            for (com in commun) {
+                val documents =
+                    db.collection("Events").whereEqualTo("Community", com).get().await()
+                for (doc in documents.documents) {
+                    val ev = doc.toObject(EventData::class.java)
+                    if (ev != null) {
+                        eventList.add(ev)
+                    }
+                }
+            }
+        }
+        return eventList
+    }
 }

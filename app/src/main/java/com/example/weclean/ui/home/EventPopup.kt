@@ -36,12 +36,12 @@ class EventPopup : AppCompatActivity() {
         val desc = findViewById<TextView>(R.id.desc)
 
         //TODO: implement proper event parse
-        textCity.text = event.loc
+        textCity.text = event.loc?.city ?: "NA"
         numPpl.text = event.numppl.toString()
         img.setImageResource(R.drawable.ic_launcher_background)
         date.text = event.date.toString()
-        time.text = event.date?.time.toString()
-        address.text = event.loc
+        time.text = event.date.time.toString()
+        address.text = event.loc?.address ?: "NA"
         desc.text = event.desc
 
         val home = findViewById<Button>(R.id.homepage)

@@ -226,7 +226,7 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 }
 
                 // Get the community ids the user is in
-                val userCommunityIds = communitiesResult.get("communityIds") as ArrayList<*>
+                val userCommunityIds = communitiesResult.get("communityIds") as? ArrayList<*> ?: emptyList()
                 for (community in userCommunityIds) {
                     // Get the community data
                     val communityResult =

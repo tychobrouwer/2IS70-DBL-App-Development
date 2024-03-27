@@ -30,25 +30,33 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
+                android:id="@+id/h1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/event_name_table"
                 android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/h2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/event_date_table"
                 android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/h3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/event_time_table"
                 android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/h4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -68,6 +76,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ScrollView
+        android:id="@+id/container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@id/events_table"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/addEvent"
+        app:layout_constraintEnd_toEndOf="@+id/events_table"
+        app:layout_constraintStart_toStartOf="@+id/events_table"
+        app:layout_constraintTop_toBottomOf="@+id/events_table">
+
+        <TableLayout
+            android:id="@+id/rows"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*"></TableLayout>
+    </ScrollView>
 
     <include layout="@layout/navbar" />
 

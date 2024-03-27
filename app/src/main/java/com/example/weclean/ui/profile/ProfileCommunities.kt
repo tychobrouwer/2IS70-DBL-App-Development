@@ -109,7 +109,7 @@ class ProfileCommunities : Fragment() {
                     return@launch
                 }
 
-                val userCommunities = communitiesResult.get("communityIds") as ArrayList<*>
+                val userCommunities = communitiesResult.get("communityIds") as? ArrayList<*> ?: emptyList()
                 for (community in userCommunities) {
                     val communityResult =
                         fireBase.getDocument("Community", community as String) ?: return@launch

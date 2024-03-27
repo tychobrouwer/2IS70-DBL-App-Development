@@ -3,32 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@color/white_200"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white_200"
     tools:context=".ui.events.AddEventActivity">
 
+
     <TextView
-        style="@style/Widget.Theme.WeClean.ScreenTitle"
         android:id="@+id/screen_title"
+        style="@style/Widget.Theme.WeClean.ScreenTitle"
+        android:text="@string/create_event"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/create_event" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/AddCamera"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:scaleType="fitXY"
-        android:padding="20dp"
-        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
         android:background="@drawable/button_background"
-        app:layout_constraintTop_toBottomOf="@+id/screen_title"
+        android:padding="20dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/camera_solid"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:tint="@color/white_200"
-        android:src="@drawable/camera_solid" />
+        app:layout_constraintTop_toBottomOf="@+id/screen_title"
+        app:tint="@color/white_200" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -37,7 +38,7 @@
         android:layout_marginTop="10dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/AddCamera"
-        tools:layout_editor_absoluteX="-30dp" >
+        tools:layout_editor_absoluteX="-30dp">
 
         <TextView
             android:id="@+id/eventNameLabel"
@@ -47,9 +48,9 @@
         <EditText
             android:id="@+id/eventName"
             style="@style/Widget.Theme.WeClean.TextInput"
+            android:autofillHints=""
             android:hint="@string/event_name"
-            android:inputType="text"
-            android:autofillHints="" />
+            android:inputType="text" />
 
         <TextView
             android:id="@+id/selectCommunityLabel"
@@ -69,19 +70,50 @@
         <EditText
             android:id="@+id/dateAndTime"
             style="@style/Widget.Theme.WeClean.TextInput"
+            android:autofillHints=""
             android:hint="@string/event_date"
-            android:inputType="datetime|date"
-            android:autofillHints="" />
+            android:inputType="datetime|date" />
 
         <TextView
             android:id="@+id/locationLabel"
             style="@style/Widget.Theme.WeClean.SectionLabel"
             android:text="@string/event_location_table" />
 
-        <EditText
-            android:id="@+id/Location"
-            style="@style/Widget.Theme.WeClean.TextInput"
-            android:autofillHints="postalAddress" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="57dp">
+
+            <EditText
+                android:id="@+id/longitude"
+                style="@style/Widget.Theme.WeClean.TextInput"
+                android:layout_width="160dp"
+                android:layout_height="43dp"
+                android:layout_marginEnd="28dp"
+                android:autofillHints=""
+                android:baselineAligned="false"
+                android:hint="longitude"
+                android:inputType="number|numberDecimal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/latitude"
+                app:layout_constraintVertical_bias="0.428" />
+
+            <EditText
+                android:id="@+id/latitude"
+                style="@style/Widget.Theme.WeClean.TextInput"
+                android:layout_width="160dp"
+                android:layout_height="43dp"
+                android:layout_marginBottom="2dp"
+                android:autofillHints=""
+                android:baselineAligned="false"
+                android:hint="latitude"
+                android:inputType="number|numberDecimal"
+                app:layout_constraintBottom_toBottomOf="@+id/longitude"
+                app:layout_constraintEnd_toStartOf="@+id/longitude"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/longitude" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/descriptionLabel"
@@ -100,8 +132,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/addButton"
@@ -114,13 +146,18 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/cancelButton"
                 style="@style/Widget.Theme.WeClean.ButtonRed"
-                android:layout_marginStart="25dp"
-                android:layout_marginVertical="8dp"
                 android:layout_width="100dp"
+                android:layout_marginVertical="8dp"
+                android:layout_marginStart="25dp"
                 android:text="@string/button_cancel" />
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group"
+        android:layout_width="143dp"
+        android:layout_height="57dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
