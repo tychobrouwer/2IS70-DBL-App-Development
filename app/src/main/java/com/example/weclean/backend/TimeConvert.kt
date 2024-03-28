@@ -1,5 +1,7 @@
 package com.example.weclean.backend
 
+import java.util.Calendar
+
 /**
  * Convert the timestamp to a readable format
  *
@@ -11,35 +13,63 @@ fun dayStringFormat(timeStamp: Long): String {
     val ONE_MINUTE = 60000L
     val ONE_HOUR = 3600000L
     val ONE_DAY = 86400000L
+    val ONE_WEEK = 604800000L
     val ONE_MONTH = 2592000000L
     val ONE_YEAR = 31536000000L
 
+    // Get the current time
     val currentTime = System.currentTimeMillis()
     val difference = currentTime - timeStamp
 
-    return when {
-        difference < ONE_MINUTE -> {
-            "Just Now"
+    // Get the current calendar instance
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = timeStamp
+    val calendarToday = Calendar.getInstance()
+
+    return when (difference) {
+        in -10*ONE_YEAR..-ONE_YEAR -> {
+            calendar.get(Calendar.MONTH).toString() + "/" +
+                    calendar.get(Calendar.DAY_OF_MONTH) + "/" +
+                    calendar.get(Calendar.YEAR).toString()
         }
-        difference < ONE_HOUR -> {
-            val timeAgo = difference / ONE_MINUTE
-            "$timeAgo Minutes Ago"
+        in -ONE_YEAR..-ONE_MONTH -> {
+            calendar.get(Calendar.MONTH).toString() + "/" +
+                    calendar.get(Calendar.DAY_OF_MONTH) + "/" +
+                    calendar.get(Calendar.YEAR).toString()
         }
-        difference < ONE_DAY -> {
-            val timeAgo = difference / ONE_HOUR
-            "$timeAgo Hours Ago"
+        in -ONE_MONTH..-2*ONE_DAY -> {
+            calendar.get(Calendar.MONTH).toString() + "/" +
+                    calendar.get(Calendar.DAY_OF_MONTH) + " " +
+                    calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" +
+                    padTimeInt(calendar.get(Calendar.MINUTE))
         }
-        difference < ONE_MONTH -> {
-            val timeAgo = difference / ONE_DAY
-            "$timeAgo Days Ago"
+        in -2*ONE_DAY..-ONE_DAY -> {
+            "Yesterday " + calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" +
+                    padTimeInt(calendar.get(Calendar.MINUTE))
         }
-        difference < ONE_YEAR -> {
-            val timeAgo = difference / ONE_MONTH
-            "$timeAgo Months Ago"
+        in -ONE_DAY..-ONE_HOUR -> {
+            calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" +
+                    padTimeInt(calendar.get(Calendar.MINUTE))
+        }
+        in -ONE_HOUR..0 -> "Now"
+        in 0..ONE_MINUTE -> "Just now"
+        in ONE_MINUTE..ONE_HOUR -> "${difference / ONE_MINUTE} Minutes ago"
+        in ONE_HOUR..ONE_DAY -> "${difference / ONE_HOUR} Hours ago"
+        in ONE_DAY..ONE_WEEK -> "${difference / ONE_DAY} Days ago"
+        in ONE_WEEK..ONE_YEAR -> {
+            calendar.get(Calendar.MONTH).toString() + "/" +
+                    calendar.get(Calendar.DAY_OF_MONTH) + " " +
+                    calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" +
+                    padTimeInt(calendar.get(Calendar.MINUTE))
         }
         else -> {
-            val timeAgo = difference / ONE_YEAR
-            "$timeAgo Years Ago"
+            calendar.get(Calendar.MONTH).toString() + "/" +
+                    calendar.get(Calendar.DAY_OF_MONTH) + "/" +
+                    calendar.get(Calendar.YEAR).toString()
         }
     }
+}
+
+fun padTimeInt(toPad: Int): String {
+    return toPad.toString().padStart(2, '0')
 }

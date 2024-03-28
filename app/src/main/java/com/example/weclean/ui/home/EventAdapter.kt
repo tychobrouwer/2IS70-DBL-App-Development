@@ -28,12 +28,10 @@ class EventAdapter (
         holder.imageView.setImageResource(R.drawable.ic_launcher_background)
         holder.textView.text = event.desc
 
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             holder.itemView.context.startActivity(
-                Intent(holder.itemView.context, EventPopup::class.java).putExtra("event",event)
-
+                Intent(holder.itemView.context, EventPopup::class.java).putExtra("event", event)
             )
-
         }
     }
 

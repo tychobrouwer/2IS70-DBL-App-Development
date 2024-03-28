@@ -1,5 +1,6 @@
 package com.example.weclean.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.weclean.R
 import com.example.weclean.backend.Community
 import com.example.weclean.backend.FireBase
+import com.example.weclean.ui.login.LoginActivity
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -102,7 +104,17 @@ class ProfileCommunities : Fragment() {
     private fun setCommunities() {
         runBlocking {
             launch {
-                val communitiesResult = fireBase.getDocument("Users", fireBase.currentUserId())
+                val userId = fireBase.currentUserId()
+
+                // If no user is logged in or user is empty
+                if (userId.isNullOrEmpty()) {
+                    Toast.makeText(activity as AppCompatActivity, "Unable to get user", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(activity as AppCompatActivity, LoginActivity::class.java))
+
+                    return@launch
+                }
+
+                val communitiesResult = fireBase.getDocument("Users", userId)
 
                 if (communitiesResult == null) {
                     Toast.makeText(activity as AppCompatActivity, "Error getting user", Toast.LENGTH_SHORT).show()

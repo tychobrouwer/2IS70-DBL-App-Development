@@ -22,8 +22,8 @@ class FireBase {
     private val dbStore = FirebaseStorage.getInstance()
 
     // Get the currently logged in user's ID and email
-    fun currentUserId() = dbAuth.currentUser!!.uid
-    fun currentUserEmail() = dbAuth.currentUser!!.email
+    fun currentUserId() = dbAuth.currentUser?.uid
+    fun currentUserEmail() = dbAuth.currentUser?.email
 
     /**
      * Add a file to the storage with the given document name

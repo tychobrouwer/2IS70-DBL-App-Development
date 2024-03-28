@@ -13,12 +13,12 @@
         android:id="@+id/screen_title"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:text="@string/label_littering_data" />
+        android:text="@string/title_event" />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:id="@+id/littering_image"
+        android:id="@+id/eventImage"
         android:layout_gravity="center_horizontal"
         android:layout_marginHorizontal="60dp"
         android:layout_marginTop="20dp"
@@ -29,41 +29,64 @@
         app:layout_constraintTop_toBottomOf="@+id/screen_title" />
 
     <LinearLayout
+        android:id="@+id/informationLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/littering_image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" >
+        app:layout_constraintTop_toBottomOf="@+id/eventImage"
+        app:layout_constraintBottom_toTopOf="@+id/signupButton">
 
         <TextView
             style="@style/Widget.Theme.WeClean.Title"
-            android:id="@+id/littering_location"
+            android:id="@+id/nameView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
-            style="@style/Widget.Theme.WeClean.SecondaryText"
-            android:id="@+id/littering_time"
+            style="@style/Widget.Theme.WeClean.Title"
+            android:id="@+id/locationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/tag_chip_group"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="40dp"
-            app:chipSpacingVertical="5dp"
-            android:layout_marginTop="10dp" />
+            android:orientation="horizontal">
 
+            <TextView
+                style="@style/Widget.Theme.WeClean.SecondaryText"
+                android:id="@+id/numPeopleView"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                style="@style/Widget.Theme.WeClean.SecondaryText"
+                android:id="@+id/timeView"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
         <TextView
             style="@style/Widget.Theme.WeClean.Text"
-            android:id="@+id/littering_description"
+            android:id="@+id/descriptionView"
             android:layout_width="match_parent"
             android:inputType="textMultiLine"
             android:lines="7"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/Widget.Theme.WeClean.Button"
+        android:id="@+id/signupButton"
+        android:text="@string/action_sign_up"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

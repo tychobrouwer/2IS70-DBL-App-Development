@@ -29,6 +29,16 @@
         <item name="android:elegantTextHeight">true</item>
     </style>
 
+    <style name="Widget.Theme.WeClean.TextTable" parent="">
+        <item name="android:textSize">16sp</item>
+        <item name="android:color">@color/black</item>
+        <item name="android:inputType">text</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingHorizontal">6dp</item>
+        <item name="android:paddingVertical">0dp</item>
+    </style>
+
     <style name="Widget.Theme.WeClean.ScreenTitle" parent="">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -117,7 +127,7 @@
         <item name="android:layout_marginHorizontal">20dp</item>
         <item name="android:layout_marginTop">6dp</item>
         <item name="android:textColor">@color/gray_600</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
 </resources>

@@ -16,13 +16,11 @@ import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import com.example.weclean.R
 import com.example.weclean.backend.LitteringData
-import com.example.weclean.backend.dayStringFormat
 import com.example.weclean.backend.FireBase
+import com.example.weclean.backend.dayStringFormat
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.firestore
-import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.util.Locale
 
@@ -65,57 +63,70 @@ class LitteringDetails : Fragment() {
         this.view = view
 
         // Update littering entry fields in the fragment
-        runBlocking { updateFields() }
+        updateFields()
     }
 
-    private suspend fun updateFields() {
-        // Get littering data from database
-        val litteringDataResult = fireBase.getDocument("LitteringData", litteringId)
+    private fun updateFields() {
+        runBlocking {
+            launch {
 
-        if (litteringDataResult == null) {
-            Toast.makeText(activity, "Error getting littering information", Toast.LENGTH_SHORT).show()
-            return
+                // Get littering data from database
+                val litteringDataResult = fireBase.getDocument("LitteringData", litteringId)
+
+                if (litteringDataResult == null) {
+                    Toast.makeText(
+                        activity,
+                        "Error getting littering information",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@launch
+                }
+
+                // Latitude and longitude of the entry
+                val entryLatitude = litteringDataResult.getGeoPoint("geoPoint")!!.latitude
+                val entryLongitude = litteringDataResult.getGeoPoint("geoPoint")!!.longitude
+
+                // Construct LitteringData object for the entry from database
+                litteringData = LitteringData(geocoder)
+                litteringData.timeStamp = litteringDataResult.getDate("date")!!.time
+                litteringData.community = litteringDataResult.getString("community")!!
+                litteringData.imageId = litteringDataResult.getString("imageId")!!
+                litteringData.description = litteringDataResult.getString("description")!!
+                    .replace("_newline", "\n")
+                litteringData.updateLocation(entryLatitude, entryLongitude)
+                litteringData.tags =
+                    (litteringDataResult.get("tags") as ArrayList<*>).map { it as String } as ArrayList<String>
+                litteringData.id = litteringDataResult.id
+
+                // Update the fields in the fragment
+                view.findViewById<TextView>(R.id.littering_location).text =
+                    litteringData.getAddressLine()
+                view.findViewById<TextView>(R.id.littering_time).text =
+                    dayStringFormat(litteringData.timeStamp)
+                view.findViewById<TextView>(R.id.littering_description).text =
+                    litteringData.description
+
+                // Add tags to the chip group
+                for (tag in litteringData.tags) {
+                    addTagChip(view, tag)
+                }
+
+                // Load image from Firebase Storage
+                val imageView = view.findViewById<ImageView>(R.id.littering_image)
+
+                // Get image bytes from Firebase Storage
+                val imageBytes = fireBase.getFileBytes(litteringData.imageId, 1024 * 1024)
+
+                if (imageBytes == null) {
+                    Toast.makeText(activity, "Failed to load image", Toast.LENGTH_SHORT).show()
+                    return@launch
+                }
+
+                // Set image view with the image bytes
+                val bmp = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                imageView.setImageBitmap(bmp)
+            }
         }
-
-        // Latitude and longitude of the entry
-        val entryLatitude = litteringDataResult.getGeoPoint("geoPoint")!!.latitude
-        val entryLongitude = litteringDataResult.getGeoPoint("geoPoint")!!.longitude
-
-        // Construct LitteringData object for the entry from database
-        litteringData = LitteringData(geocoder)
-        litteringData.timeStamp = litteringDataResult.getDate("date")!!.time
-        litteringData.community = litteringDataResult.getString("community")!!
-        litteringData.imageId = litteringDataResult.getString("imageId")!!
-        litteringData.description = litteringDataResult.getString("description")!!
-            .replace("_newline", "\n")
-        litteringData.updateLocation(entryLatitude, entryLongitude)
-        litteringData.tags = (litteringDataResult.get("tags") as ArrayList<*>).map { it as String } as ArrayList<String>
-        litteringData.id = litteringDataResult.id
-
-        // Update the fields in the fragment
-        view.findViewById<TextView>(R.id.littering_location).text = litteringData.getAddressLine()
-        view.findViewById<TextView>(R.id.littering_time).text = dayStringFormat(litteringData.timeStamp)
-        view.findViewById<TextView>(R.id.littering_description).text = litteringData.description
-
-        // Add tags to the chip group
-        for (tag in litteringData.tags) {
-            addTagChip(view, tag)
-        }
-
-        // Load image from Firebase Storage
-        val imageView = view.findViewById<ImageView>(R.id.littering_image)
-
-        // Get image bytes from Firebase Storage
-        val imageBytes = fireBase.getFileBytes(litteringData.imageId, 1024 * 1024)
-
-        if (imageBytes == null) {
-            Toast.makeText(activity, "Failed to load image", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        // Set image view with the image bytes
-        val bmp = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-        imageView.setImageBitmap(bmp)
     }
 
     /**
@@ -158,6 +169,8 @@ class LitteringDetails : Fragment() {
         chip.textEndPadding = 3F
         chip.closeIconEndPadding = 4F
         chip.chipEndPadding = 4F
+        chip.closeIcon = null
+        chip.isClickable = false
         chip.setEnsureMinTouchTargetSize(false)
 
         // Add chip to chip group view

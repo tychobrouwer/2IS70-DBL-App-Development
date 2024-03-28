@@ -27,12 +27,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.size
 import androidx.core.widget.addTextChangedListener
-import com.example.weclean.Achievements
 import com.example.weclean.R
 import com.example.weclean.backend.FireBase
 import com.example.weclean.backend.LitteringData
 import com.example.weclean.ui.events.EventsActivity
 import com.example.weclean.ui.home.Home
+import com.example.weclean.ui.login.LoginActivity
 import com.example.weclean.ui.map.Map
 import com.example.weclean.ui.profile.Profile
 import com.google.android.gms.location.LocationServices
@@ -46,7 +46,6 @@ import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.util.Locale
 
-
 class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     companion object {
         private var permissionCode = 101
@@ -58,6 +57,8 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var geocoder : Geocoder
     // Object for storing the new littering data entry
     private lateinit var litteringData : LitteringData
+
+    private lateinit var selectCommunityAdapter: ArrayAdapter<String>
 
     // List of communities the user is in
     private var communities = ArrayList<Pair<String, String>>()
@@ -79,15 +80,10 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         geocoder = Geocoder(this, Locale.getDefault())
         litteringData = LitteringData(geocoder)
 
-        // Get the current location of the user
-        getCurrentLocation()
-        // Set the communities the user is in
-        setCommunities()
-
         // Get dropdown for selecting communities
         val selectCommunitySpinner = findViewById<Spinner>(R.id.select_community)
         // Create adapter with list of communities
-        val selectCommunityAdapter = ArrayAdapter(
+        selectCommunityAdapter = ArrayAdapter(
             this, R.layout.spinner_item, communities.map { it.first })
 
         // Set adapter for communities selector
@@ -97,6 +93,11 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         // Configure and set the dropdown
         selectCommunitySpinner.adapter = selectCommunityAdapter
         selectCommunitySpinner.onItemSelectedListener = this
+
+        // Get the current location of the user
+        getCurrentLocation()
+        // Set the communities the user is in
+        setCommunities()
 
         // Description text input field
         val descriptionInput = findViewById<EditText>(R.id.description)
@@ -131,12 +132,12 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 // Add the uri to the intent
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
                 // Start the camera activity
-                startActivityForResult(intent, Add.CAMERA)
+                startActivityForResult(intent, CAMERA)
             } else{
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(Manifest.permission.CAMERA),
-                    Add.CAMERA_PERMISSION_CODE
+                    CAMERA_PERMISSION_CODE
                 )
             }
         }
@@ -217,8 +218,10 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private fun setCommunities() {
         runBlocking {
             launch {
+                val userId = fireBase.currentUserId() ?: return@launch
+
                 // Get communities the user is in
-                val communitiesResult = fireBase.getDocument("Users", fireBase.currentUserId())
+                val communitiesResult = fireBase.getDocument("Users", userId)
 
                 if (communitiesResult == null) {
                     Toast.makeText(this@Add, "Error getting user", Toast.LENGTH_SHORT).show()
@@ -235,6 +238,8 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     // Add the community to the list
                     communities.add(Pair(communityResult.getString("name")!!, communityResult.id))
                 }
+
+                selectCommunityAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -250,6 +255,8 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         // If no user is logged in or user is empty
         if (userId.isNullOrEmpty()) {
             Toast.makeText(this, "Unable to get user", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, LoginActivity::class.java))
+
             return
         } else if (photoUri == null || !imageAdded) {
             Toast.makeText(this, "Please add an image", Toast.LENGTH_SHORT).show()
