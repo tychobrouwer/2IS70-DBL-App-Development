@@ -27,6 +27,7 @@
     <string name="button_leave">Leave</string>
     <string name="button_add_littering">Add Littering Entry</string>
     <string name="button_log_out">Log out</string>
+    <string name="button_delete_account">Delete Account</string>
 
     <!-- Profile -->
     <string name="label_email">Email</string>
