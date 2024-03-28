@@ -12,11 +12,13 @@ import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.weclean.R
 import com.example.weclean.backend.FireBase
 import com.example.weclean.ui.login.LoginActivity
 import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -25,7 +27,7 @@ import java.util.Calendar
 class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
     // FireBase class instance to communicate with the database
     private val fireBase = FireBase()
-    private val db = Firebase.firestore
+    private val dbAuth = Firebase.auth
 
     private val userId = fireBase.currentUserId()
     private val email = fireBase.currentUserEmail()
@@ -54,13 +56,18 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
 
         val dobView = view.findViewById<TextView>(R.id.birthdate)
         dobView.setOnClickListener {
+            var dateToOpen = date
             // Create a date picker dialog
+            if (date.timeInMillis == 0L) {
+                dateToOpen = Calendar.getInstance()
+            }
+
             val datePicker = DatePickerDialog(
                 this.requireContext(),
                 this,
-                date.get(Calendar.YEAR),
-                date.get(Calendar.MONTH),
-                date.get(Calendar.DAY_OF_MONTH))
+                dateToOpen.get(Calendar.YEAR),
+                dateToOpen.get(Calendar.MONTH),
+                dateToOpen.get(Calendar.DAY_OF_MONTH))
 
             // Show the date picker dialog
             datePicker.show()
@@ -80,18 +87,45 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
             val region = view.findViewById<EditText>(R.id.region)
             val country = region.text.toString().trim()
 
-            // Create a new data object with the updated fields
-            val data = hashMapOf(
-                "email" to email,
-                "dob" to date.timeInMillis,
-                "country" to country
-            )
+            val emailNew = emailView.text.toString().trim()
 
-            // Update the document with the provided fields
-            db.document(userId).update(data as Map<String, Any>).addOnSuccessListener {
-                println("Document of user $userId updated successfully.")
-            }.addOnFailureListener { exception ->
-                println("Error updating document: $exception")
+            runBlocking {
+                val updateCountry = fireBase.updateValue("Users", userId, "country", country)
+                if (!updateCountry) {
+                    Toast.makeText(context, "Failed to update country", Toast.LENGTH_SHORT).show()
+                }
+
+                if (date.timeInMillis != 0L) {
+                    val updateDobResult = fireBase.updateValue("Users", userId, "dob", date.time)
+                    if (!updateDobResult) {
+                        Toast.makeText(context, "Failed to update date of birth", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                if (emailNew != email) {
+                    // Get the current user
+                    val currentAuth = dbAuth.currentUser
+                    if (currentAuth == null) {
+                        Toast.makeText(context, "Failed to get current user", Toast.LENGTH_SHORT)
+                            .show()
+                        Intent(activity as AppCompatActivity, LoginActivity::class.java)
+
+                        return@runBlocking
+                    }
+
+                    // Verify and update the user's email
+                    val updateEmailResult = currentAuth.verifyBeforeUpdateEmail(emailNew)
+                    if (updateEmailResult.isSuccessful) {
+                        dbAuth.updateCurrentUser(currentAuth)
+                    } else {
+                        Toast.makeText(context, "Failed to update email", Toast.LENGTH_SHORT).show()
+
+                        return@runBlocking
+                    }
+                }
+
+                Toast.makeText(context, "Profile updated", Toast.LENGTH_SHORT).show()
+                (activity as AppCompatActivity).switchFragment(ProfileViewStatus.PROFILE)
             }
         }
     }
