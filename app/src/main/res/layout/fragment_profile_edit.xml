@@ -32,7 +32,7 @@
         android:id="@+id/birthdate_label"
         android:text="@string/label_brith_date" />
 
-    <EditText
+    <TextView
         style="@style/Widget.Theme.WeClean.TextInput"
         android:inputType="date"
         android:id="@+id/birthdate" />

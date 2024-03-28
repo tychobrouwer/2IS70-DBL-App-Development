@@ -75,7 +75,8 @@
     <string name="forgot_password_question">Did you forgot your password?</string>
     <string name="forgot_password_info">Fill in your email to reset your password.</string>
     <string name="reset_password">Reset Password</string>
-    <string name="date_time_format">%2d/%2d/%d %2d:%2d</string>
+    <string name="date_time_format">%20d/%02d/%d %02d:%02d</string>
+    <string name="date_format">%02d/%02d/%d</string>
 
     <string name="title_cCommunity">"Create Community"</string>
     <string name="label_add_cName">"Enter community name"</string>

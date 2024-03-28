@@ -3,6 +3,7 @@ package com.example.weclean.backend
 import android.content.ContentValues.TAG
 import android.util.Log
 import kotlinx.coroutines.runBlocking
+import java.util.Date
 
 class User {
 
@@ -13,43 +14,16 @@ class User {
      * Create a user object
      *
      * @param username
-     * @param emailID
      * @param dateOfBirth
      * @param country
      * @return Hashmap of the user object
      */
-    private fun createUser(username: String, emailID: String, dateOfBirth: String, country: String): HashMap<String, Any> {
+    fun createUser(username: String, timeStamp: Long, country: String): HashMap<String, Any> {
 
         return hashMapOf(
             "username" to username,
-            "email" to emailID,
-            "dob" to dateOfBirth,
+            "dob" to Date(timeStamp),
             "country" to country,
         )
-    }
-
-    /**
-     * Add a user to the database
-     *
-     * @param uid
-     * @param username
-     * @param emailID
-     * @param dob
-     * @param country
-     */
-    fun addToDatabase(uid: String, username: String, emailID: String, dob : String, country: String) {
-        // add user to the database
-        val user = createUser(username, emailID, dob, country)
-
-        // add user to Users/...
-        runBlocking {
-            val result = fireBase.addDocumentWithName("Users", uid, user)
-
-            if (!result) {
-                Log.d(TAG, "Error creating user")
-            } else {
-                Log.d(TAG, "User created successfully")
-            }
-        }
     }
 }

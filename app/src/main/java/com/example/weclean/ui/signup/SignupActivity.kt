@@ -4,12 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.weclean.backend.FireBase
 import com.example.weclean.ui.home.Home
 import com.example.weclean.databinding.ActivitySignupBinding
 import com.example.weclean.ui.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.example.weclean.backend.User
+import kotlinx.coroutines.runBlocking
 
 
 class SignupActivity : AppCompatActivity() {
@@ -17,7 +19,7 @@ class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
     private lateinit var firebaseAuth: FirebaseAuth
 
-    private val userObject = User()
+    private val fireBase = FireBase()
 
     /**
      * Signs up user, adds their data to FireStore and then
@@ -48,7 +50,6 @@ class SignupActivity : AppCompatActivity() {
             val password = binding.registerPassword.text.toString()
             val confirmPassword = binding.confirmPassword.text.toString()
             val username = binding.username.text.toString()
-            val dob = "-"
 
             if (email.isEmpty() ||
                 password.isEmpty() ||
@@ -65,11 +66,25 @@ class SignupActivity : AppCompatActivity() {
             //create the user
             firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
-                    val uid = it.result.user?.uid.toString()
+                    val uid = it.result.user?.uid
+
+                    if (uid == null) {
+                        Toast.makeText(this, "Error creating user", Toast.LENGTH_SHORT).show()
+                        return@addOnCompleteListener
+                    }
+
                     val country = getResources().configuration.locales.get(0).country
 
-                    // add user to Community/No Community/Users/...
-                    userObject.addToDatabase(uid, username, email, dob, country)
+                    val user = User().createUser(username, 0, country)
+
+                    runBlocking {
+                        val addUserResult = fireBase.addDocumentWithName("Users", uid, user)
+
+                        if (!addUserResult) {
+                            Toast.makeText(this@SignupActivity, "Error creating user", Toast.LENGTH_SHORT).show()
+                            return@runBlocking
+                        }
+                    }
 
                     // navigate to the home screen
                     val intent = Intent(this, Home::class.java)
