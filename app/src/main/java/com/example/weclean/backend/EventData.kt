@@ -1,8 +1,9 @@
 package com.example.weclean.backend
 
+import java.io.Serializable
 import java.util.Date
 
-class EventData : Image {
+class EventData : Image, Serializable {
     private val image : Image = ImageImpl()
 
     // Name of the event data

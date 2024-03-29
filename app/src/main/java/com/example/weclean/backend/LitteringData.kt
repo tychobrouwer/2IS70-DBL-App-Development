@@ -2,6 +2,7 @@ package com.example.weclean.backend
 
 import android.location.Geocoder
 import com.google.firebase.firestore.GeoPoint
+import java.io.Serializable
 import java.util.Date
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date
  */
 class LitteringData(
     geocoder: Geocoder,
-) : Location, Tags, Image {
+) : Location, Tags, Image, Serializable {
     private val location : Location = LocationImpl(geocoder)
     private val tagsData : Tags = TagsImpl()
     private val image : Image = ImageImpl()

@@ -26,10 +26,6 @@ class EventsList : Fragment(), EventAdapter.RecyclerViewEvent {
     private var events = ArrayList<EventData>()
     private lateinit var eventAdapter: EventAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

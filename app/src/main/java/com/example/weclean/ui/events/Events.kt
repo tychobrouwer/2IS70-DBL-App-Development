@@ -1,7 +1,9 @@
 package com.example.weclean.ui.events
 
+import android.app.Activity
 import com.example.weclean.R
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.weclean.backend.EventData
@@ -10,8 +12,17 @@ import com.example.weclean.ui.home.Home
 import com.example.weclean.ui.map.Map
 import com.example.weclean.ui.profile.Profile
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.io.Serializable
 
 class EventsActivity : AppCompatActivity() {
+    private fun <T : Serializable?> getSerializable(activity: Activity, name: String, clazz: Class<T>): T?
+    {
+        return if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            activity.intent.getSerializableExtra(name, clazz)!!
+        else
+            activity.intent.getSerializableExtra(name) as T
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -20,12 +31,13 @@ class EventsActivity : AppCompatActivity() {
         // Fragment manager for managing navigation between fragments
         val fragmentManager = supportFragmentManager
 
-        // Begin new transition for fragment
-        val transaction = fragmentManager.beginTransaction()
-
-        // Ensure fragments for default profile view are created
-        transaction.add(R.id.fragmentEventsList, EventsList())
-        transaction.commit()
+        // Begin activity with correct fragments
+        val eventData: EventData? = getSerializable(this, "event", EventData::class.java)
+        if (eventData != null) {
+            openEventDetails(true, eventData)
+        } else {
+            openEventDetails(false, EventData())
+        }
 
         // Parent view of navigation view
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)

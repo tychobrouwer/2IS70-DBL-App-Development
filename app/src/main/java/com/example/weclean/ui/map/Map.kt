@@ -1,6 +1,8 @@
 package com.example.weclean.ui.map
 
+import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -8,13 +10,33 @@ import com.example.weclean.ui.add.Add
 import com.example.weclean.ui.home.Home
 import com.example.weclean.ui.profile.Profile
 import com.example.weclean.R
+import com.example.weclean.backend.EventData
+import com.example.weclean.backend.LitteringData
 import com.example.weclean.ui.events.EventsActivity
+import com.example.weclean.ui.events.openEventDetails
+import java.io.Serializable
 
 class Map : AppCompatActivity() {
+    private fun <T : Serializable?> getSerializable(activity: Activity, name: String, clazz: Class<T>): T?
+    {
+        return if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            activity.intent.getSerializableExtra(name, clazz)!!
+        else
+            activity.intent.getSerializableExtra(name) as T
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_map)
+
+        // Begin activity with correct fragments
+        val litteringData: LitteringData? = getSerializable(this, "event", LitteringData::class.java)
+        if (litteringData != null) {
+            switchFragment(MapViewStatus.LitteringDetails, litteringData.id)
+        } else {
+            switchFragment(MapViewStatus.Map, "")
+        }
 
         // Fragment manager for managing navigation between fragments
         val fragmentManager = supportFragmentManager
