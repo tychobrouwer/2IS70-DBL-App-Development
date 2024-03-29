@@ -91,6 +91,7 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
         confirmButton.setOnClickListener {
             val region = view.findViewById<EditText>(R.id.region)
             val country = region.text.toString().trim()
+            val username = view.findViewById<EditText>(R.id.username).text.toString().trim()
 
             val emailNew = emailView.text.toString().trim()
 
@@ -98,6 +99,11 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
                 val updateCountry = fireBase.updateValue("Users", userId, "country", country)
                 if (!updateCountry) {
                     Toast.makeText(context, "Failed to update country", Toast.LENGTH_SHORT).show()
+                }
+
+                val updateUsername = fireBase.updateValue("Users", userId, "username", username)
+                if (!updateUsername) {
+                    Toast.makeText(context, "Failed to update username", Toast.LENGTH_SHORT).show()
                 }
 
                 if (date.timeInMillis != 0L) {
@@ -180,13 +186,13 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
                     try {
                         currentAuth.delete().await()
 
-                        Toast.makeText(context, "Profile deleted", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Account deleted", Toast.LENGTH_SHORT).show()
                         deleteDialog.dismiss()
 
                         startActivity(Intent(activity as AppCompatActivity, LoginActivity::class.java))
 
                     } catch (e: Exception) {
-                        Toast.makeText(context, "Failed to delete profile", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Failed to delete account", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -203,9 +209,13 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
                         val email = userData.getString("email")
                         val dob = userData.getDate("dob")
                         val country = userData.getString("country")
+                        val username = userData.getString("username")
 
                         val emailView = view.findViewById<EditText>(R.id.email)
                         emailView.setText(email)
+
+                        val usernameView = view.findViewById<EditText>(R.id.username)
+                        usernameView.setText(username)
 
                         val dobView = view.findViewById<TextView>(R.id.birthdate)
                         date.timeInMillis = dob?.time ?: 0
