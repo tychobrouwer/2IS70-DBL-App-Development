@@ -23,13 +23,13 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentProfileEdit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentCreateCommunity"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <include layout="@layout/navbar" />
