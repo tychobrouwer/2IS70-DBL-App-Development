@@ -179,4 +179,14 @@ class FireBase {
             return false
         }
     }
+
+    suspend fun deleteDocument(collection: String, document: String): Boolean {
+        return try {
+            db.collection(collection).document(document).delete().await()
+            true
+        } catch (e: Exception) {
+            return false
+        }
+
+    }
 }

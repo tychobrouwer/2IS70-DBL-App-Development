@@ -1,7 +1,6 @@
 package com.example.weclean.ui.profile
 
 import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,15 +12,16 @@ import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.weclean.R
 import com.example.weclean.backend.FireBase
 import com.example.weclean.ui.login.LoginActivity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
-import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
 import java.util.Calendar
 
 class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
@@ -73,6 +73,11 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
             datePicker.show()
         }
 
+        val deleteButton = view.findViewById<Button>(R.id.delete_button)
+        deleteButton.setOnClickListener {
+            deleteProfileDialog()
+        }
+
         // Cancel edit profile button
         val cancelButton = view.findViewById<Button>(R.id.cancel_button)
         cancelButton.setOnClickListener {
@@ -108,16 +113,14 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
                     if (currentAuth == null) {
                         Toast.makeText(context, "Failed to get current user", Toast.LENGTH_SHORT)
                             .show()
-                        Intent(activity as AppCompatActivity, LoginActivity::class.java)
+                        startActivity(Intent(activity as AppCompatActivity, LoginActivity::class.java))
 
                         return@runBlocking
                     }
 
                     // Verify and update the user's email
                     val updateEmailResult = currentAuth.verifyBeforeUpdateEmail(emailNew)
-                    if (updateEmailResult.isSuccessful) {
-                        dbAuth.updateCurrentUser(currentAuth)
-                    } else {
+                    if (!updateEmailResult.isSuccessful) {
                         Toast.makeText(context, "Failed to update email", Toast.LENGTH_SHORT).show()
 
                         return@runBlocking
@@ -129,6 +132,67 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
             }
         }
     }
+
+    private fun deleteProfileDialog() {
+        // Builder for alert dialog popup
+        val builder = AlertDialog.Builder(activity as AppCompatActivity)
+        builder.setCancelable(true)
+
+        // Create dialog from builder
+        val deleteDialog = builder.create()
+
+        // Inflate dialog from R.layout.profile_join_community
+        val dialogLayout = layoutInflater.inflate(R.layout.delete_profile_confirm, null)
+
+        // Show alert dialog
+        deleteDialog.setView(dialogLayout)
+        deleteDialog.show()
+
+        // Join/confirm button
+        val deleteButton = deleteDialog.findViewById<Button>(R.id.delete_button)
+        val cancelButton = deleteDialog.findViewById<Button>(R.id.cancel_button)
+
+        if (deleteButton == null || cancelButton == null) {
+            return
+        }
+
+        cancelButton.setOnClickListener {
+            deleteDialog.dismiss()
+        }
+
+        // Listener for join button
+        deleteButton.setOnClickListener {
+            runBlocking {
+                val result = fireBase.deleteDocument("Users", userId!!)
+
+                if (result) {
+                    val currentAuth = dbAuth.currentUser
+                    if (currentAuth == null) {
+                        Toast.makeText(context, "Failed to get current user", Toast.LENGTH_SHORT)
+                            .show()
+
+                        deleteDialog.dismiss()
+                        startActivity(Intent(activity as AppCompatActivity, LoginActivity::class.java))
+
+                        return@runBlocking
+                    }
+
+                    try {
+                        currentAuth.delete().await()
+
+                        Toast.makeText(context, "Profile deleted", Toast.LENGTH_SHORT).show()
+                        deleteDialog.dismiss()
+
+                        startActivity(Intent(activity as AppCompatActivity, LoginActivity::class.java))
+
+                    } catch (e: Exception) {
+                        Toast.makeText(context, "Failed to delete profile", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
 
     private fun setFields(view: View) {
         runBlocking {
@@ -145,9 +209,6 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
 
                         val dobView = view.findViewById<TextView>(R.id.birthdate)
                         date.timeInMillis = dob?.time ?: 0
-
-                        println(date.timeInMillis)
-                        println(dob?.time)
 
                         if (date.timeInMillis != 0L) {
                             dobView.text = getString(R.string.date_format,

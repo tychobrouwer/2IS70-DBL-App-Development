@@ -25,7 +25,6 @@ class ProfileCommunities : Fragment() {
 
     private val communities = ArrayList<CommunityListData>()
 
-    private lateinit var joinDialog: AlertDialog
 
     private fun joinCommunityDialog() {
         // Builder for alert dialog popup
@@ -33,7 +32,7 @@ class ProfileCommunities : Fragment() {
         builder.setCancelable(true)
 
         // Create dialog from builder
-        joinDialog = builder.create()
+        val joinDialog = builder.create()
 
         // Inflate dialog from R.layout.profile_join_community
         val dialogLayout = layoutInflater.inflate(R.layout.profile_join_community, null)
@@ -76,7 +75,6 @@ class ProfileCommunities : Fragment() {
         val joinCommunityButton = view.findViewById<Button>(R.id.join_community_button)
         // Listener for opening the join community alert dialog
         joinCommunityButton.setOnClickListener {
-            println("show join community dialog")
             joinCommunityDialog()
         }
 
