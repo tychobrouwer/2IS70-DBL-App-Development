@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.example.weclean.ui.add.Add
 import com.example.weclean.ui.home.Home
 import com.example.weclean.ui.profile.Profile
@@ -16,7 +17,7 @@ import com.example.weclean.ui.events.EventsActivity
 import com.example.weclean.ui.events.openEventDetails
 import java.io.Serializable
 
-class Map : AppCompatActivity() {
+class Map : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
     private fun <T : Serializable?> getSerializable(activity: Activity, name: String, clazz: Class<T>): T?
     {
         return if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
@@ -33,9 +34,10 @@ class Map : AppCompatActivity() {
         // Begin activity with correct fragments
         val litteringData: LitteringData? = getSerializable(this, "event", LitteringData::class.java)
         if (litteringData != null) {
+            println("test")
             switchFragment(MapViewStatus.LitteringDetails, litteringData.id)
         } else {
-            switchFragment(MapViewStatus.Map, "")
+            switchFragment(MapViewStatus.Map)
         }
 
         // Fragment manager for managing navigation between fragments
@@ -79,6 +81,16 @@ class Map : AppCompatActivity() {
             false
         })
     }
+
+    @Deprecated("Deprecated in Java")
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        val requestPermissionCode = 999
+
+        if (requestCode == requestPermissionCode) {
+            switchFragment(MapViewStatus.Map)
+        }
+    }
 }
 
 /**
@@ -99,7 +111,9 @@ fun AppCompatActivity.switchFragment(toStatus: MapViewStatus, documentId: String
     // Remove all fragments
     try {
         transaction.remove(mapView!!)
-    } catch (_: Exception) {}
+    } catch (e: Exception) {
+        println(e)
+    }
     try {
         transaction.remove(litteringDetails!!)
     } catch (_: Exception) {}
@@ -107,6 +121,9 @@ fun AppCompatActivity.switchFragment(toStatus: MapViewStatus, documentId: String
     if (toStatus == MapViewStatus.Map) {
         transaction.add(R.id.fragmentMapView, MapView())
     } else if (toStatus == MapViewStatus.LitteringDetails) {
+        if (mapView != null) {
+            transaction.remove(mapView)
+        }
         transaction.add(R.id.fragmentLitteringDetails, LitteringDetails().newInstance(documentId))
     }
 

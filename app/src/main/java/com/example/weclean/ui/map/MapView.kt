@@ -4,6 +4,8 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.getIntent
+import android.content.Intent.getIntentOld
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -103,8 +105,9 @@ class MapView : Fragment() {
 
                 val context = activity as AppCompatActivity
                 context.switchFragment(MapViewStatus.LitteringDetails, litteringId)
-            }
 
+                return@setOnInfoWindowClickListener
+            }
 
             // Set styling from the mapstyle.json raw resource
             googleMap.setMapStyle(
@@ -315,6 +318,7 @@ class MapView : Fragment() {
         } else {
             ActivityCompat.requestPermissions(activity as AppCompatActivity, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
                 requestPermissionCode)
+
             return
         }
     }

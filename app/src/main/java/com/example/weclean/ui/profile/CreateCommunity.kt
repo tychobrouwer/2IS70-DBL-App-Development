@@ -13,12 +13,13 @@ import com.example.weclean.R
 import com.example.weclean.backend.Community
 import com.example.weclean.backend.FireBase
 import kotlinx.coroutines.runBlocking
+import kotlin.random.Random
 
 class CreateCommunity : Fragment() {
 
-    private lateinit var firebase : FireBase
+    private val fireBase = FireBase()
     // Community object
-    private val communityObject = Community(firebase)
+    private val communityObject = Community(fireBase)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,12 +52,15 @@ class CreateCommunity : Fragment() {
             if (communityName.isEmpty() || communityEmail.isEmpty() ||
                 communityLocation.isEmpty() || userConfirmEmail.isEmpty()) {
                 Toast.makeText(context, "Fields cannot be empty", Toast.LENGTH_SHORT).show()
+
+                return@setOnClickListener
             } else if (communityEmail != userConfirmEmail) {
                 Toast.makeText(context, "Emails do not match", Toast.LENGTH_SHORT).show()
+
+                return@setOnClickListener
             }
 
-            //TODO: GENERATE A UNIQUE COMMUNITY CODE
-            val cCode = 1
+            val cCode = Random.nextInt(0, 999999)
 
             runBlocking {
                 // Add community to database
