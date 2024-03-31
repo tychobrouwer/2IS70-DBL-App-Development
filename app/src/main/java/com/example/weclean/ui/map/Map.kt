@@ -96,19 +96,17 @@ fun AppCompatActivity.switchFragment(toStatus: MapViewStatus, documentId: String
     val mapView = fragmentManager.findFragmentById(R.id.fragmentMapView)
     val litteringDetails = fragmentManager.findFragmentById(R.id.fragmentLitteringDetails)
 
-    // Null check on fragments
-    if (mapView != null && litteringDetails != null) {
-        // Cancel transaction
-        transaction.commit()
-        return
-    }
+    // Remove all fragments
+    try {
+        transaction.remove(mapView!!)
+    } catch (_: Exception) {}
+    try {
+        transaction.remove(litteringDetails!!)
+    } catch (_: Exception) {}
 
     if (toStatus == MapViewStatus.Map) {
-        // Remove default profile view fragments and add profile edit fragment
-        transaction.remove(litteringDetails!!)
         transaction.add(R.id.fragmentMapView, MapView())
     } else if (toStatus == MapViewStatus.LitteringDetails) {
-        transaction.remove(mapView!!)
         transaction.add(R.id.fragmentLitteringDetails, LitteringDetails().newInstance(documentId))
     }
 
