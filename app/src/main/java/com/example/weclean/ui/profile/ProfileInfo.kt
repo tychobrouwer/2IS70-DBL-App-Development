@@ -18,6 +18,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
+import java.util.Calendar
 
 class ProfileInfo : Fragment() {
     private val fireBase = FireBase()
@@ -81,9 +82,18 @@ class ProfileInfo : Fragment() {
         // Get the number of littering entries the user has made
         val statLitteringEntries = (userData.get("litteringEntries") as ArrayList<*>?)?.size ?: 0
 
+        val timeInMillis = userData.getDate("dob")?.time ?: 0
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = timeInMillis
+
         // Set the user's data in the view
         view.findViewById<TextView>(R.id.username).text = userData.getString("username")
         view.findViewById<TextView>(R.id.region).text = userData.getString("country")
+        view.findViewById<TextView>(R.id.birthdate).text = getString(
+            R.string.date_format,
+            calendar.get(Calendar.DAY_OF_MONTH),
+            calendar.get(Calendar.MONTH) + 1,
+            calendar.get(Calendar.YEAR))
         view.findViewById<TextView>(R.id.littering_entries).text = statLitteringEntries.toString()
     }
 
