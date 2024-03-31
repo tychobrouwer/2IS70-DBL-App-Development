@@ -18,18 +18,15 @@ class EventsActivity : AppCompatActivity() {
     private fun <T : Serializable?> getSerializable(activity: Activity, name: String, clazz: Class<T>): T?
     {
         return if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            activity.intent.getSerializableExtra(name, clazz)!!
+            activity.intent.getSerializableExtra(name, clazz)?.let { it as T? }
         else
-            activity.intent.getSerializableExtra(name) as T
+            activity.intent.getSerializableExtra(name) as T?
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_events)
-
-        // Fragment manager for managing navigation between fragments
-        val fragmentManager = supportFragmentManager
 
         // Begin activity with correct fragments
         val eventData: EventData? = getSerializable(this, "event", EventData::class.java)
@@ -87,22 +84,15 @@ fun AppCompatActivity.openEventDetails(toEvent: Boolean, eventData: EventData) {
     val eventDetails = fragmentManager.findFragmentById(R.id.fragmentEventDetails)
     val eventsList = fragmentManager.findFragmentById(R.id.fragmentEventsList)
 
-    // Null check on fragments
-    if (eventDetails != null &&
-        eventsList != null) {
-
-        // Cancel transaction
-        transaction.commit()
-        return
-    }
-
     if (toEvent) {
         // Remove events list view fragments and add event details fragment
         transaction.remove(eventsList!!)
         transaction.add(R.id.fragmentEventDetails, EventDetails().newInstance(eventData))
     } else {
         // Remove event details fragment and add events list view fragments
-        transaction.remove(eventDetails!!)
+        if (eventDetails != null) {
+            transaction.remove(eventDetails)
+        }
         transaction.add(R.id.fragmentEventsList, EventsList())
     }
 

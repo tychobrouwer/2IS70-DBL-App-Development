@@ -45,7 +45,8 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
     private var eventData = EventData()
 
     // List of communities the user is in
-    private var communities = ArrayList<Pair<String, String>>()
+    private var communities = ArrayList<String>()
+    private var communitiesName = ArrayList<String>()
 
     // Uri of the photo taken
     private var photoUri: Uri? = null
@@ -74,14 +75,11 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
             finish()
         }
 
-        // Get the list of communities the user is in
-        getCommunities()
-
         // Get the spinner for the communities selector
         val selectCommunitySpinner = findViewById<Spinner>(R.id.selectCommunity)
         // Create adapter with list of communities
         selectCommunityAdapter = ArrayAdapter(
-            this, R.layout.spinner_item, communities.map { it.first })
+            this, R.layout.spinner_item, communitiesName)
 
         // Set adapter for communities selector
         selectCommunityAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
@@ -90,6 +88,9 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
         // Configure and set the dropdown
         selectCommunitySpinner.adapter = selectCommunityAdapter
         selectCommunitySpinner.onItemSelectedListener = this
+
+        // Get the list of communities the user is in
+        getCommunities()
 
         // Set the event name data field and listener
         val nameView = findViewById<EditText>(R.id.eventName)
@@ -201,12 +202,14 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
                 }
 
                 // Get the community ids the user is in
-                val userCommunityIds = communitiesResult.get("communityAdminIds") as? ArrayList<*> ?: emptyList()
+                val userCommunityIds = communitiesResult.get("communityAdminIds") as ArrayList<*>
 
                 if (userCommunityIds.isEmpty()) {
                     Toast.makeText(this@AddEvent, "User is not an admin of a community", Toast.LENGTH_SHORT).show()
                     return@launch
                 }
+
+                println(userCommunityIds)
 
                 for (community in userCommunityIds) {
                     // Get the community data
@@ -214,7 +217,11 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
                         fireBase.getDocument("Community", community as String) ?: return@launch
 
                     // Add the community to the list
-                    communities.add(Pair(communityResult.getString("name")!!, communityResult.id))
+                    communitiesName.add(communityResult.getString("name")!!)
+                    communities.add(communityResult.id)
+
+                    println(communitiesName)
+                    println(communities)
                 }
 
                 // Update the adapter
@@ -224,7 +231,7 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        eventData.community =  communities[position].second
+        eventData.community =  communities[position]
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -292,7 +299,7 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
             }
 
             Toast.makeText(this@AddEvent, "Event entry added", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(applicationContext, EventsList::class.java))
+            startActivity(Intent(applicationContext, EventsActivity::class.java))
         }
     }
 

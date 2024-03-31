@@ -59,6 +59,7 @@ class Community {
         }
 
         fireBase.addToArray("Users", adminId, "communityIds", result.id)
+        fireBase.addToArray("Users", adminId, "communityAdminIds", result.id)
 
         return true
     }

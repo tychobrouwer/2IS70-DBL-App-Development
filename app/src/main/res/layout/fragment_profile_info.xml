@@ -7,30 +7,12 @@
     android:orientation="vertical"
     tools:context=".ui.profile.ProfileInfo" >
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <TextView
+        style="@style/Widget.Theme.WeClean.ScreenTitle"
+        android:id="@+id/screen_title"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp">
-
-        <TextView
-            style="@style/Widget.Theme.WeClean.ScreenTitle"
-            android:id="@+id/screen_title"
-            android:layout_margin="0dp"
-            android:text="@string/title_profile" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/edit_button"
-            style="@style/Widget.Theme.WeClean.Button"
-            android:text="@string/button_edit_profile" />
-    </LinearLayout>
+        android:layout_marginTop="16dp"
+        android:text="@string/title_profile" />
 
     <TextView
         style="@style/Widget.Theme.WeClean.SectionLabel"
@@ -68,4 +50,35 @@
     <TextView
         style="@style/Widget.Theme.WeClean.Text"
         android:id="@+id/littering_entries" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/Widget.Theme.WeClean.Button"
+            android:id="@+id/edit_button"
+            android:text="@string/button_edit_profile"
+            android:layout_marginEnd="40dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/Widget.Theme.WeClean.ButtonRed"
+            android:id="@+id/logout_button"
+            android:text="@string/button_log_out"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:id="@+id/view_communities"
+        style="@style/Widget.Theme.WeClean.Button"
+        android:text="@string/button_communities"
+        android:layout_gravity="center_horizontal" />
+
+
 </LinearLayout>
