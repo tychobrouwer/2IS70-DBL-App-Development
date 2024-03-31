@@ -13,10 +13,12 @@ class CommunityAdapter(
     private val listener: RecyclerViewCommunity,
 ) : RecyclerView.Adapter<CommunityAdapter.CommunityViewHolder>() {
     class CommunityViewHolder(view: View, private val listener: RecyclerViewCommunity) : RecyclerView.ViewHolder(view), View.OnClickListener {
-        val name: TextView = view.findViewById(R.id.name)
+        private val manageButton: TextView = view.findViewById(R.id.community_manage_button)
+        private val leaveButton: TextView = view.findViewById(R.id.community_leave_button)
 
         init {
-            name.setOnClickListener(this)
+            manageButton.setOnClickListener(this)
+            leaveButton.setOnClickListener(this)
         }
 
         override fun onClick(view: View?) {

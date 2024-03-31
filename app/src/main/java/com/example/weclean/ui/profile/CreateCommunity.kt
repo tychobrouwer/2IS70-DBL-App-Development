@@ -60,6 +60,7 @@ class CreateCommunity : Fragment() {
                 return@setOnClickListener
             }
 
+            // Generate a random community code
             val cCode = Random.nextInt(0, 999999)
 
             runBlocking {

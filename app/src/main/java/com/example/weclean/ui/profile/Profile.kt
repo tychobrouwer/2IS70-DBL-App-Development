@@ -17,6 +17,7 @@ class Profile : AppCompatActivity() {
 
         setContentView(R.layout.activity_profile)
 
+        // Begin activity with correct fragments
         switchFragment(ProfileViewStatus.PROFILE)
 
         // Parent view of navigation view

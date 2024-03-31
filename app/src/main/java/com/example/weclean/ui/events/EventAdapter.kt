@@ -14,11 +14,13 @@ class EventAdapter(
     private val listener: RecyclerViewEvent,
 ) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
     class EventViewHolder(view: View, private val listener: RecyclerViewEvent) : RecyclerView.ViewHolder(view), View.OnClickListener {
+        // Initialize the text views
         val name: TextView = view.findViewById(R.id.name)
         val location: TextView = view.findViewById(R.id.location)
         val date: TextView = view.findViewById(R.id.date)
 
         init {
+            // Set the click listener for the view holder
             name.setOnClickListener(this)
             location.setOnClickListener(this)
             date.setOnClickListener(this)

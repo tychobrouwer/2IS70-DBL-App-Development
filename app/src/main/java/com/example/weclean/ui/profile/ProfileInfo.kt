@@ -56,6 +56,7 @@ class ProfileInfo : Fragment() {
             return
         }
 
+        // Logout button
         val logout = view.findViewById<Button>(R.id.logout_button)
         logout.setOnClickListener {
             logoutDialog()
@@ -82,6 +83,7 @@ class ProfileInfo : Fragment() {
         // Get the number of littering entries the user has made
         val statLitteringEntries = (userData.get("litteringEntries") as ArrayList<*>?)?.size ?: 0
 
+        // Get the user's date of birth
         val timeInMillis = userData.getDate("dob")?.time ?: 0
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = timeInMillis
@@ -97,6 +99,9 @@ class ProfileInfo : Fragment() {
         view.findViewById<TextView>(R.id.littering_entries).text = statLitteringEntries.toString()
     }
 
+    /**
+     * Show a dialog to confirm logging out
+     */
     private fun logoutDialog() {
         // Builder for alert dialog popup
         val builder = AlertDialog.Builder(activity as AppCompatActivity)

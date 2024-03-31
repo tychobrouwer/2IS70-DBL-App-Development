@@ -117,6 +117,7 @@ class ProfileCommunities : Fragment(), CommunityAdapter.RecyclerViewCommunity {
                     return@launch
                 }
 
+                // Get user's communities
                 val communitiesResult = fireBase.getDocument("Users", userId)
 
                 if (communitiesResult == null) {
@@ -124,16 +125,20 @@ class ProfileCommunities : Fragment(), CommunityAdapter.RecyclerViewCommunity {
                     return@launch
                 }
 
+                // Get community IDs from user
                 val userCommunities = communitiesResult.get("communityIds") as? ArrayList<*> ?: emptyList()
                 for (community in userCommunities) {
+                    // Get community data from database
                     val communityResult =
                         fireBase.getDocument("Community", community as String) ?: return@launch
 
+                    // Add community to list
                     val communityListData = CommunityListData(
                         communityResult.get("name") as String,
                         (communityResult.get("adminIds") as ArrayList<*>).contains(fireBase.currentUserId())
                     )
 
+                    // Update the list adapter
                     communities.add(communityListData)
                     communitiesListAdapter.notifyItemInserted(communities.size - 1)
                 }

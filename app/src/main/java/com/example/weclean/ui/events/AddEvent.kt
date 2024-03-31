@@ -209,8 +209,6 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
                     return@launch
                 }
 
-                println(userCommunityIds)
-
                 for (community in userCommunityIds) {
                     // Get the community data
                     val communityResult =

@@ -62,6 +62,7 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
                 dateToOpen = Calendar.getInstance()
             }
 
+            // Create a date picker dialog
             val datePicker = DatePickerDialog(
                 this.requireContext(),
                 this,
@@ -96,16 +97,19 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
             val emailNew = emailView.text.toString().trim()
 
             runBlocking {
+                // Update the user's country information
                 val updateCountry = fireBase.updateValue("Users", userId, "country", country)
                 if (!updateCountry) {
                     Toast.makeText(context, "Failed to update country", Toast.LENGTH_SHORT).show()
                 }
 
+                // Update the user's username information
                 val updateUsername = fireBase.updateValue("Users", userId, "username", username)
                 if (!updateUsername) {
                     Toast.makeText(context, "Failed to update username", Toast.LENGTH_SHORT).show()
                 }
 
+                // Update the user's date of birth information
                 if (date.timeInMillis != 0L) {
                     val updateDobResult = fireBase.updateValue("Users", userId, "dob", date.time)
                     if (!updateDobResult) {
@@ -125,7 +129,7 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
                     }
 
                     // Verify and update the user's email
-                    val updateEmailResult = currentAuth.verifyBeforeUpdateEmail(emailNew)
+                    val updateEmailResult = currentAuth.updateEmail(emailNew)
                     if (!updateEmailResult.isSuccessful) {
                         Toast.makeText(context, "Failed to update email", Toast.LENGTH_SHORT).show()
 
@@ -139,6 +143,9 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
         }
     }
 
+    /**
+     * Dialog to confirm deletion of user profile
+     */
     private fun deleteProfileDialog() {
         // Builder for alert dialog popup
         val builder = AlertDialog.Builder(activity as AppCompatActivity)
@@ -147,7 +154,7 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
         // Create dialog from builder
         val deleteDialog = builder.create()
 
-        // Inflate dialog from R.layout.profile_join_community
+        // Inflate dialog from R.layout.delete_profile_confirm
         val dialogLayout = layoutInflater.inflate(R.layout.delete_profile_confirm, null)
 
         // Show alert dialog
@@ -162,15 +169,18 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
             return
         }
 
+        // Dismiss dialog on cancel button
         cancelButton.setOnClickListener {
             deleteDialog.dismiss()
         }
 
-        // Listener for join button
+        // Listener for delete button
         deleteButton.setOnClickListener {
             runBlocking {
+                // Delete user profile from database
                 val result = fireBase.deleteDocument("Users", userId!!)
 
+                // If successful, delete the user's account
                 if (result) {
                     val currentAuth = dbAuth.currentUser
                     if (currentAuth == null) {
@@ -184,11 +194,13 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
                     }
 
                     try {
+                        // Delete the user's account
                         currentAuth.delete().await()
 
                         Toast.makeText(context, "Account deleted", Toast.LENGTH_SHORT).show()
                         deleteDialog.dismiss()
 
+                        // Return to login screen
                         startActivity(Intent(activity as AppCompatActivity, LoginActivity::class.java))
 
                     } catch (e: Exception) {
@@ -200,17 +212,24 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
 
+    /**
+     * Set the fields in the profile edit fragment
+     */
     private fun setFields(view: View) {
         runBlocking {
             launch {
                 if (userId != null) {
+                    // Get the user's data from the database
                     val userData = fireBase.getDocument("Users", userId)
+
                     if (userData != null) {
+                        // Get the user's data from the database result
                         val email = userData.getString("email")
                         val dob = userData.getDate("dob")
                         val country = userData.getString("country")
                         val username = userData.getString("username")
 
+                        // Set the fields in the profile edit fragment
                         val emailView = view.findViewById<EditText>(R.id.email)
                         emailView.setText(email)
 

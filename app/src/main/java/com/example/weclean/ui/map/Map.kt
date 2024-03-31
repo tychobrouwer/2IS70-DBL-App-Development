@@ -88,6 +88,7 @@ class Map : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallba
 
         val requestPermissionCode = 999
         if (requestCode == requestPermissionCode && permissions.isNotEmpty() && grantResults.isNotEmpty()) {
+            // Reload the map view after permissions are granted
             switchFragment(MapViewStatus.Map)
         }
     }
@@ -111,19 +112,21 @@ fun AppCompatActivity.switchFragment(toStatus: MapViewStatus, documentId: String
     // Remove all fragments
     try {
         transaction.remove(mapView!!)
-    } catch (e: Exception) {
-        println(e)
-    }
+    } catch (_: Exception) {}
     try {
         transaction.remove(litteringDetails!!)
     } catch (_: Exception) {}
 
     if (toStatus == MapViewStatus.Map) {
+        // Add map view fragment
         transaction.add(R.id.fragmentMapView, MapView())
     } else if (toStatus == MapViewStatus.LitteringDetails) {
         if (mapView != null) {
             transaction.remove(mapView)
+            transaction.remove(mapView)
         }
+
+        // Add littering details fragment
         transaction.add(R.id.fragmentLitteringDetails, LitteringDetails().newInstance(documentId))
     }
 

@@ -241,11 +241,13 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     communities.add(communityResult.id)
                 }
 
+                // If user is not in any community
                 if (communities.isEmpty()) {
                     communities.add("")
                     communitiesName.add("No community")
                 }
 
+                // Update the spinner adapter
                 selectCommunityAdapter.notifyDataSetChanged()
             }
         }

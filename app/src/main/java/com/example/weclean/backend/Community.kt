@@ -46,8 +46,11 @@ class Community(private val fireBase: FireBase) {
      */
     suspend fun addToDatabase(name: String, contactEmail: String, location: String, code : Int) : Boolean {
         val adminId = fireBase.currentUserId() ?: return false
+
+        // Create community object
         val community = createCommunity(name, contactEmail, location, code, arrayListOf(adminId), arrayListOf(adminId))
 
+        // Add community to database
         val result = fireBase.addDocument("Community", community)
 
         if (result == null) {
@@ -56,6 +59,7 @@ class Community(private val fireBase: FireBase) {
             return false
         }
 
+        // Add community to user
         fireBase.addToArray("Users", adminId, "communityIds", result.id)
         fireBase.addToArray("Users", adminId, "communityAdminIds", result.id)
 
