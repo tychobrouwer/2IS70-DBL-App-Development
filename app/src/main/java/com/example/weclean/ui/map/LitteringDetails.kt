@@ -166,9 +166,7 @@ class LitteringDetails : Fragment() {
         chip.textSize = 16F
         chip.chipIconSize = 16F
         chip.textStartPadding = 2F
-        chip.textEndPadding = 3F
-        chip.closeIconEndPadding = 4F
-        chip.chipEndPadding = 4F
+        chip.textEndPadding = 6F
         chip.closeIcon = null
         chip.isClickable = false
         chip.setEnsureMinTouchTargetSize(false)
