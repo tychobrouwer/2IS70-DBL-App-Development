@@ -10,12 +10,12 @@ import java.util.Calendar
  */
 fun dayStringFormat(timeStamp: Long): String {
     // Time constants
-    val ONE_MINUTE = 60000L
-    val ONE_HOUR = 3600000L
-    val ONE_DAY = 86400000L
-    val ONE_WEEK = 604800000L
-    val ONE_MONTH = 2592000000L
-    val ONE_YEAR = 31536000000L
+    val oneMinute = 60000L
+    val oneHour = 3600000L
+    val oneDay = 86400000L
+    val oneWeek = 604800000L
+    val oneMonth = 2592000000L
+    val oneYear = 31536000000L
 
     // Get the current time
     val currentTime = System.currentTimeMillis()
@@ -25,47 +25,39 @@ fun dayStringFormat(timeStamp: Long): String {
     val calendar = Calendar.getInstance()
     calendar.timeInMillis = timeStamp
 
+    val time = padTimeInt(calendar.get(Calendar.HOUR_OF_DAY)) + ":" +
+            padTimeInt(calendar.get(Calendar.MINUTE))
+
+    val timeDate = padTimeInt(calendar.get(Calendar.MONTH)) + "/" +
+            padTimeInt(calendar.get(Calendar.DAY_OF_MONTH)) + " at " +
+            padTimeInt(calendar.get(Calendar.HOUR_OF_DAY)) + ":" +
+            padTimeInt(calendar.get(Calendar.MINUTE))
+
+    val shortDate = padTimeInt(calendar.get(Calendar.MONTH)) + "/" +
+            padTimeInt(calendar.get(Calendar.DAY_OF_MONTH))
+
+    val longDate = padTimeInt(calendar.get(Calendar.MONTH)) + "/" +
+            padTimeInt(calendar.get(Calendar.DAY_OF_MONTH)) + "/" +
+            calendar.get(Calendar.YEAR).toString()
+
     return when (difference) {
-        in -10*ONE_YEAR..-ONE_YEAR -> {
-            padTimeInt(calendar.get(Calendar.MONTH)) + "/" +
-                    padTimeInt(calendar.get(Calendar.DAY_OF_MONTH)) + "/" +
-                    calendar.get(Calendar.YEAR).toString()
+        in -10*oneYear..-oneYear -> longDate
+        in -oneYear..-oneMonth -> shortDate
+        in -oneMonth..-2*oneDay -> timeDate
+        in -2*oneDay..-oneDay -> {
+            "Tomorrow at $time"
         }
-        in -ONE_YEAR..-ONE_MONTH -> {
-            padTimeInt(calendar.get(Calendar.MONTH)) + "/" +
-                    padTimeInt(calendar.get(Calendar.DAY_OF_MONTH)) + "/" +
-                    calendar.get(Calendar.YEAR).toString()
+        in -oneDay..-oneHour -> {
+            "Today at $time"
         }
-        in -ONE_MONTH..-2*ONE_DAY -> {
-            padTimeInt(calendar.get(Calendar.MONTH)) + "/" +
-                    padTimeInt(calendar.get(Calendar.DAY_OF_MONTH)) + " at " +
-                    padTimeInt(calendar.get(Calendar.HOUR_OF_DAY)) + ":" +
-                    padTimeInt(calendar.get(Calendar.MINUTE))
-        }
-        in -2*ONE_DAY..-ONE_DAY -> {
-            "Yesterday at " + padTimeInt(calendar.get(Calendar.HOUR_OF_DAY)) + ":" +
-                    padTimeInt(calendar.get(Calendar.MINUTE))
-        }
-        in -ONE_DAY..-ONE_HOUR -> {
-            "Today at " + padTimeInt(calendar.get(Calendar.HOUR_OF_DAY)) + ":" +
-                    padTimeInt(calendar.get(Calendar.MINUTE))
-        }
-        in -ONE_HOUR..0 -> "Now"
-        in 0..ONE_MINUTE -> "Just now"
-        in ONE_MINUTE..ONE_HOUR -> "${difference / ONE_MINUTE} Minutes ago"
-        in ONE_HOUR..ONE_DAY -> "${difference / ONE_HOUR} Hours ago"
-        in ONE_DAY..ONE_WEEK -> "${difference / ONE_DAY} Days ago"
-        in ONE_WEEK..ONE_YEAR -> {
-            padTimeInt(calendar.get(Calendar.MONTH)) + "/" +
-                    padTimeInt(calendar.get(Calendar.DAY_OF_MONTH))+ " at " +
-                    padTimeInt(calendar.get(Calendar.HOUR_OF_DAY)) + ":" +
-                    padTimeInt(calendar.get(Calendar.MINUTE))
-        }
-        else -> {
-            padTimeInt(calendar.get(Calendar.MONTH)) + "/" +
-                    padTimeInt(calendar.get(Calendar.DAY_OF_MONTH)) + "/" +
-                    calendar.get(Calendar.YEAR).toString()
-        }
+        in -oneHour..0 -> "Now"
+        in 0..oneMinute -> "Just now"
+        in oneMinute..oneHour -> "${difference / oneMinute} Minutes ago"
+        in oneHour..oneDay -> "${difference / oneHour} Hours ago"
+        in oneDay..oneWeek -> "${difference / oneDay} Days ago"
+        in oneWeek..oneMonth -> timeDate
+        in oneMonth..oneYear -> shortDate
+        else -> longDate
     }
 }
 

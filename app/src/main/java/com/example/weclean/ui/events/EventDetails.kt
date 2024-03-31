@@ -61,7 +61,7 @@ class EventDetails : Fragment() {
 
         if (userId.isEmpty()) {
             // If the user ID is empty, go to the login activity
-            Toast.makeText(activity, "Failed to sign up for event", Toast.LENGTH_SHORT)
+            Toast.makeText(activity, "Failed to get user", Toast.LENGTH_SHORT)
                 .show()
             startActivity(Intent(activity as AppCompatActivity, LoginActivity::class.java))
 
@@ -100,11 +100,13 @@ class EventDetails : Fragment() {
      *
      */
     private suspend fun addToEvent() {
+        val failString = "Failed to sign up for event"
+
         // Add the user to the event
         val addUserToEvent = fireBase.addToArray("Events", event.id, "userIds", userId)
 
         if (!addUserToEvent) {
-            Toast.makeText(activity, "Failed to sign up for event", Toast.LENGTH_SHORT)
+            Toast.makeText(activity, failString, Toast.LENGTH_SHORT)
                 .show()
         }
 
@@ -112,7 +114,7 @@ class EventDetails : Fragment() {
         val addEventToUser = fireBase.addToArray("Users", userId, "eventIds", event.id)
 
         if (!addEventToUser) {
-            Toast.makeText(activity, "Failed to sign up for event", Toast.LENGTH_SHORT)
+            Toast.makeText(activity, failString, Toast.LENGTH_SHORT)
                 .show()
         }
 
@@ -126,11 +128,13 @@ class EventDetails : Fragment() {
      *
      */
     private suspend fun removeFromEvent() {
+        val failString = "Failed to remove sign up for event"
+
         // Remove the user from the event
         val removeUserFromEvent = fireBase.removeFromArray("Events", event.id, "userIds", userId)
 
         if (!removeUserFromEvent) {
-            Toast.makeText(activity, "Failed to remove sign up for event", Toast.LENGTH_SHORT)
+            Toast.makeText(activity, failString, Toast.LENGTH_SHORT)
                 .show()
         }
 
@@ -138,7 +142,7 @@ class EventDetails : Fragment() {
         val removeEventFromUser = fireBase.removeFromArray("Users", userId, "eventIds", event.id)
 
         if (!removeEventFromUser) {
-            Toast.makeText(activity, "Failed to remove sign up for event", Toast.LENGTH_SHORT)
+            Toast.makeText(activity, failString, Toast.LENGTH_SHORT)
                 .show()
         }
 

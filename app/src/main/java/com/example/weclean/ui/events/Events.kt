@@ -15,12 +15,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.io.Serializable
 
 class EventsActivity : AppCompatActivity() {
-    private fun <T : Serializable?> getSerializable(activity: Activity, name: String, clazz: Class<T>): T?
+    private fun <T : Serializable?> getSerializable(activity: Activity, name: String, clazz: Class<T>): EventData?
     {
         return if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            activity.intent.getSerializableExtra(name, clazz)?.let { it as T? }
+            activity.intent.getSerializableExtra(name, clazz)?.let { it as EventData? }
         else
-            activity.intent.getSerializableExtra(name) as T?
+            activity.intent.getSerializableExtra(name) as EventData?
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,10 +87,14 @@ fun AppCompatActivity.openEventDetails(toEvent: Boolean, eventData: EventData) {
     // Remove all fragments
     try {
         transaction.remove(eventsList!!)
-    } catch (_: Exception) {}
+    } catch (_: Exception) {
+        // Do nothing
+    }
     try {
         transaction.remove(eventDetails!!)
-    } catch (_: Exception) {}
+    } catch (_: Exception) {
+        // Do nothing
+    }
 
     if (toEvent) {
         // Add event details fragment

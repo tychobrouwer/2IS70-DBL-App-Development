@@ -1,4 +1,3 @@
-<!-- TODO: add comments for each section to easier understand what section is for what part of the app -->
 <resources>
     <string name="app_name" translatable="false">WeClean</string>
     <string name="slogan" translatable="false">Make the Netherlands green again</string>

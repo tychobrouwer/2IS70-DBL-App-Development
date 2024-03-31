@@ -196,7 +196,7 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
                 // Get communities the user is in
                 val communitiesResult = fireBase.getDocument("Users", userId)
 
-                if (communitiesResult == null) {
+                if (communitiesResult == null || communitiesResult.data == null) {
                     Toast.makeText(this@AddEvent, "Error getting user", Toast.LENGTH_SHORT).show()
                     return@launch
                 }
@@ -213,6 +213,7 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
                     // Get the community data
                     val communityResult =
                         fireBase.getDocument("Community", community as String) ?: return@launch
+                    if (communityResult.data == null) continue
 
                     // Add the community to the list
                     communitiesName.add(communityResult.getString("name")!!)

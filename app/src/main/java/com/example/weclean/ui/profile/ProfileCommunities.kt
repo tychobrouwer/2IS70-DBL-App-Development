@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weclean.R
 import com.example.weclean.backend.Community
 import com.example.weclean.backend.FireBase
-import com.example.weclean.ui.events.EventAdapter
 import com.example.weclean.ui.login.LoginActivity
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -131,6 +129,8 @@ class ProfileCommunities : Fragment(), CommunityAdapter.RecyclerViewCommunity {
                     // Get community data from database
                     val communityResult =
                         fireBase.getDocument("Community", community as String) ?: return@launch
+
+                    if (communityResult.data == null) continue
 
                     // Add community to list
                     val communityListData = CommunityListData(

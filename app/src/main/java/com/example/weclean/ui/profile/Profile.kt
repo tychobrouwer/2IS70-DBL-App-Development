@@ -9,7 +9,6 @@ import com.example.weclean.ui.home.Home
 import com.example.weclean.R
 import com.example.weclean.ui.events.EventsActivity
 import com.example.weclean.ui.map.Map
-import java.util.Calendar
 
 class Profile : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,14 +94,19 @@ fun AppCompatActivity.switchFragment(toStatus: ProfileViewStatus) {
     } catch (_: Exception) {}
 
     // Add fragment based on status
-    if (toStatus == ProfileViewStatus.PROFILE_EDIT) {
-        transaction.add(R.id.fragmentProfileEdit, ProfileEdit())
-    } else if (toStatus == ProfileViewStatus.PROFILE) {
-        transaction.add(R.id.fragmentProfileInfo, ProfileInfo())
-    } else if (toStatus == ProfileViewStatus.COMMUNITIES_LIST) {
-        transaction.add(R.id.fragmentProfileCommunities, ProfileCommunities())
-    } else if (toStatus == ProfileViewStatus.COMMUNITY_CREATE) {
-        transaction.add(R.id.fragmentCreateCommunity, CreateCommunity())
+    when (toStatus) {
+        ProfileViewStatus.PROFILE_EDIT -> {
+            transaction.add(R.id.fragmentProfileEdit, ProfileEdit())
+        }
+        ProfileViewStatus.PROFILE -> {
+            transaction.add(R.id.fragmentProfileInfo, ProfileInfo())
+        }
+        ProfileViewStatus.COMMUNITIES_LIST -> {
+            transaction.add(R.id.fragmentProfileCommunities, ProfileCommunities())
+        }
+        ProfileViewStatus.COMMUNITY_CREATE -> {
+            transaction.add(R.id.fragmentCreateCommunity, CreateCommunity())
+        }
     }
 
     // Complete transaction and navigate

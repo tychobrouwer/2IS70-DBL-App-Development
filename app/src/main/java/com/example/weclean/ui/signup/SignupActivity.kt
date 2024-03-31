@@ -31,8 +31,6 @@ class SignupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        lateinit var firebase : FireBase
-
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -67,35 +65,38 @@ class SignupActivity : AppCompatActivity() {
             
             //create the user
             firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val uid = it.result.user?.uid
+                if (it.exception is FirebaseAuthUserCollisionException) {
+                    Toast.makeText(this, "Email is already in use", Toast.LENGTH_SHORT).show()
 
-                    if (uid == null) {
-                        Toast.makeText(this, "Error creating user", Toast.LENGTH_SHORT).show()
-                        return@addOnCompleteListener
-                    }
+                    return@addOnCompleteListener
+                }
 
-                    val country = getResources().configuration.locales.get(0).country
+                if (!it.isSuccessful) {
+                    Toast.makeText(this, "Error creating user", Toast.LENGTH_SHORT).show()
+                    return@addOnCompleteListener
+                }
 
-                    val user = User(firebase).createUser(username, 0, country)
+                val uid = it.result.user?.uid
 
-                    runBlocking {
-                        val addUserResult = fireBase.addDocumentWithName("Users", uid, user)
+                if (uid == null) {
+                    Toast.makeText(this, "Error creating user", Toast.LENGTH_SHORT).show()
+                    return@addOnCompleteListener
+                }
 
-                        if (!addUserResult) {
-                            Toast.makeText(this@SignupActivity, "Error creating user", Toast.LENGTH_SHORT).show()
-                            return@runBlocking
-                        }
+                val country = getResources().configuration.locales.get(0).country
+                val user = User(fireBase).createUser(username, 0, country)
+
+                runBlocking {
+                    val addUserResult = fireBase.addDocumentWithName("Users", uid, user)
+
+                    if (!addUserResult) {
+                        Toast.makeText(this@SignupActivity, "Error creating user", Toast.LENGTH_SHORT).show()
+                        return@runBlocking
                     }
 
                     // navigate to the home screen
-                    val intent = Intent(this, Home::class.java)
+                    val intent = Intent(this@SignupActivity, Home::class.java)
                     startActivity(intent)
-
-                } else if (it.exception is FirebaseAuthUserCollisionException) {
-                    Toast.makeText(this, "Email is already in use", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
         }

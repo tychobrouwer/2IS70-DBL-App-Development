@@ -97,6 +97,15 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
             val emailNew = emailView.text.toString().trim()
 
             runBlocking {
+                val currentAuth = dbAuth.currentUser
+                if (currentAuth == null) {
+                    Toast.makeText(context, "Failed to get current user", Toast.LENGTH_SHORT)
+                        .show()
+                    startActivity(Intent(activity as AppCompatActivity, LoginActivity::class.java))
+
+                    return@runBlocking
+                }
+
                 // Update the user's country information
                 val updateCountry = fireBase.updateValue("Users", userId, "country", country)
                 if (!updateCountry) {
@@ -118,16 +127,6 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
                 }
 
                 if (emailNew != email) {
-                    // Get the current user
-                    val currentAuth = dbAuth.currentUser
-                    if (currentAuth == null) {
-                        Toast.makeText(context, "Failed to get current user", Toast.LENGTH_SHORT)
-                            .show()
-                        startActivity(Intent(activity as AppCompatActivity, LoginActivity::class.java))
-
-                        return@runBlocking
-                    }
-
                     // Verify and update the user's email
                     val updateEmailResult = currentAuth.updateEmail(emailNew)
                     if (!updateEmailResult.isSuccessful) {

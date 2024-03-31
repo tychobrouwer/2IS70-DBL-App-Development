@@ -236,6 +236,8 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     val communityResult =
                         fireBase.getDocument("Community", community as String) ?: return@launch
 
+                    if (communityResult.data == null) continue
+
                     // Add the community to the list
                     communitiesName.add(communityResult.getString("name")!!)
                     communities.add(communityResult.id)

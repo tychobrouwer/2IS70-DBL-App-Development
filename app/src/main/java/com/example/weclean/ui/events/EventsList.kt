@@ -49,6 +49,8 @@ class EventsList : Fragment(), EventAdapter.RecyclerViewEvent {
         runBlocking {
             // Get user data
             val userData = fireBase.getDocument("Users", userId) ?: return@runBlocking
+            if (userData.data == null) return@runBlocking
+
             // Get the communities the user is an admin of
             val adminCommunities = userData.get("communityAdminIds") as? ArrayList<*> ?: emptyList()
 
@@ -95,6 +97,8 @@ class EventsList : Fragment(), EventAdapter.RecyclerViewEvent {
 
                 // Get user data
                 val userData = fireBase.getDocument("Users", userId) ?: return@launch
+                if (userData.data == null) return@launch
+
                 // Get the communities the user is a part of
                 val communities = userData.get("communityIds") as ArrayList<*>? ?: return@launch
 
@@ -102,6 +106,9 @@ class EventsList : Fragment(), EventAdapter.RecyclerViewEvent {
                 for (community in communities) {
                     // Get the community data
                     val communityData = fireBase.getDocument("Community", community as String) ?: continue
+
+                    if (communityData.data == null) continue
+
                     // Get the event IDs for the community
                     val eventsToAdd = communityData.get("eventIds") as ArrayList<*>? ?: continue
 
@@ -109,6 +116,8 @@ class EventsList : Fragment(), EventAdapter.RecyclerViewEvent {
                     for (event in eventsToAdd) {
                         // Get the event data
                         val eventDataResult = fireBase.getDocument("Events", event as String) ?: continue
+
+                        if (eventDataResult.data == null) continue
 
                         // Create the event data object
                         val eventData = EventData()

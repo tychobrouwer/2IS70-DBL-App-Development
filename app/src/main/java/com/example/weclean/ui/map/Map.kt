@@ -11,19 +11,17 @@ import com.example.weclean.ui.add.Add
 import com.example.weclean.ui.home.Home
 import com.example.weclean.ui.profile.Profile
 import com.example.weclean.R
-import com.example.weclean.backend.EventData
 import com.example.weclean.backend.LitteringData
 import com.example.weclean.ui.events.EventsActivity
-import com.example.weclean.ui.events.openEventDetails
 import java.io.Serializable
 
 class Map : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
-    private fun <T : Serializable?> getSerializable(activity: Activity, name: String, clazz: Class<T>): T?
+    private fun <T : Serializable?> getSerializable(activity: Activity, name: String, clazz: Class<T>): LitteringData?
     {
         return if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            activity.intent.getSerializableExtra(name, clazz)?.let { it as T? }
+            activity.intent.getSerializableExtra(name, clazz)?.let { it as LitteringData? }
         else
-            activity.intent.getSerializableExtra(name) as T?
+            activity.intent.getSerializableExtra(name) as LitteringData?
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
