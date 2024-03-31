@@ -4,9 +4,8 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import com.google.firebase.firestore.Filter
 
-class Community() {
+class Community(private val fireBase: FireBase) {
 
-    private val fireBase = FireBase()
     /**
      * Create a community object
      *

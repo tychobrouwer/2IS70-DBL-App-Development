@@ -1,6 +1,5 @@
 package com.example.weclean.backend
 
-import FireBase
 import android.content.ContentValues.TAG
 import android.util.Log
 import kotlinx.coroutines.runBlocking

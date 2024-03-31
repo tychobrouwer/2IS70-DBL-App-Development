@@ -20,8 +20,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class ProfileCommunities : Fragment() {
-    private val communityObject = Community()
-    private val fireBase = FireBase()
+    private lateinit var fireBase : FireBase
+    private val communityObject = Community(fireBase)
 
     private val communities = ArrayList<CommunityListData>()
 

@@ -13,7 +13,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import kotlinx.coroutines.tasks.await
 
-class FireBase {
+open class FireBase {
     // FireBase class instance to communicate with the database
     private val db = Firebase.firestore
     // FireBase authentication instance
