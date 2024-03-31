@@ -73,7 +73,7 @@
             style="@style/Widget.Theme.WeClean.Button"
             android:id="@+id/cConfirm_button"
             android:layout_gravity="bottom"
-            android:layout_marginEnd="25dp"
+            android:layout_marginEnd="40dp"
             android:layout_width="100dp"
             android:text="@string/button_create" />
 
@@ -81,7 +81,6 @@
             style="@style/Widget.Theme.WeClean.ButtonRed"
             android:id="@+id/cCancel_button"
             android:layout_gravity="bottom"
-            android:layout_marginStart="25dp"
             android:layout_width="100dp"
             android:text="@string/button_cancel" />
 

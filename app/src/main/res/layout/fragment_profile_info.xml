@@ -22,6 +22,7 @@
 
     <TextView
         style="@style/Widget.Theme.WeClean.Text"
+        android:paddingStart="15dp"
         android:id="@+id/email" />
 
     <TextView
@@ -31,6 +32,7 @@
 
     <TextView
         style="@style/Widget.Theme.WeClean.Text"
+        android:paddingStart="15dp"
         android:id="@+id/username" />
 
     <TextView
@@ -40,6 +42,7 @@
 
     <TextView
         style="@style/Widget.Theme.WeClean.Text"
+        android:paddingStart="15dp"
         android:id="@+id/region" />
 
     <TextView
@@ -49,6 +52,7 @@
 
     <TextView
         style="@style/Widget.Theme.WeClean.Text"
+        android:paddingStart="15dp"
         android:id="@+id/littering_entries" />
 
     <androidx.appcompat.widget.AppCompatButton

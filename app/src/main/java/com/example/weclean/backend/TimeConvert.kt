@@ -27,27 +27,27 @@ fun dayStringFormat(timeStamp: Long): String {
 
     return when (difference) {
         in -10*ONE_YEAR..-ONE_YEAR -> {
-            calendar.get(Calendar.MONTH).toString() + "/" +
-                    calendar.get(Calendar.DAY_OF_MONTH) + "/" +
+            padTimeInt(calendar.get(Calendar.MONTH)) + "/" +
+                    padTimeInt(calendar.get(Calendar.DAY_OF_MONTH)) + "/" +
                     calendar.get(Calendar.YEAR).toString()
         }
         in -ONE_YEAR..-ONE_MONTH -> {
-            calendar.get(Calendar.MONTH).toString() + "/" +
-                    calendar.get(Calendar.DAY_OF_MONTH) + "/" +
+            padTimeInt(calendar.get(Calendar.MONTH)) + "/" +
+                    padTimeInt(calendar.get(Calendar.DAY_OF_MONTH)) + "/" +
                     calendar.get(Calendar.YEAR).toString()
         }
         in -ONE_MONTH..-2*ONE_DAY -> {
-            calendar.get(Calendar.MONTH).toString() + "/" +
-                    calendar.get(Calendar.DAY_OF_MONTH) + " at " +
-                    calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" +
+            padTimeInt(calendar.get(Calendar.MONTH)) + "/" +
+                    padTimeInt(calendar.get(Calendar.DAY_OF_MONTH)) + " at " +
+                    padTimeInt(calendar.get(Calendar.HOUR_OF_DAY)) + ":" +
                     padTimeInt(calendar.get(Calendar.MINUTE))
         }
         in -2*ONE_DAY..-ONE_DAY -> {
-            "Yesterday at " + calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" +
+            "Yesterday at " + padTimeInt(calendar.get(Calendar.HOUR_OF_DAY)) + ":" +
                     padTimeInt(calendar.get(Calendar.MINUTE))
         }
         in -ONE_DAY..-ONE_HOUR -> {
-            "Today at " + calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" +
+            "Today at " + padTimeInt(calendar.get(Calendar.HOUR_OF_DAY)) + ":" +
                     padTimeInt(calendar.get(Calendar.MINUTE))
         }
         in -ONE_HOUR..0 -> "Now"
@@ -56,14 +56,14 @@ fun dayStringFormat(timeStamp: Long): String {
         in ONE_HOUR..ONE_DAY -> "${difference / ONE_HOUR} Hours ago"
         in ONE_DAY..ONE_WEEK -> "${difference / ONE_DAY} Days ago"
         in ONE_WEEK..ONE_YEAR -> {
-            calendar.get(Calendar.MONTH).toString() + "/" +
-                    calendar.get(Calendar.DAY_OF_MONTH) + " " +
-                    calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" +
+            padTimeInt(calendar.get(Calendar.MONTH)) + "/" +
+                    padTimeInt(calendar.get(Calendar.DAY_OF_MONTH))+ " at " +
+                    padTimeInt(calendar.get(Calendar.HOUR_OF_DAY)) + ":" +
                     padTimeInt(calendar.get(Calendar.MINUTE))
         }
         else -> {
-            calendar.get(Calendar.MONTH).toString() + "/" +
-                    calendar.get(Calendar.DAY_OF_MONTH) + "/" +
+            padTimeInt(calendar.get(Calendar.MONTH)) + "/" +
+                    padTimeInt(calendar.get(Calendar.DAY_OF_MONTH)) + "/" +
                     calendar.get(Calendar.YEAR).toString()
         }
     }
