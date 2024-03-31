@@ -5,10 +5,7 @@ import android.util.Log
 import kotlinx.coroutines.runBlocking
 import java.util.Date
 
-class User {
-
-    // FireBase class instance to communicate with the database
-    private val fireBase = FireBase()
+class User (private val fireBase: FireBase) {
 
     /**
      * Create a user object

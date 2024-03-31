@@ -22,7 +22,10 @@ open class FireBase {
     private val dbStore = FirebaseStorage.getInstance()
 
     // Get the currently logged in user's ID and email
-    fun currentUserId() = dbAuth.currentUser?.uid
+    fun currentUserId(): String? {
+        val currentUser = dbAuth.currentUser
+        return currentUser?.uid
+    }
     fun currentUserEmail() = dbAuth.currentUser?.email
 
     /**

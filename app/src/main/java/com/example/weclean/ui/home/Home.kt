@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weclean.R
 import com.example.weclean.ui.events.EventsActivity
 import com.google.firebase.Firebase
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +29,7 @@ class Home : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        FirebaseApp.initializeApp(this)
         setContentView(R.layout.activity_home)
 
 
