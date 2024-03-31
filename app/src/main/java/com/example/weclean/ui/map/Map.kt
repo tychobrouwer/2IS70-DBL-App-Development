@@ -85,9 +85,9 @@ class Map : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallba
     @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        val requestPermissionCode = 999
 
-        if (requestCode == requestPermissionCode) {
+        val requestPermissionCode = 999
+        if (requestCode == requestPermissionCode && permissions.isNotEmpty() && grantResults.isNotEmpty()) {
             switchFragment(MapViewStatus.Map)
         }
     }

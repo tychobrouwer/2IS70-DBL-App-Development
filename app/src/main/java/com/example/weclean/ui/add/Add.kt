@@ -455,18 +455,17 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         when(requestCode) { permissionCode ->
             // If request code is permission granted
-            if (grantResults.isNotEmpty() &&
-                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Set the current map location
                 getCurrentLocation()
-                if(requestCode == Add.CAMERA_PERMISSION_CODE){
+
+                if(requestCode == CAMERA_PERMISSION_CODE){
                     val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    startActivityForResult(intent, Add.CAMERA)
+                    startActivityForResult(intent, CAMERA)
                 }else{
                     Toast.makeText(this,"Permission needs to be accepted", Toast.LENGTH_LONG).show()
                 }
             }
-
-            }
         }
+    }
 }
