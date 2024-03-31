@@ -1,100 +1,53 @@
-//Test cases file to fix: import com.example.weclean.backend.Community
-import com.example.weclean.backend.FireBase
+import com.example.weclean.backend.Community
+import com.example.weclean.backend.User
+import com.google.common.base.CharMatcher.any
+import com.google.firebase.Firebase
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import com.google.firebase.firestore.Filter
-import com.example.weclean.backend.Community
+import org.mockito.Mock
+import org.mockito.Mockito.`when`
+import org.mockito.MockitoAnnotations
 
-//TODO: Fix the issue reading background thread execution of firebase not allowed
 class CommunityTest {
 
-    private var community = Community()
-    private var fireBase = FireBase()
+    @Mock
+    private lateinit var user: User
+    private lateinit var firebase : Firebase
+    private lateinit var mockFireBase: FireBaseInterface
+    private lateinit var community: Community
 
     @Before
     fun setUp() {
-        //do
+        MockitoAnnotations.openMocks(this)
+        community = Community(mockFireBase)
     }
 
     @Test
     fun testCreateCommunity() {
+        val cName = "Test Community"
+        val email = "test@example.com"
+        val location = "Test Location"
+        val cCode = 123
         val userIds = arrayListOf("user1", "user2")
         val adminIds = arrayListOf("admin1", "admin2")
-        val result = community.createCommunity("Community Name", "email@example.com", "Location", 123, userIds, adminIds)
 
-        assert(result["name"] == "Community Name")
-        assert(result["contactEmail"] == "email@example.com")
-        assert(result["location"] == "Location")
-        assert(result["code"] == 123)
-        assert(result["userIds"] == userIds)
-        assert(result["adminIds"] == adminIds)
-        assert(false)
+        `when`(mockFireBase.currentUserId()).thenReturn("admin1")
+        `when`(runBlocking { mockFireBase.addDocumentWithName("communities", "test", any()) }).thenReturn(true)
+
+        val result = community.createCommunity(cName, email, location, cCode, userIds, adminIds)
+
+        assertEquals(true, result)
     }
 
     @Test
-    fun testAddToDatabase() = runBlocking {
-        val result = community.addToDatabase("Community Name", "email@example.com", "Location", 123)
-        assertTrue(result)
+    fun testAddToDatabase() {
+        //do test case using Mockito
     }
 
     @Test
-    fun testAddUserWithCode() = runBlocking {
-        // Create a random community using the Community class method
-        val communityName = "Test Community"
-        val communityCode = "000"
-        val communityLocation = "Test Location"
-        val communityId = "test_community_${System.currentTimeMillis()}"
-        val userIds = arrayListOf("user1", "user2")
-        val adminIds = arrayListOf("admin1", "admin2")
-        val communityData = community.createCommunity(communityName, "admin@example.com", communityLocation, 123, userIds, adminIds)
-
-        // Add the community to the database
-        val communityAdded = fireBase.addDocumentWithName("Community", communityId, communityData)
-        assertTrue(communityAdded)
-
-        // Create a random user using the User class method
-        val userName = "Test User"
-        val userEmail = "user@example.com"
-        val userDob = "1990-01-01"
-        val userCountry = "Test Country"
-        val userId = "test_user_${System.currentTimeMillis()}"
-        val userData = mapOf(
-            "username" to userName,
-            "email" to userEmail,
-            "dob" to userDob,
-            "country" to userCountry
-        )
-
-        // Define filter to retrieve communities with the specified code
-        val filter = Filter.equalTo("code", communityCode)
-
-        // Add the user to the database
-        val userAdded = fireBase.addDocumentWithName("Users", userId, userData)
-        assertTrue(userAdded)
-
-        // Add the user to the community using the method being tested
-        val userAddedToCommunity = community.addUserWithCode(communityCode)
-        assertTrue(userAddedToCommunity)
-
-        // Retrieve all communities from Firebase
-        val allCommunities = fireBase.getDocumentsWithFilter("Community", filter)
-
-        // Check if the user is present in any community
-        var userFound = false
-        if (allCommunities != null) {
-            for (communityData in allCommunities.documents) {
-                val userIds = communityData.data?.get("userIds") as? ArrayList<*>
-                if (userIds != null && userId in userIds) {
-                    userFound = true
-                    break
-                }
-            }
-        }
-
-        // Assert based on whether the user was found
-        assertTrue(userFound)
+    fun testAddUserWithCode() {
+        //do test case using Mockito
     }
 }

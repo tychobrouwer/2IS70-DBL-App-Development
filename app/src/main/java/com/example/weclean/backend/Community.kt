@@ -4,11 +4,9 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import com.google.firebase.firestore.Filter
 
-class Community {
+class Community() {
 
-    // FireBase class instance to communicate with the database
-    private var fireBase = FireBase()
-
+    private val fireBase = FireBase()
     /**
      * Create a community object
      *
@@ -20,12 +18,13 @@ class Community {
      * @param adminIds
      * @return Hashmap of the community object
      */
-    fun createCommunity(cName: String,
-                                email: String,
-                                location: String,
-                                cCode: Int,
-                                userIds: ArrayList<String>,
-                                adminIds: ArrayList<String>)
+    fun createCommunity(
+        cName: String,
+        email: String,
+        location: String,
+        cCode: Int,
+        userIds: ArrayList<String>,
+        adminIds: ArrayList<String>)
     : HashMap<String, Any> {
         return hashMapOf(
             "name" to cName,
