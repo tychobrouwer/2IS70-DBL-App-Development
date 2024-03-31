@@ -20,9 +20,9 @@ class Map : AppCompatActivity() {
     private fun <T : Serializable?> getSerializable(activity: Activity, name: String, clazz: Class<T>): T?
     {
         return if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            activity.intent.getSerializableExtra(name, clazz)!!
+            activity.intent.getSerializableExtra(name, clazz)?.let { it as T? }
         else
-            activity.intent.getSerializableExtra(name) as T
+            activity.intent.getSerializableExtra(name) as T?
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
