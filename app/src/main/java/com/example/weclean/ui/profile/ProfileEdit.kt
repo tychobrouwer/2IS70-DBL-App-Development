@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -24,16 +23,13 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import java.util.Calendar
 
-class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
+class ProfileEdit : Fragment() {
     // FireBase class instance to communicate with the database
     private val fireBase = FireBase()
     private val dbAuth = Firebase.auth
 
     private val userId = fireBase.currentUserId()
     private val email = fireBase.currentUserEmail()
-
-    // Calendar object for the date and time of the event
-    private var date = Calendar.getInstance()
 
     private lateinit var viewIt: View
 
@@ -54,26 +50,6 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
         val emailView = view.findViewById<EditText>(R.id.email)
         emailView.setText(email)
 
-        val dobView = view.findViewById<TextView>(R.id.birthdate)
-        dobView.setOnClickListener {
-            var dateToOpen = date
-            // Create a date picker dialog
-            if (date.timeInMillis == 0L) {
-                dateToOpen = Calendar.getInstance()
-            }
-
-            // Create a date picker dialog
-            val datePicker = DatePickerDialog(
-                this.requireContext(),
-                this,
-                dateToOpen.get(Calendar.YEAR),
-                dateToOpen.get(Calendar.MONTH),
-                dateToOpen.get(Calendar.DAY_OF_MONTH))
-
-            // Show the date picker dialog
-            datePicker.show()
-        }
-
         val deleteButton = view.findViewById<Button>(R.id.delete_button)
         deleteButton.setOnClickListener {
             deleteProfileDialog()
@@ -90,8 +66,6 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
         // Confirm profile edit button
         val confirmButton = view.findViewById<Button>(R.id.confirm_button)
         confirmButton.setOnClickListener {
-            val region = view.findViewById<EditText>(R.id.region)
-            val country = region.text.toString().trim()
             val username = view.findViewById<EditText>(R.id.username).text.toString().trim()
 
             val emailNew = emailView.text.toString().trim()
@@ -106,24 +80,10 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
                     return@runBlocking
                 }
 
-                // Update the user's country information
-                val updateCountry = fireBase.updateValue("Users", userId, "country", country)
-                if (!updateCountry) {
-                    Toast.makeText(context, "Failed to update country", Toast.LENGTH_SHORT).show()
-                }
-
                 // Update the user's username information
                 val updateUsername = fireBase.updateValue("Users", userId, "username", username)
                 if (!updateUsername) {
                     Toast.makeText(context, "Failed to update username", Toast.LENGTH_SHORT).show()
-                }
-
-                // Update the user's date of birth information
-                if (date.timeInMillis != 0L) {
-                    val updateDobResult = fireBase.updateValue("Users", userId, "dob", date.time)
-                    if (!updateDobResult) {
-                        Toast.makeText(context, "Failed to update date of birth", Toast.LENGTH_SHORT).show()
-                    }
                 }
 
                 if (emailNew != email) {
@@ -224,8 +184,6 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
                     if (userData != null) {
                         // Get the user's data from the database result
                         val email = userData.getString("email")
-                        val dob = userData.getDate("dob")
-                        val country = userData.getString("country")
                         val username = userData.getString("username")
 
                         // Set the fields in the profile edit fragment
@@ -234,21 +192,6 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
 
                         val usernameView = view.findViewById<EditText>(R.id.username)
                         usernameView.setText(username)
-
-                        val dobView = view.findViewById<TextView>(R.id.birthdate)
-                        date.timeInMillis = dob?.time ?: 0
-
-                        if (date.timeInMillis != 0L) {
-                            dobView.text = getString(R.string.date_format,
-                                date.get(Calendar.DAY_OF_MONTH),
-                                date.get(Calendar.MONTH) + 1,
-                                date.get(Calendar.YEAR))
-                        } else {
-                            dobView.text = "-"
-                        }
-
-                        val region = view.findViewById<EditText>(R.id.region)
-                        region.setText(country)
                     }
                 }
             }
@@ -261,16 +204,5 @@ class ProfileEdit : Fragment(), DatePickerDialog.OnDateSetListener {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile_edit, container, false)
-    }
-
-    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        // Set the date of the event from the date picker
-        date.set(Calendar.YEAR, year)
-        date.set(Calendar.MONTH, month)
-        date.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
-        // Set the date text view to the selected date
-        val dobView = viewIt.findViewById<TextView>(R.id.birthdate)
-        dobView.text = getString(R.string.date_format, dayOfMonth, month + 1, year)
     }
 }

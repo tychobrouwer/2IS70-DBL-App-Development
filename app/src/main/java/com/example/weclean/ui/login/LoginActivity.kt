@@ -51,15 +51,20 @@ class LoginActivity : AppCompatActivity() {
             //now login the user
             firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
 
-                if (it.isSuccessful) {
-                    val intent = Intent(this, Home::class.java)
-                    startActivity(intent)
-                } else if (it.exception is FirebaseAuthInvalidCredentialsException) {
-                    Toast.makeText(this, "Incorrect credential(s)", Toast.LENGTH_SHORT).show()
-                } else if (it.exception is FirebaseTooManyRequestsException) {
-                    Toast.makeText(this, "Too many login attempts, try again later", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                when {
+                    it.isSuccessful -> {
+                        val intent = Intent(this, Home::class.java)
+                        startActivity(intent)
+                    }
+                    it.exception is FirebaseAuthInvalidCredentialsException -> {
+                        Toast.makeText(this, "Incorrect credential(s)", Toast.LENGTH_SHORT).show()
+                    }
+                    it.exception is FirebaseTooManyRequestsException -> {
+                        Toast.makeText(this, "Too many login attempts, try again later", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

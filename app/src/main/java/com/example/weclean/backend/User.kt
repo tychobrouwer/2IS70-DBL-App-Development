@@ -11,16 +11,15 @@ class User (private val fireBase: FireBase) {
      * Create a user object
      *
      * @param username
-     * @param dateOfBirth
-     * @param country
      * @return Hashmap of the user object
      */
-    fun createUser(username: String, timeStamp: Long, country: String): HashMap<String, Any> {
-
+    fun createUser(username: String): HashMap<String, Any> {
         return hashMapOf(
             "username" to username,
-            "dob" to Date(timeStamp),
-            "country" to country,
+            "communityAdminIds" to arrayListOf<String>(),
+            "communityIds" to arrayListOf<String>(),
+            "eventIds" to arrayListOf<String>(),
+            "litteringEntries" to arrayListOf<String>()
         )
     }
 }

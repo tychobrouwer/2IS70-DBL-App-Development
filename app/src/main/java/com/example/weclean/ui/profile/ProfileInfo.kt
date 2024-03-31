@@ -83,20 +83,26 @@ class ProfileInfo : Fragment() {
         // Get the number of littering entries the user has made
         val statLitteringEntries = (userData.get("litteringEntries") as ArrayList<*>?)?.size ?: 0
 
-        // Get the user's date of birth
-        val timeInMillis = userData.getDate("dob")?.time ?: 0
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = timeInMillis
+        // Get the number of littering entries the user has made
+        val statEventsJoined = (userData.get("eventIds") as ArrayList<*>?)?.size ?: 0
+
+        var userCommunitiesListString = ""
+        val userCommunities = userData.get("communityIds") as? ArrayList<*> ?: emptyList()
+        for (community in userCommunities) {
+            // Get community data from database
+            val communityResult =
+                fireBase.getDocument("Community", community as String) ?: continue
+
+            if (communityResult.data == null) continue
+
+            userCommunitiesListString += communityResult.getString("name") + "\n"
+        }
 
         // Set the user's data in the view
         view.findViewById<TextView>(R.id.username).text = userData.getString("username")
-        view.findViewById<TextView>(R.id.region).text = userData.getString("country")
-        view.findViewById<TextView>(R.id.birthdate).text = getString(
-            R.string.date_format,
-            calendar.get(Calendar.DAY_OF_MONTH),
-            calendar.get(Calendar.MONTH) + 1,
-            calendar.get(Calendar.YEAR))
         view.findViewById<TextView>(R.id.littering_entries).text = statLitteringEntries.toString()
+        view.findViewById<TextView>(R.id.events_joined).text = statEventsJoined.toString()
+        view.findViewById<TextView>(R.id.communities_list).text = userCommunitiesListString
     }
 
     /**
