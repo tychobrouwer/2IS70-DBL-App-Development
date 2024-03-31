@@ -24,7 +24,6 @@ fun dayStringFormat(timeStamp: Long): String {
     // Get the current calendar instance
     val calendar = Calendar.getInstance()
     calendar.timeInMillis = timeStamp
-    val calendarToday = Calendar.getInstance()
 
     return when (difference) {
         in -10*ONE_YEAR..-ONE_YEAR -> {
@@ -39,16 +38,16 @@ fun dayStringFormat(timeStamp: Long): String {
         }
         in -ONE_MONTH..-2*ONE_DAY -> {
             calendar.get(Calendar.MONTH).toString() + "/" +
-                    calendar.get(Calendar.DAY_OF_MONTH) + " " +
+                    calendar.get(Calendar.DAY_OF_MONTH) + " at " +
                     calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" +
                     padTimeInt(calendar.get(Calendar.MINUTE))
         }
         in -2*ONE_DAY..-ONE_DAY -> {
-            "Yesterday " + calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" +
+            "Yesterday at " + calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" +
                     padTimeInt(calendar.get(Calendar.MINUTE))
         }
         in -ONE_DAY..-ONE_HOUR -> {
-            calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" +
+            "Today at " + calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" +
                     padTimeInt(calendar.get(Calendar.MINUTE))
         }
         in -ONE_HOUR..0 -> "Now"

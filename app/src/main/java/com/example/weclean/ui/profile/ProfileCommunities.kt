@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class ProfileCommunities : Fragment(), CommunityAdapter.RecyclerViewCommunity {
-    private lateinit var fireBase : FireBase
+    private var fireBase = FireBase()
     private val communityObject = Community(fireBase)
 
     private val communities = ArrayList<CommunityListData>()
@@ -135,8 +135,6 @@ class ProfileCommunities : Fragment(), CommunityAdapter.RecyclerViewCommunity {
                     )
 
                     communities.add(communityListData)
-
-                    println(communities)
                     communitiesListAdapter.notifyItemInserted(communities.size - 1)
                 }
             }

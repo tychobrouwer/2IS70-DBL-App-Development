@@ -219,9 +219,6 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
                     // Add the community to the list
                     communitiesName.add(communityResult.getString("name")!!)
                     communities.add(communityResult.id)
-
-                    println(communitiesName)
-                    println(communities)
                 }
 
                 // Update the adapter
@@ -325,6 +322,8 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
         // Set the time of the event from the time picker
         date.set(Calendar.HOUR_OF_DAY, hourOfDay)
         date.set(Calendar.MINUTE, minute)
+
+        eventData.timeStamp = date.timeInMillis
 
         // Set the date and time field string
         val dateAndTimeView = findViewById<TextView>(R.id.dateAndTime)
