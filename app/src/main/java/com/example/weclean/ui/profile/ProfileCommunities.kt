@@ -12,20 +12,24 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.weclean.R
 import com.example.weclean.backend.Community
 import com.example.weclean.backend.FireBase
+import com.example.weclean.ui.events.EventAdapter
 import com.example.weclean.ui.login.LoginActivity
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class ProfileCommunities : Fragment() {
-    private lateinit var fireBase : FireBase
+class ProfileCommunities : Fragment(), CommunityAdapter.RecyclerViewCommunity {
+    private var fireBase = FireBase()
     private val communityObject = Community(fireBase)
 
     private val communities = ArrayList<CommunityListData>()
 
-    private lateinit var communitiesListAdapter: CommunityListAdapter
+    private lateinit var communitiesListAdapter: CommunityAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,15 +49,15 @@ class ProfileCommunities : Fragment() {
             context.switchFragment(ProfileViewStatus.COMMUNITY_CREATE)
         }
 
-        // Create list adapter for the communities list
-        communitiesListAdapter = CommunityListAdapter(
-            activity as AppCompatActivity,
-            communities
-        )
+        // Set up the recycler view
+        communitiesListAdapter = CommunityAdapter(communities, this)
+        val eventListView = view.findViewById<RecyclerView>(R.id.community_list)
 
-        // Get the community list view, and set the adapter
-        val communitiesListView  = view.findViewById<ListView>(R.id.community_list)
-        communitiesListView.adapter = communitiesListAdapter
+        val mLayoutManager = LinearLayoutManager(activity as AppCompatActivity)
+        mLayoutManager.orientation = LinearLayoutManager.VERTICAL
+        eventListView.layoutManager = mLayoutManager
+        eventListView.itemAnimator = DefaultItemAnimator()
+        eventListView.adapter = communitiesListAdapter
 
         setCommunities()
     }
@@ -125,14 +129,14 @@ class ProfileCommunities : Fragment() {
                     val communityResult =
                         fireBase.getDocument("Community", community as String) ?: return@launch
 
-                    communities.add(CommunityListData(
+                    val communityListData = CommunityListData(
                         communityResult.get("name") as String,
                         (communityResult.get("adminIds") as ArrayList<*>).contains(fireBase.currentUserId())
-                    ))
-                }
+                    )
 
-                // Notify the adapter that the data has changed
-                communitiesListAdapter.updateData(communities)
+                    communities.add(communityListData)
+                    communitiesListAdapter.notifyItemInserted(communities.size - 1)
+                }
             }
         }
     }
@@ -143,5 +147,9 @@ class ProfileCommunities : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile_communities, container, false)
+    }
+
+    override fun onCommunityClicked(adapterPosition: Int) {
+        TODO("Not yet implemented")
     }
 }

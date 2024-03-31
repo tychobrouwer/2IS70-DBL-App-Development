@@ -30,6 +30,7 @@
     <string name="button_delete_account">Delete Account</string>
     <string name="button_communities">View Communities</string>
     <string name="button_logout_account">Logout Account</string>
+    <string name="button_save_changes">Save Changes</string>
 
     <string name="label_email">Email</string>
     <string name="label_brith_date">Date of Birth</string>
@@ -42,7 +43,7 @@
     <string name="label_description">Description</string>
     <string name="label_littering_data">Littering Entry</string>
     <string name="label_username">Username</string>
-    <string name="label_littering_entries">Number of Reports</string>
+    <string name="label_littering_entries">Number of Littering Reports</string>
     <string name="label_contact_email">Contact Email</string>
     <string name="label_confirm_contact_email">Confirm Contact Email</string>
 

@@ -127,7 +127,7 @@ class EventsList : Fragment(), EventAdapter.RecyclerViewEvent {
                         events.add(eventData)
 
                         // Notify adapter of data change
-                        eventAdapter.notifyItemChanged(events.size - 1)
+                        eventAdapter.notifyItemInserted(events.size - 1)
                     }
                 }
             }

@@ -34,7 +34,7 @@ class EventAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.listitem_event, parent, false)
+            .inflate(R.layout.event_list_item, parent, false)
 
         // Return the view holder with the listener
         return EventViewHolder(itemView, listener)

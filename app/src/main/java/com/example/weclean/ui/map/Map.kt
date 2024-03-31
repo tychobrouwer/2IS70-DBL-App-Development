@@ -20,9 +20,9 @@ class Map : AppCompatActivity() {
     private fun <T : Serializable?> getSerializable(activity: Activity, name: String, clazz: Class<T>): T?
     {
         return if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            activity.intent.getSerializableExtra(name, clazz)!!
+            activity.intent.getSerializableExtra(name, clazz)?.let { it as T? }
         else
-            activity.intent.getSerializableExtra(name) as T
+            activity.intent.getSerializableExtra(name) as T?
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,19 +96,17 @@ fun AppCompatActivity.switchFragment(toStatus: MapViewStatus, documentId: String
     val mapView = fragmentManager.findFragmentById(R.id.fragmentMapView)
     val litteringDetails = fragmentManager.findFragmentById(R.id.fragmentLitteringDetails)
 
-    // Null check on fragments
-    if (mapView != null && litteringDetails != null) {
-        // Cancel transaction
-        transaction.commit()
-        return
-    }
+    // Remove all fragments
+    try {
+        transaction.remove(mapView!!)
+    } catch (_: Exception) {}
+    try {
+        transaction.remove(litteringDetails!!)
+    } catch (_: Exception) {}
 
     if (toStatus == MapViewStatus.Map) {
-        // Remove default profile view fragments and add profile edit fragment
-        transaction.remove(litteringDetails!!)
         transaction.add(R.id.fragmentMapView, MapView())
     } else if (toStatus == MapViewStatus.LitteringDetails) {
-        transaction.remove(mapView!!)
         transaction.add(R.id.fragmentLitteringDetails, LitteringDetails().newInstance(documentId))
     }
 

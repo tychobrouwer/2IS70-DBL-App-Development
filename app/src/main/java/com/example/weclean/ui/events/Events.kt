@@ -84,15 +84,19 @@ fun AppCompatActivity.openEventDetails(toEvent: Boolean, eventData: EventData) {
     val eventDetails = fragmentManager.findFragmentById(R.id.fragmentEventDetails)
     val eventsList = fragmentManager.findFragmentById(R.id.fragmentEventsList)
 
-    if (toEvent) {
-        // Remove events list view fragments and add event details fragment
+    // Remove all fragments
+    try {
         transaction.remove(eventsList!!)
+    } catch (_: Exception) {}
+    try {
+        transaction.remove(eventDetails!!)
+    } catch (_: Exception) {}
+
+    if (toEvent) {
+        // Add event details fragment
         transaction.add(R.id.fragmentEventDetails, EventDetails().newInstance(eventData))
     } else {
-        // Remove event details fragment and add events list view fragments
-        if (eventDetails != null) {
-            transaction.remove(eventDetails)
-        }
+        // Add events list view fragments
         transaction.add(R.id.fragmentEventsList, EventsList())
     }
 
