@@ -31,6 +31,8 @@ class SignupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        lateinit var firebase : FireBase
+
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -75,7 +77,7 @@ class SignupActivity : AppCompatActivity() {
 
                     val country = getResources().configuration.locales.get(0).country
 
-                    val user = User().createUser(username, 0, country)
+                    val user = User(firebase).createUser(username, 0, country)
 
                     runBlocking {
                         val addUserResult = fireBase.addDocumentWithName("Users", uid, user)

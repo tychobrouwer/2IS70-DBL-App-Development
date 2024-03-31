@@ -11,11 +11,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.weclean.R
 import com.example.weclean.backend.Community
+import com.example.weclean.backend.FireBase
 import kotlinx.coroutines.runBlocking
 
 class CreateCommunity : Fragment() {
+
+    private lateinit var firebase : FireBase
     // Community object
-    private val communityObject = Community()
+    private val communityObject = Community(firebase)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

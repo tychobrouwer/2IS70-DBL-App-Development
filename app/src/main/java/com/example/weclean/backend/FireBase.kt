@@ -13,7 +13,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import kotlinx.coroutines.tasks.await
 
-class FireBase {
+open class FireBase {
     // FireBase class instance to communicate with the database
     private val db = Firebase.firestore
     // FireBase authentication instance
@@ -22,7 +22,10 @@ class FireBase {
     private val dbStore = FirebaseStorage.getInstance()
 
     // Get the currently logged in user's ID and email
-    fun currentUserId() = dbAuth.currentUser?.uid
+    fun currentUserId(): String? {
+        val currentUser = dbAuth.currentUser
+        return currentUser?.uid
+    }
     fun currentUserEmail() = dbAuth.currentUser?.email
 
     /**

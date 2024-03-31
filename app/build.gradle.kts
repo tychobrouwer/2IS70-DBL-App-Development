@@ -91,5 +91,9 @@ dependencies {
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
     implementation("org.mockito:mockito-core:3.12.4")
     implementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
+    testImplementation ("org.powermock:powermock-module-junit4:2.0.9")
+    testImplementation ("org.powermock:powermock-api-mockito2:2.0.9")
+    implementation ("org.powermock:powermock-module-junit4:2.0.9")
+    implementation ("org.powermock:powermock-api-mockito2:2.0.9")
 }
 
