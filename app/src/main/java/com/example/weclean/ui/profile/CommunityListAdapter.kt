@@ -1,58 +1,64 @@
 package com.example.weclean.ui.profile
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.example.weclean.R
-import java.util.ArrayList
 
-class CommunityListAdapter(context: Context, dataArrayList: ArrayList<CommunityListData>) : ArrayAdapter<CommunityListData>(context,
-    R.layout.community_list_item, dataArrayList) {
-    override fun getView(position: Int, view: View?, parent: ViewGroup): View {
-        var view = view
+class CommunityAdapter(
+    private var dataArrayList: ArrayList<CommunityListData>,
+    private val listener: RecyclerViewCommunity,
+) : RecyclerView.Adapter<CommunityAdapter.CommunityViewHolder>() {
+    class CommunityViewHolder(view: View, private val listener: RecyclerViewCommunity) : RecyclerView.ViewHolder(view), View.OnClickListener {
+        val name: TextView = view.findViewById(R.id.name)
 
-        val listData : CommunityListData = getItem(position)!!
-
-        // Boolean to check if a new view is created from R.layout.community_list_item
-        var isNewView = false
-        if (view == null) {
-            // Inflate new instance from R.layout.community_list_item
-            view = LayoutInflater.from(context).inflate(R.layout.community_list_item, parent, false)
-            isNewView = true
+        init {
+            name.setOnClickListener(this)
         }
 
-        // Set community name by setting text value of R.id.text
-        val listTextView = view!!.findViewById<TextView>(R.id.text)
-        listTextView.text = listData.name
-
-        // Get buttons for delete and manage community
-        val listManageButton = view.findViewById<Button>(R.id.community_manage_button)
-        val listLeaveButton = view.findViewById<Button>(R.id.community_leave_button)
-
-        // Parent view of R.id.community_list_layout
-        val listViewParent = view.findViewById<LinearLayout>(R.id.community_list_layout)
-
-        // Return if not new view instance
-        if (!isNewView) return view
-
-        // Hide either delete or manage button based on if user is an admin of community
-        if (listData.userIsAdmin) {
-            listViewParent.removeView(listLeaveButton)
-        } else {
-            listViewParent.removeView(listManageButton)
+        override fun onClick(view: View?) {
+            val adapterPosition = adapterPosition
+            if (adapterPosition != RecyclerView.NO_POSITION) {
+                listener.onCommunityClicked(adapterPosition)
+            }
         }
-
-        return view
     }
 
-    fun updateData(dataArrayList: ArrayList<CommunityListData>) {
-        clear()
-        addAll(dataArrayList)
-        notifyDataSetChanged()
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommunityViewHolder {
+        val itemView = LayoutInflater.from(parent.context)
+            .inflate(R.layout.community_list_item, parent, false)
+
+        // Return the view holder with the listener
+        return CommunityViewHolder(itemView, listener)
+    }
+
+    override fun onBindViewHolder(holder: CommunityViewHolder, position: Int) {
+        // Get the community at the current position
+        val community = dataArrayList[position]
+
+        // Set the text for the community
+        holder.itemView.findViewById<TextView>(R.id.name).text = community.name
+
+        // Get buttons for delete and manage community
+        val listManageButton = holder.itemView.findViewById<Button>(R.id.community_manage_button)
+        val listLeaveButton = holder.itemView.findViewById<Button>(R.id.community_leave_button)
+
+        // Hide either delete or manage button based on if user is an admin of community
+        if (community.userIsAdmin) {
+            listLeaveButton.visibility = View.GONE
+        } else {
+            listManageButton.visibility = View.GONE
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return dataArrayList.size
+    }
+
+    interface RecyclerViewCommunity {
+        fun onCommunityClicked(adapterPosition: Int)
     }
 }

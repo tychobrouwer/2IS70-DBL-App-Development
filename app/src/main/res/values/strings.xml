@@ -30,6 +30,7 @@
     <string name="button_delete_account">Delete Account</string>
     <string name="button_communities">View Communities</string>
     <string name="button_logout_account">Logout Account</string>
+    <style name="button_save_changes">Save Changes</style>
 
     <string name="label_email">Email</string>
     <string name="label_brith_date">Date of Birth</string>

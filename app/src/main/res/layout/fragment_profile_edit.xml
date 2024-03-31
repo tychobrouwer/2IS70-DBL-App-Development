@@ -91,7 +91,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_horizontal"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" >
@@ -108,7 +108,7 @@
             android:id="@+id/confirm_button"
             android:layout_marginStart="25dp"
             android:layout_width="100dp"
-            android:text="@string/button_confirm" />
+            android:text="@string/button_save_changes" />
 
     </LinearLayout>
 

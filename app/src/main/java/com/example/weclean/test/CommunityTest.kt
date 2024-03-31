@@ -21,7 +21,7 @@ class CommunityTest {
     @Before
     fun setUp() {
         MockitoAnnotations.openMocks(this)
-        community = Community(mockFireBase)
+        community = Community()
     }
 
     @Test

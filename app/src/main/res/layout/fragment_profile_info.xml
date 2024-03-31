@@ -51,26 +51,6 @@
         style="@style/Widget.Theme.WeClean.Text"
         android:id="@+id/littering_entries" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
-
-        <androidx.appcompat.widget.AppCompatButton
-            style="@style/Widget.Theme.WeClean.Button"
-            android:id="@+id/edit_button"
-            android:text="@string/button_edit_profile"
-            android:layout_marginEnd="40dp"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            style="@style/Widget.Theme.WeClean.ButtonRed"
-            android:id="@+id/logout_button"
-            android:text="@string/button_log_out"
-            android:layout_gravity="center_horizontal" />
-    </LinearLayout>
-
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -80,5 +60,26 @@
         android:text="@string/button_communities"
         android:layout_gravity="center_horizontal" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="20dp" >
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/Widget.Theme.WeClean.Button"
+            android:id="@+id/edit_button"
+            android:text="@string/button_edit_profile"
+            android:layout_gravity="bottom"
+            android:layout_marginEnd="40dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/Widget.Theme.WeClean.ButtonRed"
+            android:id="@+id/logout_button"
+            android:text="@string/button_log_out"
+            android:layout_gravity="bottom" />
+    </LinearLayout>
 
 </LinearLayout>
