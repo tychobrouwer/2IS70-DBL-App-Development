@@ -25,6 +25,38 @@ class ProfileCommunities : Fragment() {
 
     private val communities = ArrayList<CommunityListData>()
 
+    private lateinit var communitiesListAdapter: CommunityListAdapter
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Join community button
+        val joinCommunityButton = view.findViewById<Button>(R.id.join_community_button)
+        // Listener for opening the join community alert dialog
+        joinCommunityButton.setOnClickListener {
+            joinCommunityDialog()
+        }
+
+        // Create community button
+        val createCommunityButton = view.findViewById<Button>(R.id.create_community_button)
+        // Listener for opening the create community fragment
+        createCommunityButton.setOnClickListener {
+            val context = activity as AppCompatActivity
+            context.switchFragment(ProfileViewStatus.COMMUNITY_CREATE)
+        }
+
+        // Create list adapter for the communities list
+        communitiesListAdapter = CommunityListAdapter(
+            activity as AppCompatActivity,
+            communities
+        )
+
+        // Get the community list view, and set the adapter
+        val communitiesListView  = view.findViewById<ListView>(R.id.community_list)
+        communitiesListView.adapter = communitiesListAdapter
+
+        setCommunities()
+    }
 
     private fun joinCommunityDialog() {
         // Builder for alert dialog popup
@@ -68,37 +100,6 @@ class ProfileCommunities : Fragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // Join community button
-        val joinCommunityButton = view.findViewById<Button>(R.id.join_community_button)
-        // Listener for opening the join community alert dialog
-        joinCommunityButton.setOnClickListener {
-            joinCommunityDialog()
-        }
-
-        // Create community button
-        val createCommunityButton = view.findViewById<Button>(R.id.create_community_button)
-        // Listener for opening the create community fragment
-        createCommunityButton.setOnClickListener {
-            val context = activity as AppCompatActivity
-            context.switchFragment(ProfileViewStatus.COMMUNITY_CREATE)
-        }
-
-        setCommunities()
-
-        // Create list adapter for the communities list
-        val communitiesListAdapter = CommunityListAdapter(
-            activity as AppCompatActivity,
-            communities
-        )
-
-        // Get the community list view, and set the adapter
-        val communitiesListView  = view.findViewById<ListView>(R.id.community_list)
-        communitiesListView.adapter = communitiesListAdapter
-    }
-
     private fun setCommunities() {
         runBlocking {
             launch {
@@ -129,6 +130,9 @@ class ProfileCommunities : Fragment() {
                         (communityResult.get("adminIds") as ArrayList<*>).contains(fireBase.currentUserId())
                     ))
                 }
+
+                // Notify the adapter that the data has changed
+                communitiesListAdapter.updateData(communities)
             }
         }
     }

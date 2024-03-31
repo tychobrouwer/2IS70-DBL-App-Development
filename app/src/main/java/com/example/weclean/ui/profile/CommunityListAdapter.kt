@@ -49,4 +49,10 @@ class CommunityListAdapter(context: Context, dataArrayList: ArrayList<CommunityL
 
         return view
     }
+
+    fun updateData(dataArrayList: ArrayList<CommunityListData>) {
+        clear()
+        addAll(dataArrayList)
+        notifyDataSetChanged()
+    }
 }

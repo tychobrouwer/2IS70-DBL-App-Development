@@ -57,22 +57,19 @@
             android:text="@string/label_select_communities" />
 
         <Spinner
-            android:id="@+id/selectCommunity"
             style="@style/Widget.Theme.WeClean.SpinnerDropdown"
+            android:id="@+id/selectCommunity"
             tools:listitem="@layout/spinner_item" />
 
         <TextView
-            android:id="@+id/dateAndTimeLabel"
             style="@style/Widget.Theme.WeClean.SectionLabel"
+            android:id="@+id/dateAndTimeLabel"
             android:text="@string/event_date" />
 
         <TextView
-            android:id="@+id/dateAndTime"
             style="@style/Widget.Theme.WeClean.TextInput"
-            android:autofillHints=""
-            android:hint="@string/event_date"
-
-            android:inputType="datetime|date" />
+            android:id="@+id/dateAndTime"
+            android:hint="@string/event_date" />
 
         <TextView
             android:id="@+id/locationLabel"

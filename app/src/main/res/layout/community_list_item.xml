@@ -1,43 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.Theme.WeClean.ListItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:backgroundTint="@color/blue_700" >
+    android:orientation="horizontal"
+    android:id="@+id/community_list_layout" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:weightSum="1"
-        android:id="@+id/community_list_layout" >
+    <TextView
+        style="@style/Widget.Theme.WeClean.TextTable"
+        android:layout_height="wrap_content"
+        android:id="@+id/text"
+        android:layout_weight="1" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/text"
-            android:textColor="@color/white_200"
-            android:textSize="18sp"
-            android:layout_marginStart="20dp"
-            android:layout_weight="1" />
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/Widget.Theme.WeClean.ButtonRed"
+        android:id="@+id/community_leave_button"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="@string/button_leave"
+        android:layout_marginLeft="20dp" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            style="@style/Widget.Theme.WeClean.ButtonRed"
-            android:id="@+id/community_leave_button"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="@string/button_leave"
-            android:layout_marginHorizontal="20dp" />
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/Widget.Theme.WeClean.Button"
+        android:id="@+id/community_manage_button"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="@string/button_manage"
+        android:layout_marginLeft="20dp" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            style="@style/Widget.Theme.WeClean.Button"
-            android:id="@+id/community_manage_button"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="@string/button_manage"
-            android:layout_marginHorizontal="20dp" />
-
-    </LinearLayout>
-
-</androidx.cardview.widget.CardView>
+</LinearLayout>

@@ -185,6 +185,9 @@ class EventDetails : Fragment() {
 
         runBlocking {
             launch {
+                val eventResult = fireBase.getDocument("Events", event.id)?.get("userIds") as List<*>
+                view.findViewById<TextView>(R.id.numPeopleView).text = "${eventResult.size.toString()} people signed up"
+
                 // Load image from Firebase Storage
                 val imageView = view.findViewById<ImageView>(R.id.eventImage)
 

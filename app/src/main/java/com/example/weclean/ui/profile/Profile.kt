@@ -17,16 +17,7 @@ class Profile : AppCompatActivity() {
 
         setContentView(R.layout.activity_profile)
 
-        // Fragment manager for managing navigation between fragments
-        val fragmentManager = supportFragmentManager
-
-        // Begin new transition for fragment
-        val transaction = fragmentManager.beginTransaction()
-
-        // Ensure fragments for default profile view are created
-        transaction.add(R.id.fragmentProfileInfo, ProfileInfo())
-        transaction.add(R.id.fragmentProfileCommunities, ProfileCommunities())
-        transaction.commit()
+        switchFragment(ProfileViewStatus.PROFILE)
 
         // Parent view of navigation view
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
@@ -107,6 +98,7 @@ fun AppCompatActivity.switchFragment(toStatus: ProfileViewStatus) {
         transaction.add(R.id.fragmentProfileEdit, ProfileEdit())
     } else if (toStatus == ProfileViewStatus.PROFILE) {
         transaction.add(R.id.fragmentProfileInfo, ProfileInfo())
+    } else if (toStatus == ProfileViewStatus.COMMUNITIES_LIST) {
         transaction.add(R.id.fragmentProfileCommunities, ProfileCommunities())
     } else if (toStatus == ProfileViewStatus.COMMUNITY_CREATE) {
         transaction.add(R.id.fragmentCreateCommunity, CreateCommunity())

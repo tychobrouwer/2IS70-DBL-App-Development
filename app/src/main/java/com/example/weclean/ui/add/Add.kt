@@ -61,7 +61,8 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var selectCommunityAdapter: ArrayAdapter<String>
 
     // List of communities the user is in
-    private var communities = ArrayList<Pair<String, String>>()
+    private var communities = ArrayList<String>()
+    private var communitiesName = ArrayList<String>()
 
     // Uri of the photo taken
     private var photoUri: Uri? = null
@@ -84,7 +85,7 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val selectCommunitySpinner = findViewById<Spinner>(R.id.select_community)
         // Create adapter with list of communities
         selectCommunityAdapter = ArrayAdapter(
-            this, R.layout.spinner_item, communities.map { it.first })
+            this, R.layout.spinner_item, communitiesName)
 
         // Set adapter for communities selector
         selectCommunityAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
@@ -236,7 +237,13 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                         fireBase.getDocument("Community", community as String) ?: return@launch
 
                     // Add the community to the list
-                    communities.add(Pair(communityResult.getString("name")!!, communityResult.id))
+                    communitiesName.add(communityResult.getString("name")!!)
+                    communities.add(communityResult.id)
+                }
+
+                if (communities.isEmpty()) {
+                    communities.add("")
+                    communitiesName.add("No community")
                 }
 
                 selectCommunityAdapter.notifyDataSetChanged()
@@ -294,13 +301,15 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 return@runBlocking
             }
 
-            // Add littering entry id to the community
-            val resultCommunity = fireBase.addToArray(
-                "Community", litteringData.community, "litteringEntries", resultLitteringData.id)
+            if (!communitiesName.contains("No community")) {
+                // Add littering entry id to the community
+                val resultCommunity = fireBase.addToArray(
+                    "Community", litteringData.community, "litteringEntries", resultLitteringData.id)
 
-            if (!resultCommunity) {
-                Toast.makeText(this@Add, "Error updating community", Toast.LENGTH_SHORT).show()
-                return@runBlocking
+                if (!resultCommunity) {
+                    Toast.makeText(this@Add, "Error updating community", Toast.LENGTH_SHORT).show()
+                    return@runBlocking
+                }
             }
 
             Toast.makeText(this@Add, "Littering entry added", Toast.LENGTH_SHORT).show()
@@ -429,7 +438,7 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
         // Set community of litteringData object
-        litteringData.community =  communities[position].second
+        litteringData.community =  communities[position]
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {

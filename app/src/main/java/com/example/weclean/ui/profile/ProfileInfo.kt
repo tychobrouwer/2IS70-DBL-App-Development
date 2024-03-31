@@ -9,14 +9,19 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.weclean.R
 import com.example.weclean.backend.FireBase
 import com.example.weclean.ui.login.LoginActivity
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
 
 class ProfileInfo : Fragment() {
     private val fireBase = FireBase()
+    private val dbAuth = Firebase.auth
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,6 +55,18 @@ class ProfileInfo : Fragment() {
             return
         }
 
+        val logout = view.findViewById<Button>(R.id.logout_button)
+        logout.setOnClickListener {
+            logoutDialog()
+        }
+
+        val viewCommunitiesButton = view.findViewById<Button>(R.id.view_communities)
+        viewCommunitiesButton.setOnClickListener {
+            // Switch to communities list view fragment
+            val context = activity as AppCompatActivity
+            context.switchFragment(ProfileViewStatus.COMMUNITIES_LIST)
+        }
+
         // Set the email field to the current user's email
         view.findViewById<TextView>(R.id.email).text = fireBase.currentUserEmail()
 
@@ -69,6 +86,41 @@ class ProfileInfo : Fragment() {
         view.findViewById<TextView>(R.id.region).text = userData.getString("country")
         view.findViewById<TextView>(R.id.littering_entries).text = statLitteringEntries.toString()
     }
+
+    private fun logoutDialog() {
+        // Builder for alert dialog popup
+        val builder = AlertDialog.Builder(activity as AppCompatActivity)
+        builder.setCancelable(true)
+
+        // Create dialog from builder
+        val deleteDialog = builder.create()
+
+        // Inflate dialog from R.layout.profile_join_community
+        val dialogLayout = layoutInflater.inflate(R.layout.logout_confirm, null)
+
+        // Show alert dialog
+        deleteDialog.setView(dialogLayout)
+        deleteDialog.show()
+
+        // Join/confirm button
+        val logoutButton = deleteDialog.findViewById<Button>(R.id.logout_button)
+        val cancelButton = deleteDialog.findViewById<Button>(R.id.cancel_button)
+
+        if (logoutButton == null || cancelButton == null) {
+            return
+        }
+
+        cancelButton.setOnClickListener {
+            deleteDialog.dismiss()
+        }
+
+        // Listener for join button
+        logoutButton.setOnClickListener {
+            dbAuth.signOut()
+            startActivity(Intent(activity as AppCompatActivity, LoginActivity::class.java))
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
