@@ -16,7 +16,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         style="@style/Widget.Theme.WeClean.ButtonWhite"
-        android:id="@+id/community_manage_button"
+        android:id="@+id/remove_member_button"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:text="@string/button_remove_members"
