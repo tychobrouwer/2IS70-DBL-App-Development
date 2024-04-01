@@ -30,6 +30,9 @@
     <string name="button_communities">View Communities</string>
     <string name="button_logout_account">Logout Account</string>
     <string name="button_save_changes">Save Changes</string>
+    <string name="button_edit_community_name">Edit</string>
+    <string name="button_copy">Copy</string>
+    <string name="button_change">Change</string>
 
     <string name="label_email">Email</string>
     <string name="label_brith_date">Date of Birth</string>
@@ -112,7 +115,7 @@
     <string name="_00_00_23_59">00:00-23:59</string>
     <string name="address">address</string>
     <string name="desc">desc</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="members">Members</string>
+    <string name="change_community_name">Change Community Name</string>
 
 </resources>

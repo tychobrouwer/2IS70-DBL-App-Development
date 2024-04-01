@@ -57,7 +57,7 @@ class Profile : AppCompatActivity() {
  *
  * @param toStatus
  */
-fun AppCompatActivity.switchFragment(toStatus: ProfileViewStatus) {
+fun AppCompatActivity.switchFragment(toStatus: ProfileViewStatus, communityData: CommunityListData? = null) {
     // Fragment manager and transaction for switching default and edit profile fragments
     val fragmentManager = supportFragmentManager
     val transaction = fragmentManager.beginTransaction()
@@ -67,12 +67,14 @@ fun AppCompatActivity.switchFragment(toStatus: ProfileViewStatus) {
     val profileEdit = fragmentManager.findFragmentById(R.id.fragmentProfileEdit)
     val profileCommunities = fragmentManager.findFragmentById(R.id.fragmentProfileCommunities)
     val profileCreateCommunity = fragmentManager.findFragmentById(R.id.fragmentCreateCommunity)
+    val profileManageCommunity = fragmentManager.findFragmentById(R.id.fragmentManageCommunity)
 
     // Null check on fragments
     if (profileInfo != null &&
         profileEdit != null &&
         profileCommunities != null &&
-        profileCreateCommunity != null) {
+        profileCreateCommunity != null &&
+        profileManageCommunity != null) {
 
         // Cancel transaction
         transaction.commit()
@@ -92,6 +94,9 @@ fun AppCompatActivity.switchFragment(toStatus: ProfileViewStatus) {
     try {
         transaction.remove(profileCreateCommunity!!)
     } catch (_: Exception) {}
+    try {
+        transaction.remove(profileManageCommunity!!)
+    } catch (_: Exception) {}
 
     // Add fragment based on status
     when (toStatus) {
@@ -106,6 +111,9 @@ fun AppCompatActivity.switchFragment(toStatus: ProfileViewStatus) {
         }
         ProfileViewStatus.COMMUNITY_CREATE -> {
             transaction.add(R.id.fragmentCreateCommunity, CreateCommunity())
+        }
+        ProfileViewStatus.COMMUNITY_MANAGE -> {
+            transaction.add(R.id.fragmentManageCommunity, ManageCommunity().newInstance(communityData!!))
         }
     }
 

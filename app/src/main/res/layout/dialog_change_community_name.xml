@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="50dp"
+        android:paddingVertical="20dp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            style="@style/Widget.Theme.WeClean.SectionLabel"
+            android:id="@+id/change_community_name_label"
+            android:text="@string/change_community_name" />
+
+        <EditText
+            style="@style/Widget.Theme.WeClean.TextInput"
+            android:id="@+id/community_name_edittext"
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/Widget.Theme.WeClean.Button"
+            android:id="@+id/community_name_change_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:width="120dp"
+            android:text="@string/button_change" />
+
+    </LinearLayout>
+</FrameLayout>

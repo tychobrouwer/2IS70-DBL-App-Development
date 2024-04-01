@@ -1,6 +1,5 @@
 package com.example.weclean.ui.profile
 
-import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +19,6 @@ import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
-import java.util.Calendar
 
 class ProfileEdit : Fragment() {
     // FireBase class instance to communicate with the database
@@ -114,7 +111,7 @@ class ProfileEdit : Fragment() {
         val deleteDialog = builder.create()
 
         // Inflate dialog from R.layout.delete_profile_confirm
-        val dialogLayout = layoutInflater.inflate(R.layout.delete_profile_confirm, null)
+        val dialogLayout = layoutInflater.inflate(R.layout.dialog_delete_profile, null)
 
         // Show alert dialog
         deleteDialog.setView(dialogLayout)

@@ -17,8 +17,6 @@ import com.example.weclean.ui.login.LoginActivity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.tasks.await
-import java.util.Calendar
 
 class ProfileInfo : Fragment() {
     private val fireBase = FireBase()
@@ -117,7 +115,7 @@ class ProfileInfo : Fragment() {
         val deleteDialog = builder.create()
 
         // Inflate dialog from R.layout.profile_join_community
-        val dialogLayout = layoutInflater.inflate(R.layout.logout_confirm, null)
+        val dialogLayout = layoutInflater.inflate(R.layout.dialog_logout, null)
 
         // Show alert dialog
         deleteDialog.setView(dialogLayout)

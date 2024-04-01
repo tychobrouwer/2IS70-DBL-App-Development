@@ -1,4 +1,4 @@
-package com.example.weclean.ui.managecommunity
+package com.example.weclean.ui.profile
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +7,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weclean.R
-import com.example.weclean.ui.managecommunity.MemberAdapter
-import com.example.weclean.ui.managecommunity.MemberListData
 
 class MemberAdapter(
     private var dataArrayList: ArrayList<MemberListData>,
@@ -31,7 +29,7 @@ class MemberAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemberViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.member_list_item, parent, false)
+            .inflate(R.layout.list_item_member, parent, false)
 
         // Return the view holder with the listener
         return MemberViewHolder(itemView, listener)
@@ -47,6 +45,9 @@ class MemberAdapter(
         // Get button for removing members
         val listRemoveButton = holder.itemView.findViewById<Button>(R.id.remove_member_button)
 
+        if (member.isAdmin) {
+            listRemoveButton.visibility = View.GONE
+        }
     }
 
     override fun getItemCount(): Int {

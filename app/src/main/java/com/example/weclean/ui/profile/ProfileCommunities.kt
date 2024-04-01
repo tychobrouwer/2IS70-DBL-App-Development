@@ -69,7 +69,7 @@ class ProfileCommunities : Fragment(), CommunityAdapter.RecyclerViewCommunity {
         val joinDialog = builder.create()
 
         // Inflate dialog from R.layout.profile_join_community
-        val dialogLayout = layoutInflater.inflate(R.layout.profile_join_community, null)
+        val dialogLayout = layoutInflater.inflate(R.layout.dialog_join_community, null)
 
         // Show alert dialog
         joinDialog.setView(dialogLayout)
@@ -125,16 +125,17 @@ class ProfileCommunities : Fragment(), CommunityAdapter.RecyclerViewCommunity {
 
                 // Get community IDs from user
                 val userCommunities = communitiesResult.get("communityIds") as? ArrayList<*> ?: emptyList()
-                for (community in userCommunities) {
+                for (communityId in userCommunities) {
                     // Get community data from database
                     val communityResult =
-                        fireBase.getDocument("Community", community as String) ?: return@launch
+                        fireBase.getDocument("Community", communityId as String) ?: return@launch
 
                     if (communityResult.data == null) continue
 
                     // Add community to list
                     val communityListData = CommunityListData(
                         communityResult.get("name") as String,
+                        communityId,
                         (communityResult.get("adminIds") as ArrayList<*>).contains(fireBase.currentUserId())
                     )
 
@@ -155,6 +156,13 @@ class ProfileCommunities : Fragment(), CommunityAdapter.RecyclerViewCommunity {
     }
 
     override fun onCommunityClicked(adapterPosition: Int) {
-        TODO("Not yet implemented")
+        val community = communities[adapterPosition]
+
+        if (community.userIsAdmin) {
+            val context = activity as AppCompatActivity
+            context.switchFragment(ProfileViewStatus.COMMUNITY_MANAGE, community)
+        } else {
+            //TODO: Leave community
+        }
     }
 }

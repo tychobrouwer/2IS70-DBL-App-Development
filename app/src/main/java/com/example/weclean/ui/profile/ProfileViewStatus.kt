@@ -4,5 +4,6 @@ enum class ProfileViewStatus {
     PROFILE,
     PROFILE_EDIT,
     COMMUNITY_CREATE,
-    COMMUNITIES_LIST
+    COMMUNITIES_LIST,
+    COMMUNITY_MANAGE
 }
