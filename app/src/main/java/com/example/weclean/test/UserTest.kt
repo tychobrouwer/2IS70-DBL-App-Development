@@ -30,7 +30,11 @@ class UserTest {
         val username = "name"
 
         val expected = hashMapOf(
-            "username" to username
+            "username" to username,
+            "communityAdminIds" to arrayListOf<String>(),
+            "communityIds" to arrayListOf<String>(),
+            "eventIds" to arrayListOf<String>(),
+            "litteringEntries" to arrayListOf<String>()
         )
 
         val result = user.createUser(username)
