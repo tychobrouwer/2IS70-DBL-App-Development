@@ -115,6 +115,8 @@
     <string name="_00_00_23_59">00:00-23:59</string>
     <string name="address">address</string>
     <string name="desc">desc</string>
+    <string name="places_that_need_clean_up">places that need a clean up</string>
+    <string name="recently_cleaned_up_locations">Recently cleaned up locations</string>
     <string name="members">Members</string>
     <string name="change_community_name">Change Community Name</string>
 

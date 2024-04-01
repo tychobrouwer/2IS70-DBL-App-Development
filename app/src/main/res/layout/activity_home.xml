@@ -29,9 +29,9 @@
     <TextView
         android:id="@+id/textView2"
         android:layout_width="293dp"
-        android:layout_height="49dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Recently cleaned up locations"
+        android:text="@string/recently_cleaned_up_locations"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
@@ -74,10 +74,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="places that need clean up"
+        android:text="@string/places_that_need_clean_up"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchView" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentEventDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
