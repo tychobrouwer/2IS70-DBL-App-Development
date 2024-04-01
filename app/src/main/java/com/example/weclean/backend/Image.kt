@@ -1,9 +1,12 @@
 package com.example.weclean.backend
 
-interface Image {
+import java.io.Serializable
+
+interface Image: Serializable {
     // Image ID in the database
     var imageId: String
 }
 class ImageImpl : Image {
     override var imageId: String = ""
 }
+

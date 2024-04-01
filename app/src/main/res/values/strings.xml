@@ -105,4 +105,14 @@
     <string name="label_community_code">Community Code</string>
     <string name="hint_community_code">V347835F844V</string>
     <string name="title_activity_event_table">EventTable</string>
+    <string name="city">City</string>
+    <string name="homepage">Homepage</string>
+    <string name="number_of_people_signed_up">number of people signed up</string>
+    <string name="sign_up">Sign up</string>
+    <string name="_00_00_23_59">00:00-23:59</string>
+    <string name="address">address</string>
+    <string name="desc">desc</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

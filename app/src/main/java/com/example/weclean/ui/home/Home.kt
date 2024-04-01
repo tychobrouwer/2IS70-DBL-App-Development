@@ -1,10 +1,14 @@
 package com.example.weclean.ui.home
 
+import androidx.fragment.app.Fragment
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.weclean.ui.add.Add
@@ -12,20 +16,34 @@ import com.example.weclean.ui.map.Map
 import com.example.weclean.ui.profile.Profile
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.weclean.R
+import com.example.weclean.backend.FireBase
+import com.example.weclean.backend.dayStringFormat
+import com.example.weclean.ui.events.EventDetails
 import com.example.weclean.ui.events.EventsActivity
+import com.example.weclean.ui.events.openEventDetails
 import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import com.example.weclean.backend.EventData
+import com.example.weclean.ui.login.LoginActivity
 
 class Home : AppCompatActivity() {
 
     private val db = Firebase.firestore
+    private val fireBase = FireBase()
+    private var events = ArrayList<EventData>()
+
+    // User ID
+    private lateinit var userId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,19 +77,10 @@ class Home : AppCompatActivity() {
             false
         })
 
-        var eventList: ArrayList<EventData>
-
-        eventList = fetchUserEvents()
+        getEvents()
 
 
-        //TODO: when the database will be ready implement a proper data retrieve
-//        eventList = mutableListOf(
-//            EventData(null,null, null, null, null, null, null),
-//            EventData(null,null, null, null, null, null, null),
-//            EventData(null,null, null, null, null, null, null)
-//        )
-
-        val adapter = EventAdapter(eventList)
+        val adapter = EventAdapter(events)
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
@@ -84,31 +93,21 @@ class Home : AppCompatActivity() {
         val itemLayout1 = inflater.inflate(R.layout.item_cleanedup, frameLayout1, false)
         val itemLayout2 = inflater.inflate(R.layout.item_cleanedup, frameLayout2, false)
 
-        // Then find the TextView and ImageView in your inflated item_layout
-        val textView1 = itemLayout1.findViewById<TextView>(R.id.textView3)
-        val imageView1 = itemLayout1.findViewById<ImageView>(R.id.imageView)
-
-        val textView2 = itemLayout2.findViewById<TextView>(R.id.textView3)
-        val imageView2 = itemLayout2.findViewById<ImageView>(R.id.imageView)
+        val eventold1 = events[0]
+        val eventold2 = events[1]
 
         // Set the text and image
         //TODO: one data is retrievable put proper information there
-        textView1.text = "Sample1"
-        imageView1.setImageResource(R.drawable.ic_launcher_background)
+        updateFields(itemLayout1, eventold1)
 
-        textView2.text = "Sample2"
-        imageView2.setImageResource(R.drawable.button_background)
+        updateFields(itemLayout2, eventold2)
 
         itemLayout1.setOnClickListener {
-            val intent = Intent(this, EventPopup::class.java)
-            intent.putExtra("event", EventData(null,))
-            startActivity(intent)
+            (this as AppCompatActivity).openEventDetails(true, eventold1)
         }
 
         itemLayout2.setOnClickListener {
-            val intent = Intent(this, EventPopup::class.java)
-            intent.putExtra("event", EventData(null))
-            startActivity(intent)
+            (this as AppCompatActivity).openEventDetails(true, eventold2)
         }
 
         // Finally, add the inflated item_layout to your FrameLayout
@@ -117,26 +116,89 @@ class Home : AppCompatActivity() {
 
     }
 
-    private fun fetchUserEvents(): ArrayList<EventData> {
-        val user = FirebaseAuth.getInstance().currentUser ?: throw Exception("not authenticated")
-        val uid = user.uid
-        val eventList = arrayListOf<EventData>()
+    private fun getEvents() {
         runBlocking {
-            val doc = db.collection("Users").document(uid).get().await()
-            val commun = doc.get("communityIds") as? ArrayList<String> ?: emptyList()
+            launch {
+                // Current logged in user
+                val userId = fireBase.currentUserId()
 
+                // If no user is logged in or user is empty
+                if (userId.isNullOrEmpty()) {
+                    Toast.makeText(this as AppCompatActivity, "Unable to get user", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this as AppCompatActivity, LoginActivity::class.java))
 
-            for (com in commun) {
-                val documents =
-                    db.collection("Events").whereEqualTo("Community", com).get().await()
-                for (doc in documents.documents) {
-                    val ev = doc.toObject(EventData::class.java)
-                    if (ev != null) {
-                        eventList.add(ev)
+                    return@launch
+                }
+
+                // Get user data
+                val userData = fireBase.getDocument("Users", userId) ?: return@launch
+                if (userData.data == null) return@launch
+
+                // Get the communities the user is a part of
+                val communities = userData.get("communityIds") as ArrayList<*>? ?: return@launch
+
+                // Get the events for each community
+                for (community in communities) {
+                    // Get the community data
+                    val communityData = fireBase.getDocument("Community", community as String) ?: continue
+
+                    if (communityData.data == null) continue
+
+                    // Get the event IDs for the community
+                    val eventsToAdd = communityData.get("eventIds") as ArrayList<*>? ?: continue
+
+                    // Add the events to the list
+                    for (event in eventsToAdd) {
+                        // Get the event data
+                        val eventDataResult = fireBase.getDocument("Events", event as String) ?: continue
+
+                        if (eventDataResult.data == null) continue
+
+                        // Create the event data object
+                        val eventData = EventData()
+                        eventData.id = eventDataResult.id
+                        eventData.name = eventDataResult.getString("name")!!
+                        eventData.timeStamp = eventDataResult.getDate("date")!!.time
+                        eventData.imageId = eventDataResult.getString("imageId")!!
+                        eventData.description = eventDataResult.getString("description")!!
+                            .replace("_newline", "\n")
+                        eventData.location = eventDataResult.getString("location")!!
+                        eventData.community = eventDataResult.getString("community")!!
+                        eventData.communityName = communityData.getString("name")!!
+                        eventData.numPeople = (eventDataResult.get("userIds") as List<*>?)!!.size
+
+                        // Add the event data to the list
+                        events.add(eventData)
                     }
                 }
             }
         }
-        return eventList
+    }
+
+    private fun updateFields(view: View, event: EventData) {
+        // Set the fields on the view
+        view.findViewById<TextView>(R.id.textView3).text = event.name
+
+        runBlocking {
+            launch {
+                // Load image from Firebase Storage
+                val imageView = view.findViewById<ImageView>(R.id.imageView)
+
+                // Get image bytes from Firebase Storage
+                val imageBytes = fireBase.getFileBytes(event.imageId, 1024 * 1024)
+
+                if (imageBytes == null) {
+                    Toast.makeText(this@Home, "Failed to load image frame", Toast.LENGTH_SHORT).show()
+                    return@launch
+                }
+
+                // Set image view with the image bytes
+                val bmp = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                imageView.setImageBitmap(bmp)
+
+                // Get the user's event IDs from the database
+                //val userEvents = fireBase.getDocument("Users", userId)?.get("eventIds") as List<*>
+            }
+        }
     }
 }
