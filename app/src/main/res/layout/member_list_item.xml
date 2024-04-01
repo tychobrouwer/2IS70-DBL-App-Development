@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.Theme.WeClean.ListItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/member_list_layout" >
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.TextTable"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white_200"
+        android:id="@+id/member_name"
+        android:layout_weight="1" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/Widget.Theme.WeClean.ButtonWhite"
+        android:id="@+id/remove_member_button"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:text="@string/button_remove_members"
+        android:layout_marginStart="20dp" />
+
+</LinearLayout>

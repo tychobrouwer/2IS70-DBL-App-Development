@@ -28,16 +28,16 @@ class UserTest {
     fun testCreateUser() {
 
         val username = "name"
-        val timeStamp = 123123L
-        val country = "Ibiza"
 
         val expected = hashMapOf(
             "username" to username,
-            "dob" to Date(timeStamp),
-            "country" to country,
+            "communityAdminIds" to arrayListOf<String>(),
+            "communityIds" to arrayListOf<String>(),
+            "eventIds" to arrayListOf<String>(),
+            "litteringEntries" to arrayListOf<String>()
         )
 
-        val result = user.createUser(username, timeStamp, country)
+        val result = user.createUser(username)
 
         assertEquals(expected, result)
     }

@@ -48,37 +48,9 @@
 
     <TextView
         style="@style/Widget.Theme.WeClean.SectionLabel"
-        android:id="@+id/birthdate_label"
-        android:text="@string/label_brith_date"
-        app:layout_constraintTop_toBottomOf="@+id/email"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        style="@style/Widget.Theme.WeClean.Text"
-        android:paddingStart="15dp"
-        android:id="@+id/birthdate"
-        app:layout_constraintTop_toBottomOf="@+id/birthdate_label"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        style="@style/Widget.Theme.WeClean.SectionLabel"
-        android:id="@+id/region_label"
-        android:text="@string/label_country_region"
-        app:layout_constraintTop_toBottomOf="@+id/birthdate"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        style="@style/Widget.Theme.WeClean.Text"
-        android:paddingStart="15dp"
-        android:id="@+id/region"
-        app:layout_constraintTop_toBottomOf="@+id/region_label"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        style="@style/Widget.Theme.WeClean.SectionLabel"
         android:id="@+id/number_of_entries_label"
         android:text="@string/label_littering_entries"
-        app:layout_constraintTop_toBottomOf="@+id/region"
+        app:layout_constraintTop_toBottomOf="@+id/email"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -88,15 +60,43 @@
         app:layout_constraintTop_toBottomOf="@+id/number_of_entries_label"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        style="@style/Widget.Theme.WeClean.SectionLabel"
+        android:id="@+id/events_joined_label"
+        android:text="@string/label_events_joined"
+        app:layout_constraintTop_toBottomOf="@+id/littering_entries"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.Text"
+        android:paddingStart="15dp"
+        android:id="@+id/events_joined"
+        app:layout_constraintTop_toBottomOf="@+id/events_joined_label"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.SectionLabel"
+        android:id="@+id/communities_list_label"
+        android:text="@string/label_communities"
+        app:layout_constraintTop_toBottomOf="@+id/events_joined"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.Text"
+        android:paddingStart="15dp"
+        android:id="@+id/communities_list"
+        android:inputType="textMultiLine"
+        app:layout_constraintTop_toBottomOf="@+id/communities_list_label"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:id="@+id/view_communities"
         style="@style/Widget.Theme.WeClean.Button"
         android:text="@string/button_communities"
         android:layout_gravity="center_horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/littering_entries"
+        app:layout_constraintTop_toBottomOf="@+id/communities_list"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

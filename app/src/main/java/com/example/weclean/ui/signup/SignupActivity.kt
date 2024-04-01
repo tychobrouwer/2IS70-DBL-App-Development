@@ -83,8 +83,7 @@ class SignupActivity : AppCompatActivity() {
                     return@addOnCompleteListener
                 }
 
-                val country = getResources().configuration.locales.get(0).country
-                val user = User(fireBase).createUser(username, 0, country)
+                val user = User(fireBase).createUser(username)
 
                 runBlocking {
                     val addUserResult = fireBase.addDocumentWithName("Users", uid, user)

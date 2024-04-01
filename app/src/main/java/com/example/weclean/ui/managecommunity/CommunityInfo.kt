@@ -19,7 +19,7 @@ class CommunityInfo : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO Setting up UI elements and handling button clicks
+        // TODO displaying current community name, current community code and adding edit button
         //val editButton = view.findViewById<Button>(R.id.edit_button)
         //  editButton.setOnClickListener {
         // Handle edit button click
