@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_200"
+    tools:context=".ui.add.Add">
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.ScreenTitle"
+        android:id="@+id/screen_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/title_add" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/AddCamera"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/button_background"
+        android:padding="20dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/camera_solid"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white_200" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/AddCamera">
+
+        <TextView
+            android:id="@+id/select_community_label"
+            style="@style/Widget.Theme.WeClean.SectionLabel"
+            android:text="@string/label_select_communities" />
+
+        <Spinner
+            android:id="@+id/select_community"
+            style="@style/Widget.Theme.WeClean.SpinnerDropdown"
+            android:layout_width="195dp"
+            tools:listitem="@layout/spinner_item" />
+
+        <TextView
+            android:id="@+id/select_tags_label"
+            style="@style/Widget.Theme.WeClean.SectionLabel"
+            android:text="@string/label_add_tags"
+            android:translationX="200dp"
+            android:translationY="-70dp" />
+
+        <LinearLayout
+            android:id="@+id/select_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:translationX="250dp"
+            android:translationY="-70dp">
+
+            <EditText
+                android:id="@+id/select_tags_input"
+                style="@style/Widget.Theme.WeClean.TextInput"
+                android:layout_width="421dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:autofillHints=""
+                android:hint="@string/hint_tag"
+                android:scaleX=".5"
+                android:scaleY=".7"
+                android:textSize="14sp"
+                android:translationX="-180dp"
+                android:translationY="0dp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/select_tags_button"
+                style="@style/Widget.Theme.WeClean.Button"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="40dp"
+                android:text="@string/button_add"
+                android:translationX="-250dp"
+                android:translationY="0dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="299dp"
+            android:layout_height="wrap_content"
+            android:minHeight="38dp"
+            android:orientation="horizontal"
+            android:translationX="250dp"
+            android:translationY="-70dp">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/tag_chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                app:chipSpacingVertical="5dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/select_location_label"
+            style="@style/Widget.Theme.WeClean.SectionLabel"
+            android:layout_width="wrap_content"
+            android:text="@string/label_location"
+            android:translationX="0dp"
+            android:translationY="-120dp" />
+
+        <TextView
+            android:id="@+id/select_location"
+            style="@style/Widget.Theme.WeClean.Text"
+            android:layout_width="234dp"
+            android:autofillHints="postalAddress"
+            android:hint="@string/hint_location"
+            android:paddingStart="15dp"
+            android:textSize="14sp"
+            android:translationX="0dp"
+            android:translationY="-120dp" />
+
+        <TextView
+            android:id="@+id/description_label"
+            style="@style/Widget.Theme.WeClean.SectionLabel"
+            android:text="@string/label_description"
+            android:translationY="-120dp" />
+
+        <EditText
+            android:id="@+id/description"
+            style="@style/Widget.Theme.WeClean.TextInput"
+            android:layout_width="246dp"
+            android:layout_height="32dp"
+            android:autofillHints=""
+            android:gravity="top|start"
+            android:hint="@string/hint_description"
+            android:inputType="textMultiLine"
+            android:lines="5"
+            android:textSize="12sp"
+            android:translationY="-120dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/add_littering_button"
+            style="@style/Widget.Theme.WeClean.Button"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="@string/button_add_littering"
+            android:translationX="250dp"
+            android:translationY="-180dp" />
+
+    </LinearLayout>
+
+    <include layout="@layout/navbar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
