@@ -53,7 +53,7 @@ class EventDetails : Fragment() {
         // Set the sign up button listener
         signup.setOnClickListener {
             signupForEvent(view)
-            Toast.makeText(activity, "Signed up for event", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity as AppCompatActivity, "Signed up for event", Toast.LENGTH_SHORT).show()
         }
 
         // Get the current user ID
@@ -61,7 +61,7 @@ class EventDetails : Fragment() {
 
         if (userId.isEmpty()) {
             // If the user ID is empty, go to the login activity
-            Toast.makeText(activity, "Failed to get user", Toast.LENGTH_SHORT)
+            Toast.makeText(activity as AppCompatActivity, "Failed to get user", Toast.LENGTH_SHORT)
                 .show()
             startActivity(Intent(activity as AppCompatActivity, LoginActivity::class.java))
 
@@ -106,7 +106,7 @@ class EventDetails : Fragment() {
         val addUserToEvent = fireBase.addToArray("Events", event.id, "userIds", userId)
 
         if (!addUserToEvent) {
-            Toast.makeText(activity, failString, Toast.LENGTH_SHORT)
+            Toast.makeText(activity as AppCompatActivity, failString, Toast.LENGTH_SHORT)
                 .show()
         }
 
@@ -114,13 +114,13 @@ class EventDetails : Fragment() {
         val addEventToUser = fireBase.addToArray("Users", userId, "eventIds", event.id)
 
         if (!addEventToUser) {
-            Toast.makeText(activity, failString, Toast.LENGTH_SHORT)
+            Toast.makeText(activity as AppCompatActivity, failString, Toast.LENGTH_SHORT)
                 .show()
         }
 
         // Set the user in the event
         userInEvent = true
-        Toast.makeText(activity, "Signed up for event", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity as AppCompatActivity, "Signed up for event", Toast.LENGTH_SHORT).show()
     }
 
     /**
@@ -134,7 +134,7 @@ class EventDetails : Fragment() {
         val removeUserFromEvent = fireBase.removeFromArray("Events", event.id, "userIds", userId)
 
         if (!removeUserFromEvent) {
-            Toast.makeText(activity, failString, Toast.LENGTH_SHORT)
+            Toast.makeText(activity as AppCompatActivity, failString, Toast.LENGTH_SHORT)
                 .show()
         }
 
@@ -142,13 +142,13 @@ class EventDetails : Fragment() {
         val removeEventFromUser = fireBase.removeFromArray("Users", userId, "eventIds", event.id)
 
         if (!removeEventFromUser) {
-            Toast.makeText(activity, failString, Toast.LENGTH_SHORT)
+            Toast.makeText(activity as AppCompatActivity, failString, Toast.LENGTH_SHORT)
                 .show()
         }
 
         // Set the user not in the event
         userInEvent = false
-        Toast.makeText(activity, "Removed from event", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity as AppCompatActivity, "Removed from event", Toast.LENGTH_SHORT).show()
     }
 
     /**
@@ -199,7 +199,7 @@ class EventDetails : Fragment() {
                 val imageBytes = fireBase.getFileBytes(event.imageId, 1024 * 1024)
 
                 if (imageBytes == null) {
-                    Toast.makeText(activity, "Failed to load image", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity as AppCompatActivity, "Failed to load image", Toast.LENGTH_SHORT).show()
                     return@launch
                 }
 
