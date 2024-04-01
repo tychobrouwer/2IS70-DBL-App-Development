@@ -25,21 +25,26 @@ fun dayStringFormat(timeStamp: Long): String {
     val calendar = Calendar.getInstance()
     calendar.timeInMillis = timeStamp
 
-    val time = padTimeInt(calendar.get(Calendar.HOUR_OF_DAY)) + ":" +
-            padTimeInt(calendar.get(Calendar.MINUTE))
+    // Time formatting
+    val time = padTimeInt(calendar[Calendar.HOUR_OF_DAY]) + ":" +
+            padTimeInt(calendar[Calendar.MINUTE])
 
-    val timeDate = padTimeInt(calendar.get(Calendar.MONTH)) + "/" +
-            padTimeInt(calendar.get(Calendar.DAY_OF_MONTH)) + " at " +
-            padTimeInt(calendar.get(Calendar.HOUR_OF_DAY)) + ":" +
-            padTimeInt(calendar.get(Calendar.MINUTE))
+    // Time + date formatting
+    val timeDate = padTimeInt(calendar[Calendar.MONTH]) + "/" +
+            padTimeInt(calendar[Calendar.DAY_OF_MONTH]) + " at " +
+            padTimeInt(calendar[Calendar.HOUR_OF_DAY]) + ":" +
+            padTimeInt(calendar[Calendar.MINUTE])
 
-    val shortDate = padTimeInt(calendar.get(Calendar.MONTH)) + "/" +
-            padTimeInt(calendar.get(Calendar.DAY_OF_MONTH))
+    // Short date formatting (without year)
+    val shortDate = padTimeInt(calendar[Calendar.MONTH]) + "/" +
+            padTimeInt(calendar[Calendar.DAY_OF_MONTH])
 
-    val longDate = padTimeInt(calendar.get(Calendar.MONTH)) + "/" +
-            padTimeInt(calendar.get(Calendar.DAY_OF_MONTH)) + "/" +
-            calendar.get(Calendar.YEAR).toString()
+    // Long date formatting (with year)
+    val longDate = padTimeInt(calendar[Calendar.MONTH]) + "/" +
+            padTimeInt(calendar[Calendar.DAY_OF_MONTH]) + "/" +
+            calendar[Calendar.YEAR].toString()
 
+    // Return the time ago or the formatted time
     return when (difference) {
         in -10*oneYear..-oneYear -> longDate
         in -oneYear..-oneMonth -> shortDate
@@ -61,6 +66,12 @@ fun dayStringFormat(timeStamp: Long): String {
     }
 }
 
+/**
+ * Pad the time integer to have a leading zero
+ *
+ * @param toPad
+ * @return String of the padded time
+ */
 fun padTimeInt(toPad: Int): String {
     return toPad.toString().padStart(2, '0')
 }

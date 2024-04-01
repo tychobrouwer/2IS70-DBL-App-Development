@@ -58,6 +58,7 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     // Object for storing the new littering data entry
     private lateinit var litteringData : LitteringData
 
+    // Adapter for the spinner of communities
     private lateinit var selectCommunityAdapter: ArrayAdapter<String>
 
     // List of communities the user is in
@@ -219,6 +220,7 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private fun setCommunities() {
         runBlocking {
             launch {
+                // Get the current user id
                 val userId = fireBase.currentUserId() ?: return@launch
 
                 // Get communities the user is in
@@ -236,6 +238,7 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     val communityResult =
                         fireBase.getDocument("Community", community as String) ?: return@launch
 
+                    // If community data is empty continue
                     if (communityResult.data == null) continue
 
                     // Add the community to the list
@@ -457,16 +460,17 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        when(requestCode) { permissionCode ->
+        when (requestCode) { permissionCode ->
             // If request code is permission granted
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Set the current map location
                 getCurrentLocation()
 
-                if(requestCode == CAMERA_PERMISSION_CODE){
+                // Open camera if permission granted
+                if (requestCode == CAMERA_PERMISSION_CODE) {
                     val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                     startActivityForResult(intent, CAMERA)
-                }else{
+                } else {
                     Toast.makeText(this,"Permission needs to be accepted", Toast.LENGTH_LONG).show()
                 }
             }

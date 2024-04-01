@@ -1,11 +1,6 @@
 package com.example.weclean.backend
 
-import android.content.ContentValues.TAG
-import android.util.Log
-import kotlinx.coroutines.runBlocking
-import java.util.Date
-
-class User (private val fireBase: FireBase) {
+class User {
 
     /**
      * Create a user object

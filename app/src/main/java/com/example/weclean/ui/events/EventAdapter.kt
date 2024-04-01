@@ -27,8 +27,10 @@ class EventAdapter(
         }
 
         override fun onClick(view: View?) {
+            // Get the adapter position
             val adapterPosition = adapterPosition
             if (adapterPosition != RecyclerView.NO_POSITION) {
+                // Call the listener
                 listener.onEventClicked(adapterPosition)
             }
         }

@@ -183,6 +183,13 @@ open class FireBase {
         }
     }
 
+    /**
+     * Delete a document from the collection with the given document name
+     *
+     * @param collection
+     * @param document
+     * @return Boolean if deleting the document was successful
+     */
     suspend fun deleteDocument(collection: String, document: String): Boolean {
         return try {
             db.collection(collection).document(document).delete().await()

@@ -60,6 +60,7 @@ class ProfileInfo : Fragment() {
             logoutDialog()
         }
 
+        // View communities button
         val viewCommunitiesButton = view.findViewById<Button>(R.id.view_communities)
         viewCommunitiesButton.setOnClickListener {
             // Switch to communities list view fragment
@@ -84,15 +85,19 @@ class ProfileInfo : Fragment() {
         // Get the number of littering entries the user has made
         val statEventsJoined = (userData.get("eventIds") as ArrayList<*>?)?.size ?: 0
 
+        // String of user's communities to display
         var userCommunitiesListString = ""
+
+        // Get user's communities
         val userCommunities = userData.get("communityIds") as? ArrayList<*> ?: emptyList()
+
         for (community in userCommunities) {
             // Get community data from database
             val communityResult =
                 fireBase.getDocument("Community", community as String) ?: continue
-
             if (communityResult.data == null) continue
 
+            // Add community to list of user's communities to display
             userCommunitiesListString += communityResult.getString("name") + "\n"
         }
 
@@ -129,6 +134,7 @@ class ProfileInfo : Fragment() {
             return
         }
 
+        // Listener for cancel button
         cancelButton.setOnClickListener {
             deleteDialog.dismiss()
         }

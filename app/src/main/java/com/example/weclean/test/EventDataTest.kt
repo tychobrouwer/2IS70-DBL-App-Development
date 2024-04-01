@@ -1,9 +1,7 @@
 import com.example.weclean.backend.EventData
-import com.example.weclean.backend.Image
 import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito.mock
 import java.util.*
 
 class EventDataTest {

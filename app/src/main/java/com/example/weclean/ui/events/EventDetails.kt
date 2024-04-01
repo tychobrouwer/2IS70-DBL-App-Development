@@ -34,12 +34,16 @@ class EventDetails : Fragment() {
     // User ID
     private lateinit var userId: String
 
+    /**
+     * Create a new instance of the event details fragment with the event data
+     *
+     * @param event
+     * @return EventDetails fragment
+     */
     fun newInstance(event: EventData): EventDetails {
         // Create a new fragment with supplied event data
         val fragment = EventDetails()
         fragment.event = event
-
-        println(event.name)
 
         return fragment
     }

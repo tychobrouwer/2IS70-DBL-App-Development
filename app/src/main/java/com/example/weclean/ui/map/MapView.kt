@@ -312,15 +312,13 @@ class MapView : Fragment() {
      * @param context
      */
     private fun checkForPermission(context: Context) {
-        if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) ==
+        if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) !=
             PackageManager.PERMISSION_GRANTED) {
-            return
-        } else {
-            ActivityCompat.requestPermissions(activity as AppCompatActivity, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+            ActivityCompat.requestPermissions(activity as AppCompatActivity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 requestPermissionCode)
-
-            return
         }
+
+        return
     }
 
     override fun onCreateView(

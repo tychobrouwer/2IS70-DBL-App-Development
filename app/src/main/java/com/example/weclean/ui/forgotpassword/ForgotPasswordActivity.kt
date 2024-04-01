@@ -15,12 +15,6 @@ class ForgotPasswordActivity : AppCompatActivity() {
     private lateinit var binding: ActivityForgotPasswordBinding
     private lateinit var firebaseAuth: FirebaseAuth
 
-    /**
-     * Gets the email the user puts in and sends the user to
-     * the login screen when the user presses the 'toLogin' button.
-     *
-     * @param savedInstanceState The saved instance state of the activity.
-     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
