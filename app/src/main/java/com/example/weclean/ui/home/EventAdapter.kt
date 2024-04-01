@@ -8,17 +8,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weclean.R
 import com.example.weclean.backend.EventData
 import com.example.weclean.backend.FireBase
-import com.example.weclean.ui.events.AddEvent
-import com.example.weclean.ui.events.EventDetails
-import com.example.weclean.ui.events.openEventDetails
+import com.example.weclean.ui.events.EventsActivity
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+
 private val fireBase = FireBase()
 
 class EventAdapter (
@@ -62,11 +59,9 @@ class EventAdapter (
             }
         }
 
-        //TODO: get proper data from
-
         holder.itemView.setOnClickListener {
             holder.itemView.context.startActivity(
-                Intent(holder.itemView.context, EventDetails::class.java)
+                Intent(holder.itemView.context, EventsActivity::class.java).putExtra("event", event)
             )
         }
     }
