@@ -49,8 +49,7 @@ val testExecutionFile =
 // List of files that can be ignored for test coverage
 val coverageExclusions = listOf(
     "**/R.class",
-    "**/R$*.class",
-    "**/BuildConfig.*"
+    "**/R$*.class"
 )
 
 // Apply additional build steps to sub-projects
