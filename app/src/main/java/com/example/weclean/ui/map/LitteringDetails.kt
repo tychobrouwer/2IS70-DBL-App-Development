@@ -42,7 +42,7 @@ class LitteringDetails : Fragment() {
      * Create a new instance of the LitteringDetails fragment with the littering ID
      *
      * @param litteringId
-     * @return
+     * @return LitteringDetails fragment
      */
     fun newInstance(litteringId: String): LitteringDetails {
         // Create new fragment with littering ID
@@ -73,6 +73,7 @@ class LitteringDetails : Fragment() {
                 // Get littering data from database
                 val litteringDataResult = fireBase.getDocument("LitteringData", litteringId)
 
+                // If the littering data is null, show error message
                 if (litteringDataResult == null) {
                     Toast.makeText(
                         activity,
@@ -118,7 +119,7 @@ class LitteringDetails : Fragment() {
                 val imageBytes = fireBase.getFileBytes(litteringData.imageId, 1024 * 1024)
 
                 if (imageBytes == null) {
-                    Toast.makeText(activity, "Failed to load image", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity as AppCompatActivity, "Failed to load image", Toast.LENGTH_SHORT).show()
                     return@launch
                 }
 

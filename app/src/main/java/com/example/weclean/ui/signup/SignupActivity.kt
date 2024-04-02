@@ -15,10 +15,11 @@ import kotlinx.coroutines.runBlocking
 
 
 class SignupActivity : AppCompatActivity() {
-    //variables for sign up activity and firebase authentication
+    // Variables for sign up activity and firebase authentication
     private lateinit var binding: ActivitySignupBinding
     private lateinit var firebaseAuth: FirebaseAuth
 
+    // FireBase class instance to communicate with the database
     private val fireBase = FireBase()
 
     /**
@@ -34,23 +35,25 @@ class SignupActivity : AppCompatActivity() {
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Get the firebase authentication instance
         firebaseAuth = FirebaseAuth.getInstance()
 
-        //if account then navigate to the page where they confirm they have an account
+        // If account then navigate to the page where they confirm they have an account
         binding.yesAccount.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 
-        //if the button to signup is clicked
+        // If the button to signup is clicked
         binding.signup.setOnClickListener {
 
-            //get all text input fields
+            // Get all text input fields
             val email = binding.email.text.toString()
             val password = binding.registerPassword.text.toString()
             val confirmPassword = binding.confirmPassword.text.toString()
             val username = binding.username.text.toString()
 
+            // Ensure fields are not empty
             if (email.isEmpty() ||
                 password.isEmpty() ||
                 confirmPassword.isEmpty() ||
@@ -59,41 +62,51 @@ class SignupActivity : AppCompatActivity() {
                 Toast.makeText(this, "Empty fields are not allowed", Toast.LENGTH_SHORT).show()
             }
 
+            // Ensure password and confirm password match
             if (password != confirmPassword) {
                 Toast.makeText(this, "Password is not matching", Toast.LENGTH_SHORT).show()
             }
             
             //create the user
             firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+                val errorMessage = "Error creating user"
+
+                // If the user already exists
                 if (it.exception is FirebaseAuthUserCollisionException) {
                     Toast.makeText(this, "Email is already in use", Toast.LENGTH_SHORT).show()
 
                     return@addOnCompleteListener
                 }
 
+                // If the user was not created successfully
                 if (!it.isSuccessful) {
-                    Toast.makeText(this, "Error creating user", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
                     return@addOnCompleteListener
                 }
 
+                // Get the new user's ID
                 val uid = it.result.user?.uid
 
+                // If the user ID is null then show an error message
                 if (uid == null) {
-                    Toast.makeText(this, "Error creating user", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
                     return@addOnCompleteListener
                 }
 
-                val user = User(fireBase).createUser(username)
+                // Create a new user object
+                val user = User().createUser(username)
 
                 runBlocking {
+                    // Add the user to the database
                     val addUserResult = fireBase.addDocumentWithName("Users", uid, user)
 
+                    // If the user was not added successfully
                     if (!addUserResult) {
-                        Toast.makeText(this@SignupActivity, "Error creating user", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@SignupActivity, errorMessage, Toast.LENGTH_SHORT).show()
                         return@runBlocking
                     }
 
-                    // navigate to the home screen
+                    // Navigate to the home screen
                     val intent = Intent(this@SignupActivity, Home::class.java)
                     startActivity(intent)
                 }

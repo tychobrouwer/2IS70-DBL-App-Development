@@ -13,15 +13,19 @@ class MemberAdapter(
     private val listener: RecyclerViewMember,
 ) : RecyclerView.Adapter<MemberAdapter.MemberViewHolder>() {
     class MemberViewHolder(view: View, private val listener: RecyclerViewMember) : RecyclerView.ViewHolder(view), View.OnClickListener {
+        // Get the remove button
         private val removeButton: TextView = view.findViewById(R.id.remove_member_button)
 
         init {
+            // Set the click listener for the buttons
             removeButton.setOnClickListener(this)
         }
 
         override fun onClick(view: View?) {
+            // Get the adapter position
             val adapterPosition = adapterPosition
             if (adapterPosition != RecyclerView.NO_POSITION) {
+                // Call the listener with the adapter position
                 listener.onMemberClicked(adapterPosition)
             }
         }
@@ -45,6 +49,7 @@ class MemberAdapter(
         // Get button for removing members
         val listRemoveButton = holder.itemView.findViewById<Button>(R.id.remove_member_button)
 
+        // Hide remove button if user is an admin
         if (member.isAdmin) {
             listRemoveButton.visibility = View.GONE
         }

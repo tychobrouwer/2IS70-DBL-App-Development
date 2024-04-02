@@ -117,9 +117,9 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
             val datePicker = DatePickerDialog(
                 this,
                 this,
-                date.get(Calendar.YEAR),
-                date.get(Calendar.MONTH),
-                date.get(Calendar.DAY_OF_MONTH))
+                date[Calendar.YEAR],
+                date[Calendar.MONTH],
+                date[Calendar.DAY_OF_MONTH])
 
             // Show the date picker dialog
             datePicker.show()
@@ -170,6 +170,7 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        // If the camera activity was successful and an image was taken
         if (requestCode == 2 && resultCode == RESULT_OK) {
             imageAdded = true
         }
@@ -227,6 +228,7 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        // Set the community of the event data
         eventData.community =  communities[position]
     }
 
@@ -294,6 +296,7 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
                 return@runBlocking
             }
 
+            // Open the events activity
             Toast.makeText(this@AddEvent, "Event entry added", Toast.LENGTH_SHORT).show()
             startActivity(Intent(applicationContext, EventsActivity::class.java))
         }
@@ -301,16 +304,16 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         // Set the date of the event from the date picker
-        date.set(Calendar.YEAR, year)
-        date.set(Calendar.MONTH, month)
-        date.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        date[Calendar.YEAR] = year
+        date[Calendar.MONTH] = month
+        date[Calendar.DAY_OF_MONTH] = dayOfMonth
 
         // Create a time picker dialog
         val timePicker = TimePickerDialog(
             this,
             this,
-            date.get(Calendar.HOUR_OF_DAY),
-            date.get(Calendar.MINUTE),
+            date[Calendar.HOUR_OF_DAY],
+            date[Calendar.MINUTE],
             true)
 
         // Show the time picker dialog
@@ -319,8 +322,8 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         // Set the time of the event from the time picker
-        date.set(Calendar.HOUR_OF_DAY, hourOfDay)
-        date.set(Calendar.MINUTE, minute)
+        date[Calendar.HOUR_OF_DAY] = hourOfDay
+        date[Calendar.MINUTE] = minute
 
         eventData.timeStamp = date.timeInMillis
 
@@ -328,10 +331,10 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
         val dateAndTimeView = findViewById<TextView>(R.id.dateAndTime)
         dateAndTimeView.text = getString(
             R.string.date_time_format,
-            date.get(Calendar.MONTH) + 1,
-            date.get(Calendar.DAY_OF_MONTH),
-            date.get(Calendar.YEAR),
-            date.get(Calendar.HOUR_OF_DAY),
-            date.get(Calendar.MINUTE))
+            date[Calendar.MONTH] + 1,
+            date[Calendar.DAY_OF_MONTH],
+            date[Calendar.YEAR],
+            date[Calendar.HOUR_OF_DAY],
+            date[Calendar.MINUTE])
     }
 }

@@ -1,17 +1,9 @@
-import com.example.weclean.backend.Community
 import com.example.weclean.backend.User
 import com.example.weclean.backend.FireBase
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.QuerySnapshot
 import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertTrue
-import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
-import java.util.ArrayList
-import java.util.Date
-
 
 class UserTest {
 
@@ -21,7 +13,7 @@ class UserTest {
     @Before
     fun setup() {
         fireBase = mock(FireBase::class.java)
-        user = User(fireBase)  // Initialize User instance
+        user = User()  // Initialize User instance
     }
 
     @Test

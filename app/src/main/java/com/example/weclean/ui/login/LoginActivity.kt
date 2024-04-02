@@ -27,19 +27,24 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Initialize firebase auth
         firebaseAuth = FirebaseAuth.getInstance()
 
+        // If the user has no account, go to the signup page
         binding.noAccount?.setOnClickListener {
             val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
         }
 
+        // If the user forgot their password, go to the forgot password page
         binding.forgotPassword?.setOnClickListener {
             val intent = Intent(this, ForgotPasswordActivity::class.java)
             startActivity(intent)
         }
 
+        // If the user logged in, go to the home page
         binding.login.setOnClickListener {
+            // Get the email and password from the user input
             val email = binding.username.text.toString()
             val password = binding.password.text.toString()
 
@@ -48,11 +53,11 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            //now login the user
+            // now login the user
             firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-
                 when {
                     it.isSuccessful -> {
+                        // If the login is successful, go to the home page
                         val intent = Intent(this, Home::class.java)
                         startActivity(intent)
                     }

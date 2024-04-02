@@ -17,13 +17,16 @@ class CommunityAdapter(
         private val leaveButton: TextView = view.findViewById(R.id.community_leave_button)
 
         init {
+            // Set the click listener for the buttons
             manageButton.setOnClickListener(this)
             leaveButton.setOnClickListener(this)
         }
 
         override fun onClick(view: View?) {
+            // Get the adapter position
             val adapterPosition = adapterPosition
             if (adapterPosition != RecyclerView.NO_POSITION) {
+                // Call the listener with the adapter position
                 listener.onCommunityClicked(adapterPosition)
             }
         }

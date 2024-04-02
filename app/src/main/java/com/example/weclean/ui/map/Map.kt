@@ -29,10 +29,9 @@ class Map : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallba
 
         setContentView(R.layout.activity_map)
 
-        // Begin activity with correct fragments
+        // Begin activity with correct fragments based on optional serialized data
         val litteringData: LitteringData? = getSerializable(this, "event", LitteringData::class.java)
         if (litteringData != null) {
-            println("test")
             switchFragment(MapViewStatus.LitteringDetails, litteringData.id)
         } else {
             switchFragment(MapViewStatus.Map)
@@ -119,11 +118,6 @@ fun AppCompatActivity.switchFragment(toStatus: MapViewStatus, documentId: String
         // Add map view fragment
         transaction.add(R.id.fragmentMapView, MapView())
     } else if (toStatus == MapViewStatus.LitteringDetails) {
-        if (mapView != null) {
-            transaction.remove(mapView)
-            transaction.remove(mapView)
-        }
-
         // Add littering details fragment
         transaction.add(R.id.fragmentLitteringDetails, LitteringDetails().newInstance(documentId))
     }

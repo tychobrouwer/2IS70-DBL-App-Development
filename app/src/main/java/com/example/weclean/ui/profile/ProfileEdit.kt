@@ -25,9 +25,11 @@ class ProfileEdit : Fragment() {
     private val fireBase = FireBase()
     private val dbAuth = Firebase.auth
 
+    // User ID and email
     private val userId = fireBase.currentUserId()
     private val email = fireBase.currentUserEmail()
 
+    // View of the fragment
     private lateinit var viewIt: View
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,14 +43,17 @@ class ProfileEdit : Fragment() {
             return
         }
 
+        // Set the fields in the profile edit fragment
         setFields(view)
 
         // Set the email field to the current user's email
         val emailView = view.findViewById<EditText>(R.id.email)
         emailView.setText(email)
 
+        // Delete profile button
         val deleteButton = view.findViewById<Button>(R.id.delete_button)
         deleteButton.setOnClickListener {
+            // Open dialog to confirm deletion of user profile
             deleteProfileDialog()
         }
 
@@ -63,11 +68,12 @@ class ProfileEdit : Fragment() {
         // Confirm profile edit button
         val confirmButton = view.findViewById<Button>(R.id.confirm_button)
         confirmButton.setOnClickListener {
+            // Get the email and username fields
             val username = view.findViewById<EditText>(R.id.username).text.toString().trim()
-
             val emailNew = emailView.text.toString().trim()
 
             runBlocking {
+                // Get the current user
                 val currentAuth = dbAuth.currentUser
                 if (currentAuth == null) {
                     Toast.makeText(context, "Failed to get current user", Toast.LENGTH_SHORT)

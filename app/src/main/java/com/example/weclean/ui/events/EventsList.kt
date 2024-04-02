@@ -23,7 +23,9 @@ class EventsList : Fragment(), EventAdapter.RecyclerViewEvent {
     // FireBase class instance to communicate with the database
     private val fireBase = FireBase()
 
+    // List of events shown
     private var events = ArrayList<EventData>()
+    // Event adapter for the recycler view
     private lateinit var eventAdapter: EventAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,12 +66,14 @@ class EventsList : Fragment(), EventAdapter.RecyclerViewEvent {
         eventAdapter = EventAdapter(events, this)
         val eventListView = view.findViewById<RecyclerView>(R.id.eventsListView)
 
+        // Set the layout manager and adapter for the recycler view
         val mLayoutManager = LinearLayoutManager(activity as AppCompatActivity)
         mLayoutManager.orientation = LinearLayoutManager.VERTICAL
         eventListView.layoutManager = mLayoutManager
         eventListView.itemAnimator = DefaultItemAnimator()
         eventListView.adapter = eventAdapter
 
+        // Get the events to display
         getEvents()
     }
 
@@ -107,6 +111,7 @@ class EventsList : Fragment(), EventAdapter.RecyclerViewEvent {
                     // Get the community data
                     val communityData = fireBase.getDocument("Community", community as String) ?: continue
 
+                    // If the community data is null, continue
                     if (communityData.data == null) continue
 
                     // Get the event IDs for the community

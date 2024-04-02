@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.graphics.vector.addPathNodes
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -51,12 +52,14 @@ class ProfileCommunities : Fragment(), CommunityAdapter.RecyclerViewCommunity {
         communitiesListAdapter = CommunityAdapter(communities, this)
         val eventListView = view.findViewById<RecyclerView>(R.id.community_list)
 
+        // Set up the layout manager and adapter for the recycler view
         val mLayoutManager = LinearLayoutManager(activity as AppCompatActivity)
         mLayoutManager.orientation = LinearLayoutManager.VERTICAL
         eventListView.layoutManager = mLayoutManager
         eventListView.itemAnimator = DefaultItemAnimator()
         eventListView.adapter = communitiesListAdapter
 
+        // Get the user's communities
         setCommunities()
     }
 
@@ -86,18 +89,20 @@ class ProfileCommunities : Fragment(), CommunityAdapter.RecyclerViewCommunity {
             val communityCode = editText!!.text.toString()
 
             // If empty, close dialog else add user to community
-            if (communityCode.isNotEmpty()) {
-                runBlocking {
-                    val result = communityObject.addUserWithCode(communityCode)
-
-                    if (result) {
-                        joinDialog.dismiss()
-                    } else {
-                        Toast.makeText(context, "Community code no valid", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            } else {
+            if (communityCode.isEmpty()) {
                 Toast.makeText(context, "Please enter a community code", Toast.LENGTH_SHORT).show()
+
+                return@setOnClickListener
+            }
+
+            runBlocking {
+                val result = communityObject.addUserWithCode(communityCode)
+
+                if (result) {
+                    joinDialog.dismiss()
+                } else {
+                    Toast.makeText(context, "Community code no valid", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -105,6 +110,7 @@ class ProfileCommunities : Fragment(), CommunityAdapter.RecyclerViewCommunity {
     private fun setCommunities() {
         runBlocking {
             launch {
+                // Get the current user's ID
                 val userId = fireBase.currentUserId()
 
                 // If no user is logged in or user is empty
@@ -117,7 +123,6 @@ class ProfileCommunities : Fragment(), CommunityAdapter.RecyclerViewCommunity {
 
                 // Get user's communities
                 val communitiesResult = fireBase.getDocument("Users", userId)
-
                 if (communitiesResult == null) {
                     Toast.makeText(activity as AppCompatActivity, "Error getting user", Toast.LENGTH_SHORT).show()
                     return@launch
@@ -125,11 +130,13 @@ class ProfileCommunities : Fragment(), CommunityAdapter.RecyclerViewCommunity {
 
                 // Get community IDs from user
                 val userCommunities = communitiesResult.get("communityIds") as? ArrayList<*> ?: emptyList()
+
                 for (communityId in userCommunities) {
                     // Get community data from database
                     val communityResult =
                         fireBase.getDocument("Community", communityId as String) ?: return@launch
 
+                    // Skip if community data is null
                     if (communityResult.data == null) continue
 
                     // Add community to list
@@ -139,7 +146,7 @@ class ProfileCommunities : Fragment(), CommunityAdapter.RecyclerViewCommunity {
                         (communityResult.get("adminIds") as ArrayList<*>).contains(fireBase.currentUserId())
                     )
 
-                    // Update the list adapter
+                    // Update the list adapter with the new community
                     communities.add(communityListData)
                     communitiesListAdapter.notifyItemInserted(communities.size - 1)
                 }
@@ -156,13 +163,54 @@ class ProfileCommunities : Fragment(), CommunityAdapter.RecyclerViewCommunity {
     }
 
     override fun onCommunityClicked(adapterPosition: Int) {
+        // Get the community at the current position
         val community = communities[adapterPosition]
 
+        // If user is admin, switch to manage community fragment else leave community
         if (community.userIsAdmin) {
             val context = activity as AppCompatActivity
             context.switchFragment(ProfileViewStatus.COMMUNITY_MANAGE, community)
         } else {
-            //TODO: Leave community
+            // Leave community
+            val currentUser = fireBase.currentUserId()
+            if (currentUser.isNullOrEmpty()) {
+                Toast.makeText(context, "Unable to get user", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            runBlocking {
+                // Remove user from community
+                val updateCommunityResult = fireBase.removeFromArray(
+                    "Community",
+                    community.id,
+                    "userIds",
+                    currentUser)
+
+                if (!updateCommunityResult) {
+                    Toast.makeText(context, "Failed to leave community", Toast.LENGTH_SHORT).show()
+
+                    return@runBlocking
+                }
+
+                // Remove community from user
+                val updateUserResult = fireBase.removeFromArray(
+                    "Users",
+                    currentUser,
+                    "communityIds",
+                    community.id)
+
+                if (!updateUserResult) {
+                    Toast.makeText(context, "Failed to update user", Toast.LENGTH_SHORT).show()
+
+                    return@runBlocking
+                }
+
+                // Remove the community from the list and update the view
+                communities.removeAt(adapterPosition)
+                communitiesListAdapter.notifyItemRemoved(adapterPosition)
+
+                Toast.makeText(context, "Left ${community.name} community", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
