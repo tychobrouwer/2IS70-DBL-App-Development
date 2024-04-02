@@ -48,10 +48,15 @@ class MemberAdapter(
 
         // Get button for removing members
         val listRemoveButton = holder.itemView.findViewById<Button>(R.id.remove_member_button)
+        val listAdminLabel = holder.itemView.findViewById<TextView>(R.id.admin_label)
 
         // Hide remove button if user is an admin
         if (member.isAdmin) {
             listRemoveButton.visibility = View.GONE
+            listAdminLabel.visibility = View.VISIBLE
+        }  else {
+            listRemoveButton.visibility = View.VISIBLE
+            listAdminLabel.visibility = View.GONE
         }
     }
 

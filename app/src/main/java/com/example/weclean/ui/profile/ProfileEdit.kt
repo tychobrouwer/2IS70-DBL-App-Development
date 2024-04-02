@@ -92,10 +92,9 @@ class ProfileEdit : Fragment() {
                 if (emailNew != email) {
                     // Verify and update the user's email
                     val updateEmailResult = currentAuth.updateEmail(emailNew)
+
                     if (!updateEmailResult.isSuccessful) {
                         Toast.makeText(context, "Failed to update email", Toast.LENGTH_SHORT).show()
-
-                        return@runBlocking
                     }
                 }
 

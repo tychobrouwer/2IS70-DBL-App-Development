@@ -49,6 +49,7 @@
     <string name="label_contact_email">Contact Email</string>
     <string name="label_confirm_contact_email">Confirm Contact Email</string>
     <string name="label_events_joined">Joined Events</string>
+    <string name="label_admin">Admin</string>
 
     <string name="hint_tag">Tag</string>
     <string name="hint_location">Location</string>
@@ -68,7 +69,7 @@
     <string name="action_sign_out">Remove Sign Up</string>
     <string name="action_log_in_short">Log in</string>
     <string name="action_sign_up_short">Sign up</string>
-    <string name="no_account">"No account yet? Sing up!"</string>
+    <string name="no_account">"No account yet? Sign up!"</string>
     <string name="yes_account">"Already have an account? Log in!"</string>
     <string name="forgot_password">"Forgot your password?"</string>
     <string name="back_to_login">"Go back to login page"</string>
