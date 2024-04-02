@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_200"
+    android:orientation="vertical"
+    tools:context=".ui.events.AddEvent">
+
+    <TextView
+        android:id="@+id/screen_title"
+        style="@style/Widget.Theme.WeClean.ScreenTitle"
+        android:text="@string/create_event" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/AddCamera"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_background"
+        android:padding="20dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/camera_solid"
+        app:tint="@color/white_200" />
+
+    <TextView
+        android:id="@+id/eventNameLabel"
+        style="@style/Widget.Theme.WeClean.SectionLabel"
+        android:text="@string/event_name" />
+
+    <EditText
+        android:id="@+id/eventName"
+        style="@style/Widget.Theme.WeClean.TextInput"
+        android:autofillHints=""
+        android:hint="@string/event_name"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/selectCommunityLabel"
+        style="@style/Widget.Theme.WeClean.SectionLabel"
+        android:text="@string/label_select_communities" />
+
+    <Spinner
+        style="@style/Widget.Theme.WeClean.SpinnerDropdown"
+        android:id="@+id/selectCommunity"
+        tools:listitem="@layout/spinner_item" />
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.SectionLabel"
+        android:id="@+id/dateAndTimeLabel"
+        android:text="@string/event_date" />
+
+    <TextView
+        style="@style/Widget.Theme.WeClean.TextInput"
+        android:id="@+id/dateAndTime"
+        android:hint="@string/event_date" />
+
+    <TextView
+        android:id="@+id/locationLabel"
+        style="@style/Widget.Theme.WeClean.SectionLabel"
+        android:text="@string/event_location_table" />
+
+    <EditText
+        android:id="@+id/location"
+        style="@style/Widget.Theme.WeClean.TextInput"
+        android:autofillHints=""
+        android:hint="@string/hint_location" />
+
+    <TextView
+        android:id="@+id/descriptionLabel"
+        style="@style/Widget.Theme.WeClean.SectionLabel"
+        android:text="@string/label_description" />
+
+    <EditText
+        android:id="@+id/description"
+        style="@style/Widget.Theme.WeClean.TextInput"
+        android:autofillHints=""
+        android:gravity="top|start"
+        android:hint="@string/description_event"
+        android:inputType="textMultiLine"
+        android:lines="5" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp" >
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/cancelButton"
+            style="@style/Widget.Theme.WeClean.ButtonRed"
+            android:layout_width="100dp"
+            android:layout_marginEnd="40dp"
+            android:layout_gravity="bottom"
+            android:text="@string/button_cancel" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/addEventButton"
+            style="@style/Widget.Theme.WeClean.Button"
+            android:layout_width="100dp"
+            android:layout_gravity="bottom"
+            android:text="@string/button_add" />
+
+    </LinearLayout>
+
+</LinearLayout>

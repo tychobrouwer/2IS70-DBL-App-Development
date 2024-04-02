@@ -98,40 +98,40 @@
 
         </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1" >
-
-        <TextView
-            style="@style/Widget.Theme.WeClean.SectionLabel"
-            android:id="@+id/communities_list_label"
-            android:layout_marginTop="20dp"
-            android:text="@string/label_communities"
-            app:layout_constraintTop_toBottomOf="@+id/events_joined"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            style="@style/Widget.Theme.WeClean.Text"
-            android:paddingStart="15dp"
-            android:id="@+id/communities_list"
-            android:inputType="textMultiLine"
-            app:layout_constraintTop_toBottomOf="@+id/communities_list_label"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/view_communities"
-            style="@style/Widget.Theme.WeClean.Button"
-            android:text="@string/button_communities"
-            android:layout_gravity="center_horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/communities_list"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:orientation="vertical"
+            android:layout_weight="1" >
 
-    </LinearLayout>
+            <TextView
+                style="@style/Widget.Theme.WeClean.SectionLabel"
+                android:id="@+id/communities_list_label"
+                android:layout_marginTop="20dp"
+                android:text="@string/label_communities"
+                app:layout_constraintTop_toBottomOf="@+id/events_joined"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                style="@style/Widget.Theme.WeClean.Text"
+                android:paddingStart="15dp"
+                android:id="@+id/communities_list"
+                android:inputType="textMultiLine"
+                app:layout_constraintTop_toBottomOf="@+id/communities_list_label"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/view_communities"
+                style="@style/Widget.Theme.WeClean.Button"
+                android:text="@string/button_communities"
+                android:layout_gravity="center_horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/communities_list"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
