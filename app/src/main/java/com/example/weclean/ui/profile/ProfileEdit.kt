@@ -87,6 +87,8 @@ class ProfileEdit : Fragment() {
                 val updateUsername = fireBase.updateValue("Users", userId, "username", username)
                 if (!updateUsername) {
                     Toast.makeText(context, "Failed to update username", Toast.LENGTH_SHORT).show()
+
+                    return@runBlocking
                 }
 
                 if (emailNew != email) {
@@ -95,7 +97,12 @@ class ProfileEdit : Fragment() {
 
                     if (!updateEmailResult.isSuccessful) {
                         Toast.makeText(context, "Failed to update email", Toast.LENGTH_SHORT).show()
+
+                        return@runBlocking
                     }
+
+                    // Delay for the email to be updated in the database
+                    Thread.sleep(300)
                 }
 
                 Toast.makeText(context, "Profile updated", Toast.LENGTH_SHORT).show()

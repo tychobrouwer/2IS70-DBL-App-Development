@@ -26,6 +26,7 @@ open class FireBase {
         val currentUser = dbAuth.currentUser
         return currentUser?.uid
     }
+
     fun currentUserEmail() = dbAuth.currentUser?.email
 
     /**

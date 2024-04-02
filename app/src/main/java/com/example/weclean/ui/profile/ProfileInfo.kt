@@ -17,6 +17,8 @@ import com.example.weclean.ui.login.LoginActivity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.runBlocking
+import java.util.Timer
+import java.util.TimerTask
 
 class ProfileInfo : Fragment() {
     private val fireBase = FireBase()
@@ -145,7 +147,6 @@ class ProfileInfo : Fragment() {
             startActivity(Intent(activity as AppCompatActivity, LoginActivity::class.java))
         }
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
