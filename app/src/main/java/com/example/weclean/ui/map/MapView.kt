@@ -4,8 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.getIntent
-import android.content.Intent.getIntentOld
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -38,6 +36,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.GeoPoint
@@ -89,6 +88,7 @@ class MapView : Fragment() {
         startLocationUpdates()
 
         // Fragment containing the google maps support fragment
+        MapsInitializer.initialize(activity as AppCompatActivity)
         mapFragment = getChildFragmentManager().findFragmentById(R.id.map_fragment) as SupportMapFragment
         // Wait till map is loaded
         mapFragment.getMapAsync { googleMap ->

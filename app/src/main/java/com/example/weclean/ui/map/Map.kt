@@ -37,16 +37,6 @@ class Map : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallba
             switchFragment(MapViewStatus.Map)
         }
 
-        // Fragment manager for managing navigation between fragments
-        val fragmentManager = supportFragmentManager
-
-        // Begin new transition for fragment
-        val transaction = fragmentManager.beginTransaction()
-
-        // Ensure fragments for default profile view are created
-        transaction.add(R.id.fragmentMapView, MapView())
-        transaction.commit()
-
         // Parent view of navigation view
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)
         bottomNavigationView.selectedItemId = R.id.navigation_map
