@@ -57,7 +57,6 @@ class EventDetails : Fragment() {
         // Set the sign up button listener
         signup.setOnClickListener {
             signupForEvent(view)
-            Toast.makeText(activity as AppCompatActivity, "Signed up for event", Toast.LENGTH_SHORT).show()
         }
 
         // Get the current user ID

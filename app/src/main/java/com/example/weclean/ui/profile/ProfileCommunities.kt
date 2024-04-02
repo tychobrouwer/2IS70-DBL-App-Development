@@ -26,7 +26,7 @@ class ProfileCommunities : Fragment(), CommunityAdapter.RecyclerViewCommunity {
     private var fireBase = FireBase()
     private val communityObject = Community(fireBase)
 
-    private val communities = ArrayList<CommunityListData>()
+    private var communities = ArrayList<CommunityListData>()
 
     private lateinit var communitiesListAdapter: CommunityAdapter
 
@@ -100,8 +100,9 @@ class ProfileCommunities : Fragment(), CommunityAdapter.RecyclerViewCommunity {
 
                 if (result) {
                     joinDialog.dismiss()
+                    setCommunities()
                 } else {
-                    Toast.makeText(context, "Community code no valid", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Community code not valid", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -147,8 +148,10 @@ class ProfileCommunities : Fragment(), CommunityAdapter.RecyclerViewCommunity {
                     )
 
                     // Update the list adapter with the new community
-                    communities.add(communityListData)
-                    communitiesListAdapter.notifyItemInserted(communities.size - 1)
+                    if (!communities.map { it.id }.contains(communityId)) {
+                        communities.add(communityListData)
+                        communitiesListAdapter.notifyItemInserted(communities.size - 1)
+                    }
                 }
             }
         }

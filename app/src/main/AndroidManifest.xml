@@ -49,10 +49,6 @@
             android:exported="false"
             android:label="Signup" />
         <activity
-            android:name=".ui.home.EventPopup"
-            android:exported="false"
-            android:label="@string/title_activity_event_popup" />
-        <activity
             android:name=".ui.login.LoginActivity"
             android:exported="false"
             android:label="Login" />
@@ -60,10 +56,6 @@
             android:name=".ui.profile.Profile"
             android:exported="false"
             android:label="@string/title_activity_profile" />
-        <activity
-            android:name=".Achievements"
-            android:exported="false"
-            android:label="@string/title_activity_achievements" />
         <activity
             android:name=".ui.add.Add"
             android:exported="false"

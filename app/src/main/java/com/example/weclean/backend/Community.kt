@@ -77,11 +77,15 @@ class Community(private val fireBase: FireBase) {
 
         val communityData = fireBase.getDocumentsWithFilter(
             "Community",
-            Filter.equalTo("Code",communityCode)
+            Filter.equalTo("code", communityCode.toInt())
         ) ?: return false
 
+        if (communityData.documents.size != 1 || communityData.documents.isEmpty()) {
+            return false
+        }
+
         val communityId = communityData.documents[0].id
-        val userResult = fireBase.addToArray("Users", userId, "Communities", communityId)
+        val userResult = fireBase.addToArray("Users", userId, "communityIds", communityId)
         val communityResult = fireBase.addToArray("Community", communityId, "userIds", userId)
 
         return !(!userResult || !communityResult)
