@@ -30,6 +30,7 @@ import androidx.core.widget.addTextChangedListener
 import com.example.weclean.R
 import com.example.weclean.backend.FireBase
 import com.example.weclean.backend.LitteringData
+import com.example.weclean.ui.events.AddEvent
 import com.example.weclean.ui.events.EventsActivity
 import com.example.weclean.ui.home.Home
 import com.example.weclean.ui.login.LoginActivity
@@ -117,24 +118,7 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     Manifest.permission.CAMERA)
                 ==PackageManager.PERMISSION_GRANTED
             ){
-                val photoFile = File.createTempFile(
-                    "JPEG_${System.currentTimeMillis()}_",
-                    ".jpg", /* suffix */
-                    getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                )
-
-                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-
-                // Get the uri for the photo file
-                photoUri = FileProvider.getUriForFile(
-                    applicationContext,
-                    "$packageName.fileprovider",
-                    photoFile)
-
-                // Add the uri to the intent
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-                // Start the camera activity
-                startActivityForResult(intent, CAMERA)
+                openCamera()
             } else{
                 ActivityCompat.requestPermissions(
                     this,
@@ -299,9 +283,11 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 return@runBlocking
             }
 
+            litteringData.id = resultLitteringData.id
+
             // Add littering entry id to the user
             val resultUser = fireBase.addToArray(
-                "Users", userId, "litteringEntries", resultLitteringData.id)
+                "Users", userId, "litteringEntries", litteringData.id)
 
             if (!resultUser) {
                 Toast.makeText(this@Add, "Error updating user", Toast.LENGTH_SHORT).show()
@@ -320,7 +306,8 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
 
             Toast.makeText(this@Add, "Littering entry added", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(applicationContext, Home::class.java))
+
+            startActivity(Intent(this@Add, Map::class.java))
         }
     }
 
@@ -452,28 +439,38 @@ class Add : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         Toast.makeText(this, "No community selected", Toast.LENGTH_SHORT).show()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+    /**
+     * Open the camera to take a photo
+     *
+     */
+    private fun openCamera() {
+        val photoFile = File.createTempFile(
+            "JPEG_${System.currentTimeMillis()}_",
+            ".jpg", /* suffix */
+            getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+        )
+
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        // Get the uri for the photo file
+        photoUri = FileProvider.getUriForFile(
+            applicationContext,
+            "$packageName.fileprovider",
+            photoFile)
+
+        // Add the uri to the intent
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        // Start the camera activity
+        startActivityForResult(intent, CAMERA)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        when (requestCode) { permissionCode ->
-            // If request code is permission granted
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Set the current map location
-                getCurrentLocation()
-
-                // Open camera if permission granted
-                if (requestCode == CAMERA_PERMISSION_CODE) {
-                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    startActivityForResult(intent, CAMERA)
-                } else {
-                    Toast.makeText(this,"Permission needs to be accepted", Toast.LENGTH_LONG).show()
-                }
-            }
+        if (requestCode == CAMERA_PERMISSION_CODE && permissions.isNotEmpty() && grantResults.isNotEmpty()) {
+            openCamera()
+        } else {
+            Toast.makeText(this,"Permission needs to be accepted", Toast.LENGTH_LONG).show()
         }
     }
 }

@@ -23,10 +23,10 @@
     <string name="button_manage">Manage</string>
     <string name="button_leave">Leave</string>
     <string name="button_add_littering">Add Littering Entry</string>
-    <string name="button_log_out">Log out</string>
-    <string name="button_delete_account">Delete Account</string>
+    <string name="button_log_out">Log Out</string>
+    <string name="button_delete_account">Delete Profile</string>
     <string name="button_communities">View Communities</string>
-    <string name="button_logout_account">Logout Account</string>
+    <string name="button_logout_account">Logout Profile</string>
     <string name="button_save_changes">Save Changes</string>
     <string name="button_edit_community_name">Edit</string>
     <string name="button_copy">Copy</string>
@@ -65,10 +65,10 @@
     <string name="username">Username</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_confirm_password">Confirm Password</string>
-    <string name="action_log_in">Log in</string>
+    <string name="action_log_in">Log In</string>
     <string name="action_sign_up">Sign up</string>
     <string name="action_sign_out">Remove Sign Up</string>
-    <string name="action_log_in_short">Log in</string>
+    <string name="action_log_in_short">Log In</string>
     <string name="action_sign_up_short">Sign up</string>
     <string name="no_account">"No account yet? Sign up!"</string>
     <string name="yes_account">"Already have an account? Log in!"</string>
@@ -93,6 +93,7 @@
     <string name="hint_add_cEmail">Enter community\'s email address</string>
     <string name="label_add_cLocation">Location</string>
     <string name="hint_add_cLocation">Where is the community based in?</string>
+    <string name="people_signed_up">%d people signed up</string>
 
     <!-- Events -->
     <string name="button_upcoming_events">Upcoming events</string>

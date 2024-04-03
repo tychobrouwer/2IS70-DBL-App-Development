@@ -1,17 +1,19 @@
 package com.example.weclean.backend
 
+import java.io.Serializable
+
 /**
  * Interface for the tags
  *
  */
-interface Tags {
+interface Tags : Serializable {
     abstract fun addTag(tag: String): ArrayList<String>
     abstract fun removeTag(tag: String): ArrayList<String>
 
     var tags : ArrayList<String>
 }
 
-class TagsImpl : Tags {
+class TagsImpl : Tags, Serializable {
     // List of current tags
     override var tags = ArrayList<String>()
 

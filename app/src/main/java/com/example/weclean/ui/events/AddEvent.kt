@@ -28,7 +28,10 @@ import androidx.core.widget.addTextChangedListener
 import com.example.weclean.R
 import com.example.weclean.backend.EventData
 import com.example.weclean.backend.FireBase
+import com.example.weclean.ui.add.Add
 import com.example.weclean.ui.login.LoginActivity
+import com.example.weclean.ui.map.MapViewStatus
+import com.example.weclean.ui.map.switchFragment
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.io.File
@@ -57,6 +60,7 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
     private var date = Calendar.getInstance()
 
     companion object {
+        private var permissionCode = 101
         private const val CAMERA_PERMISSION_CODE = 1
         private const val CAMERA = 2
     }
@@ -138,24 +142,7 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
                     Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_GRANTED
             ){
-                val photoFile = File.createTempFile(
-                    "JPEG_${System.currentTimeMillis()}_",
-                    ".jpg", /* suffix */
-                    getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                )
-
-                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-
-                // Get the uri for the photo file
-                photoUri = FileProvider.getUriForFile(
-                    applicationContext,
-                    "$packageName.fileprovider",
-                    photoFile)
-
-                // Add the uri to the intent
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-                // Start the camera activity
-                startActivityForResult(intent, CAMERA)
+                openCamera()
             } else{
                 ActivityCompat.requestPermissions(
                     this,
@@ -163,6 +150,41 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
                     CAMERA_PERMISSION_CODE
                 )
             }
+        }
+    }
+
+    /**
+     * Open the camera to take a photo
+     *
+     */
+    private fun openCamera() {
+        val photoFile = File.createTempFile(
+            "JPEG_${System.currentTimeMillis()}_",
+            ".jpg", /* suffix */
+            getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+        )
+
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+        // Get the uri for the photo file
+        photoUri = FileProvider.getUriForFile(
+            applicationContext,
+            "$packageName.fileprovider",
+            photoFile)
+
+        // Add the uri to the intent
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        // Start the camera activity
+        startActivityForResult(intent, CAMERA)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == CAMERA_PERMISSION_CODE && permissions.isNotEmpty() && grantResults.isNotEmpty()) {
+            openCamera()
+        } else {
+            Toast.makeText(this,"Permission needs to be accepted", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -248,7 +270,7 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
         // If no user is logged in or user is empty
         if (userId.isNullOrEmpty()) {
             Toast.makeText(this, "Unable to get user", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this, LoginActivity::class.java))
+            startActivity(Intent(this@AddEvent, LoginActivity::class.java))
 
             return
         } else if (photoUri == null || !imageAdded) {
@@ -298,7 +320,7 @@ class AddEvent : AppCompatActivity(), AdapterView.OnItemSelectedListener, DatePi
 
             // Open the events activity
             Toast.makeText(this@AddEvent, "Event entry added", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(applicationContext, EventsActivity::class.java))
+            startActivity(Intent(this@AddEvent, EventsActivity::class.java))
         }
     }
 

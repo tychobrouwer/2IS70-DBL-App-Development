@@ -30,7 +30,7 @@ class Map : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallba
         setContentView(R.layout.activity_map)
 
         // Begin activity with correct fragments based on optional serialized data
-        val litteringData: LitteringData? = getSerializable(this, "event", LitteringData::class.java)
+        val litteringData: LitteringData? = getSerializable(this, "littering", LitteringData::class.java)
         if (litteringData != null) {
             switchFragment(MapViewStatus.LitteringDetails, litteringData.id)
         } else {

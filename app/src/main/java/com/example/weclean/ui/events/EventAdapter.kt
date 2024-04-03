@@ -24,6 +24,7 @@ class EventAdapter(
             name.setOnClickListener(this)
             location.setOnClickListener(this)
             date.setOnClickListener(this)
+            view.setOnClickListener(this)
         }
 
         override fun onClick(view: View?) {

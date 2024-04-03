@@ -50,6 +50,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(this, "Reset email send", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, LoginActivity::class.java))
                 } else {
                     Toast.makeText(this, "Failed to send reset email", Toast.LENGTH_SHORT).show()
                 }

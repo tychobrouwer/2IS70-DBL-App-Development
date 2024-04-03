@@ -1,8 +1,9 @@
 package com.example.weclean.backend
 
 import android.location.Geocoder
+import java.io.Serializable
 
-interface Location {
+interface Location : Serializable {
     fun updateLocation(latitude: Double, longitude: Double)
 
     var latitude: Double
@@ -19,7 +20,7 @@ interface Location {
  * @param geocoder
  */
 class LocationImpl(geocoder: Geocoder
-) : Location {
+) : Location, Serializable {
     private val geocoder : Geocoder
 
     // Current latitude and longitude of the location

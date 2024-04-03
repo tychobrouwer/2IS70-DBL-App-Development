@@ -75,7 +75,7 @@ class CreateCommunity : Fragment() {
                     Toast.makeText(context, "Community created successfully!", Toast.LENGTH_SHORT).show()
 
                     // Switch back to default profile fragment
-                    (activity as AppCompatActivity).switchFragment(ProfileViewStatus.PROFILE)
+                    (activity as AppCompatActivity).switchFragment(ProfileViewStatus.COMMUNITIES_LIST)
                 }
             }
         }

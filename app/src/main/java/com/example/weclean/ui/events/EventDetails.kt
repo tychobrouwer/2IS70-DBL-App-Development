@@ -30,6 +30,7 @@ class EventDetails : Fragment() {
 
     // Boolean to check if the user is in the event
     private var userInEvent = false
+    private var numPeopleSignedUp = 0
 
     // User ID
     private lateinit var userId: String
@@ -123,6 +124,7 @@ class EventDetails : Fragment() {
 
         // Set the user in the event
         userInEvent = true
+        numPeopleSignedUp += 1
         Toast.makeText(activity as AppCompatActivity, "Signed up for event", Toast.LENGTH_SHORT).show()
     }
 
@@ -151,6 +153,7 @@ class EventDetails : Fragment() {
 
         // Set the user not in the event
         userInEvent = false
+        numPeopleSignedUp -= 1
         Toast.makeText(activity as AppCompatActivity, "Removed from event", Toast.LENGTH_SHORT).show()
     }
 
@@ -162,16 +165,19 @@ class EventDetails : Fragment() {
     private fun updateSignupButton(view: View) {
         // Sign up button for the event
         val signupButton = view.findViewById<Button>(R.id.signupButton)
+        val signupText = view.findViewById<TextView>(R.id.numPeopleView)
 
         if (userInEvent) {
             // Update the sign up button
             signupButton.text = getText(R.string.action_sign_out)
+            signupText.text = getString(R.string.people_signed_up, numPeopleSignedUp)
             signupButton.background = AppCompatResources.getDrawable(
                 activity as AppCompatActivity,
                 R.drawable.button_red_background)
         } else {
             // Update the sign up button
             signupButton.text = getText(R.string.action_sign_up)
+            signupText.text = getString(R.string.people_signed_up, numPeopleSignedUp)
             signupButton.background = AppCompatResources.getDrawable(
                 activity as AppCompatActivity,
                 R.drawable.button_background)
@@ -193,7 +199,8 @@ class EventDetails : Fragment() {
         runBlocking {
             launch {
                 val eventResult = fireBase.getDocument("Events", event.id)?.get("userIds") as List<*>
-                view.findViewById<TextView>(R.id.numPeopleView).text = "${eventResult.size.toString()} people signed up"
+                numPeopleSignedUp = eventResult.size
+                view.findViewById<TextView>(R.id.numPeopleView).text = getString(R.string.people_signed_up, numPeopleSignedUp)
 
                 // Load image from Firebase Storage
                 val imageView = view.findViewById<ImageView>(R.id.eventImage)
