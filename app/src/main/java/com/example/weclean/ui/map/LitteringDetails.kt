@@ -66,6 +66,9 @@ class LitteringDetails : Fragment() {
         updateFields()
     }
 
+    /**
+     * Update the fields in the fragment with the littering entry data
+     */
     private fun updateFields() {
         runBlocking {
             launch {
@@ -126,6 +129,63 @@ class LitteringDetails : Fragment() {
                 // Set image view with the image bytes
                 val bmp = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
                 imageView.setImageBitmap(bmp)
+
+                // Get the current user ID
+                val currentUser = fireBase.currentUserId()
+                if (currentUser == null) {
+                    Toast.makeText(activity as AppCompatActivity, "Failed to get current user", Toast.LENGTH_SHORT).show()
+                    return@launch
+                }
+
+                // Get the user data from the database
+                val userDataResult = fireBase.getDocument("Users", currentUser)
+                if (userDataResult == null) {
+                    Toast.makeText(activity as AppCompatActivity, "Failed to get user data", Toast.LENGTH_SHORT).show()
+                    return@launch
+                }
+
+                // Get the littering entry IDs and community admin IDs of the user
+                val userLitteringEntries = userDataResult.get("litteringEntries") as ArrayList<String>
+                val userAdminCommunities = userDataResult.get("communityAdminIds") as ArrayList<String>
+
+                // If the user is the creator of the littering entry or an admin of the community
+                if (userLitteringEntries.contains(litteringId) || userAdminCommunities.contains(litteringData.community)) {
+                    // Set up the delete button
+                    val deleteButton = view.findViewById<TextView>(R.id.delete_button)
+                    deleteButton.setOnClickListener {
+                        deleteEntry()
+                    }
+                } else {
+                    // Hide the delete button
+                    view.findViewById<TextView>(R.id.delete_button).visibility = View.GONE
+                }
+            }
+        }
+    }
+
+    /**
+     * Delete the littering entry from the database
+     */
+    private fun deleteEntry() {
+        runBlocking {
+            launch {
+                // Delete the littering entry from the database
+                fireBase.deleteDocument("LitteringData", litteringId)
+
+                // Get the current user ID
+                val currentUser = fireBase.currentUserId()
+                if (currentUser == null) {
+                    Toast.makeText(activity as AppCompatActivity, "Failed to get current user", Toast.LENGTH_SHORT).show()
+                    return@launch
+                }
+
+                // Update the user's littering entries in the database
+                fireBase.removeFromArray("Users", currentUser, "litteringEntries", litteringId)
+                fireBase.removeFromArray("Community", litteringData.community, "litteringEntries", litteringId)
+
+                val context = activity as AppCompatActivity
+                Toast.makeText(context, "Entry deleted", Toast.LENGTH_SHORT).show()
+                context.switchFragment(MapViewStatus.Map)
             }
         }
     }

@@ -66,4 +66,14 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/Widget.Theme.WeClean.ButtonRed"
+        android:id="@+id/delete_button"
+        android:text="@string/button_delete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

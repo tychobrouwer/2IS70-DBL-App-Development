@@ -67,6 +67,13 @@
                 android:lines="7"
                 android:layout_height="wrap_content" />
 
+            <androidx.appcompat.widget.AppCompatButton
+                style="@style/Widget.Theme.WeClean.ButtonRed"
+                android:id="@+id/delete_button"
+                android:text="@string/button_delete"
+                android:paddingTop="10dp"
+                android:layout_gravity="center_horizontal" />
+
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

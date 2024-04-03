@@ -31,7 +31,8 @@ class Community(private val fireBase: FireBase) {
             "location" to location,
             "code" to cCode,
             "userIds" to userIds,
-            "adminIds" to adminIds
+            "adminIds" to adminIds,
+            "litteringEntries" to arrayListOf<String>()
         )
     }
 
