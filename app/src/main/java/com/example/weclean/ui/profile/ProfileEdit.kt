@@ -95,7 +95,6 @@ class ProfileEdit : Fragment() {
                     // Verify and update the user's email
                     val updateEmailResult = currentAuth.updateEmail(emailNew)
 
-
                     // Delay for the email to be updated in the database
                     Thread.sleep(300)
                 }

@@ -11,6 +11,7 @@ import com.example.weclean.ui.signup.SignupActivity
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -62,6 +63,9 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(intent)
                     }
                     it.exception is FirebaseAuthInvalidCredentialsException -> {
+                        Toast.makeText(this, "Incorrect credential(s)", Toast.LENGTH_SHORT).show()
+                    }
+                    it.exception is FirebaseAuthInvalidUserException -> {
                         Toast.makeText(this, "Incorrect credential(s)", Toast.LENGTH_SHORT).show()
                     }
                     it.exception is FirebaseTooManyRequestsException -> {

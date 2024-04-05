@@ -60,11 +60,13 @@ class SignupActivity : AppCompatActivity() {
                 username.isEmpty()
             ) {
                 Toast.makeText(this, "Empty fields are not allowed", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
 
             // Ensure password and confirm password match
             if (password != confirmPassword) {
                 Toast.makeText(this, "Password is not matching", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
             
             //create the user
